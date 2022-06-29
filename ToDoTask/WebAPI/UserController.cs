@@ -11,11 +11,12 @@ namespace ToDoTask.WebAPI
         ApplicationContext db; 
 
         private readonly ILogger<UserController> _logger;
-
+         //TODO: Доделать Api для создания пользователя 
         [HttpPost]
-        public async Task<IActionResult> Createuser([FromBody] User user)
+        public async Task<IActionResult> CreateUser([FromBody] User user)
         {
            db.User.Where(u => u.Id == user.Id);
+            return null;
         }
     }
 }
