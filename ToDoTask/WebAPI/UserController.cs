@@ -15,7 +15,8 @@ namespace ToDoTask.WebAPI
         [HttpPost]
         public async Task<IActionResult> Createuser([FromBody] User user)
         {
-           db.User.Where(u => u.Id == user.Id);
+            var db1 = db.User.Where(u => u.Id == user.Id);
+            return null;
         }
     }
 }
