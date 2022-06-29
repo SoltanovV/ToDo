@@ -35,7 +35,6 @@ namespace ToDoTask.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
