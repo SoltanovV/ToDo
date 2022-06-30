@@ -22,8 +22,9 @@ namespace ToDoTask.Controllers
         {
             try
             {
+                // Маппим UserViewModel в User
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>()
-                            .ForMember("Name", opt => opt.MapFrom(c => c.FirstName + " " + c.LastName))
+                            .ForMember("Name", opt => opt.MapFrom(c => c.FirstName + " " + c.LastName)) // Конкатенация полей Firstname и LastName и запись в поле Name
                             );
                 var mapper = new Mapper(config);
                 var result = mapper.Map<User>(model);
