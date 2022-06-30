@@ -4,19 +4,20 @@ using ToDoTask.Models;
 
 namespace ToDoTask.Controllers
 {
-    [Route("Home")]
+    [Route("{controller}")]
     public class HomeController : Controller
     {
-        ApplicationContext db;
+        private ApplicationContext _db;
         public HomeController(ApplicationContext context)
         {
-            db = context;
+            _db = context;
         }
 
         [Route("Index")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await db.User.ToListAsync());
+            return View(await _db.User.ToListAsync());
         }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace ToDoTask.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("Create")]
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -35,12 +37,11 @@ namespace ToDoTask.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
-            db.User.Add(user);
-            await db.SaveChangesAsync();
+            _db.User.Add(user);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }
