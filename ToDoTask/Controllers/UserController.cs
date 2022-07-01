@@ -11,9 +11,10 @@ namespace ToDoTask.Controllers
         private readonly ILogger<UserController> _logger;
 
         private ApplicationContext _db;
-        public UserController(ApplicationContext db)
+        public UserController(ApplicationContext db, ILogger<UserController> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         [Route("CreateUser")]
@@ -22,6 +23,7 @@ namespace ToDoTask.Controllers
         {
             try
             {
+                _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>()
                             .ForMember("Name", opt => opt.MapFrom(c => c.FirstName + " " + c.LastName)) // Конкатенация полей Firstname и LastName и запись в поле Name
@@ -29,8 +31,12 @@ namespace ToDoTask.Controllers
                 var mapper = new Mapper(config);
                 var result = mapper.Map<User>(model);
                 _db.Add(result);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
+
+                _logger.LogInformation("Запрос обработан и отправлен");
+
                 return Ok(result);
+
             }
             catch (Exception ex)
             {
