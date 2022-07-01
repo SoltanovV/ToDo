@@ -8,7 +8,7 @@
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Имя
