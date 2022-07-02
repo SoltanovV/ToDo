@@ -5,7 +5,7 @@ namespace ToDoTask.Models.Task
     /// <summary>
     /// Задачи
     /// </summary>
-    public class Task
+    public class TodoTask
     {
         /// <summary>
         /// Id Задачи
@@ -35,17 +35,17 @@ namespace ToDoTask.Models.Task
         /// <summary>
         /// Кто создал задачу
         /// </summary>
-        public User CreateUser { get; set; } 
+        public int CreateUser { get; set; } 
 
         /// <summary>
         /// Выполняющий задачи (может быть Null т.к. это может быть общая задача)
         /// </summary>
-        public User? Responsible { get; set; }
+        public int? Responsible { get; set; }
 
         /// <summary>
         /// Статус задачи
         /// </summary>
-        public TaskStatus Status { get; set; }
+        public int Status { get; set; }
 
     }
 }

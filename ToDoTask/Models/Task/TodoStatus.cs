@@ -3,7 +3,7 @@
     /// <summary>
     /// Статус задачи
     /// </summary>
-    public class TaskStatusId
+    public class TodoStatus
     {
         /// <summary>
         /// Id статуса
