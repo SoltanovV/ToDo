@@ -12,7 +12,7 @@ namespace ToDoTaskServer.Controllers
         private ApplicationContext _db;
         private readonly ILogger<TaskController> _logger;
 
-        public TaskController(ApplicationContext db,ILogger<TaskController> logger)
+        public TaskController(ApplicationContext db, ILogger<TaskController> logger)
         {
             _db = db;
             _logger = logger;
