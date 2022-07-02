@@ -17,6 +17,18 @@ namespace ToDoTask.Controllers
             _logger = logger;
         }
 
+        [Route("ViewAllUser")]
+        [HttpGet]
+        public async Task<IActionResult> ViewAllUser() => Ok(_db.User);
+
+        [Route("ViewUser")]
+        [HttpGet]
+        public async Task<IActionResult> ViewUser(int id)
+            {
+            var result = _db.User.FirstOrDefault(u => u.Id == id);
+            return Ok(result);
+        }
+
         [Route("CreateUser")]
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser([FromBody] UserViewModel model)
