@@ -1,4 +1,4 @@
-﻿namespace ToDoTask.Models.ViewModes
+﻿namespace ToDoTask.Models.ViewModel
 {
     /// <summary>
     /// Модель представления для User

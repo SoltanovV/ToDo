@@ -1,7 +1,7 @@
 ﻿using ToDoTask.Models;
 using ToDoTask.Models.Task;
 
-namespace ToDoTaskServer.Models.ViewModes
+namespace ToDoTaskServer.Models.ViewModel
 {
     /// <summary>
     /// Модель представления для TodoTask
