@@ -8,7 +8,7 @@
         /// <summary>
         /// Id статуса
         /// </summary>
-        public int StatusId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Статус
