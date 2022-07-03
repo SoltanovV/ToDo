@@ -17,7 +17,7 @@ namespace ToDoTaskServer.Controllers
             _db = db;
             _logger = logger;
         }
-        [Route("CreateTask")]
+        [Route("ViewTask")]
         [HttpGet]
         public async Task<IActionResult> ViewAllTask()
         {
