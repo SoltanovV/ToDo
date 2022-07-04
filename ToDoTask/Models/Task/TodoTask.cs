@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ToDoTask.Models.Task
 {
@@ -7,6 +7,7 @@ namespace ToDoTask.Models.Task
     /// </summary>
     public class TodoTask
     {
+        [Key]
         /// <summary>
         /// Id Задачи
         /// </summary>
@@ -33,6 +34,11 @@ namespace ToDoTask.Models.Task
         public DateTime EndData { get; set; }
 
         /// <summary>
+        /// Id пользователя
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Кто создал задачу
         /// </summary>
         public User CreateUser { get; set; } 
@@ -43,9 +49,14 @@ namespace ToDoTask.Models.Task
         public User? Responsible { get; set; }
 
         /// <summary>
+        /// Id статуса
+        /// </summary>
+        public int StatusId { get; set; }
+
+        /// <summary>
         /// Статус задачи
         /// </summary>
-        public TodoStatus Status { get; set; }
+        public TodoStatus? Status { get; set; }
 
     }
 }
