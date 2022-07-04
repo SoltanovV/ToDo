@@ -1,10 +1,14 @@
-﻿namespace ToDoTask.Models
+﻿using System.ComponentModel.DataAnnotations;
+using ToDoTask.Models.Task;
+
+namespace ToDoTask.Models
 {
     /// <summary>
     /// Пользователь
     /// </summary>
     public class User
     {
+        [Key]
         /// <summary>
         /// Идентификатор
         /// </summary>
@@ -24,6 +28,8 @@
         /// Пароль
         /// </summary>
         public string Password { get; set; }
+
+        public IEnumerable<TodoTask>? Todos { get; set; }
 
     }
 }
