@@ -1,125 +1,144 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models.Task;
+using ToDoTaskServer.Models.Entity;
 
 namespace ToDoTask.Models
 {
     public class ApplicationContext : DbContext
     {
+        public DbSet<Project> Project { get; set; }
+        public DbSet<Account> Account { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<TodoTask> TodoTask { get; set; }
-        public DbSet<TodoStatus> Statuse { get; set; }
-
+        public DbSet<Todo> Todo { get; set; }
+        public DbSet<Status> Status { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Заполнение Account
+            var account1 = new Account()
+            {
+                Id = 1,
+                Token = "sdasdsads",
+                UserId = 1
+            };
+
+            var accounts = new List<Account>()
+            {
+                account1
+            };
+            #endregion
+
+            #region Заполнение User
             var user1 = new User()
             {
                 Id = 1,
-                Name = "Владислав",
-                Login = "dsdsd",
-                Password = "dsdsds"
-
+                Name = "dsds",
+                Email = "dsdsd",
+                AccountId = 1,
+                Password = "вывывы",
+                ProjectId = 1
             };
-            var user2 = new User()
-            {
-                Id = 2,
-                Name = "Софка",
-                Login = "выфцы",
-                Password = "вы2а3"
-
-            };
-            var user3 = new User()
-            {
-                Id = 3,
-                Name = "Максимка",
-                Login = "32323ык",
-                Password = "ывыва334"
-
-            };
-
             var users = new List<User>()
             {
-                user1,
-                user2,
-                user3
+                user1
             };
+            #endregion
 
-            var todoStatus1 = new TodoStatus()
+            #region Заполнение Project
+            var project1 = new Project()
             {
                 Id = 1,
-                Status = "хуйня"
+                Name = "пизда",
+                DeadLine = new DateTime(2078, 01, 01),
+                TodoId = 1,
+                UserId = 1
             };
-            var todoStatus2 = new TodoStatus()
+            var projects = new List<Project>()
+            {
+                project1
+            };
+            #endregion
+
+            #region Заполнение Status
+            var status1 = new Status()
+            {
+                Id = 1,
+                StatusName = "Срочно",
+
+            };
+            var status2 = new Status()
             {
                 Id = 2,
-                Status = "залупа"
+                StatusName = "В обычном темпе",
+
             };
-            var todoStatus3 = new TodoStatus()
+            var status3 = new Status()
             {
                 Id = 3,
-                Status = "пизда"
+                StatusName = "Можно не торопиться",
+
             };
 
-            var todoStatus = new List<TodoStatus>()
+            var statuses = new List<Status>()
             {
-                todoStatus1,
-                todoStatus2,
-                todoStatus3
+                status1, status2, status3
             };
+            #endregion
 
-            var todo1 = new TodoTask()
+            #region Заполнение Todo
+
+            var todo1 = new Todo()
             {
                 Id = 1,
-                NameTask = "Подзалуповик",
-                Description = "тесет хуйни",
-                StatusId = 2,
-                UserId = 1,
-                StartData = DateTime.Today,
-                EndData = new DateTime(2077, 01, 01),
-            };
-            var todo2 = new TodoTask()
-            {
-                Id = 2,
                 NameTask = "хуй",
-                Description = "хуйни",
-                StatusId = 1,
-                UserId = 3,
-                StartData = DateTime.Today,
+                Description = "dsdsd",
+                ProjectsId = 1,
                 EndData = new DateTime(2077, 01, 01),
+                StatusId = 1,
+                UserId = 1,
             };
 
-            var todo = new List<TodoTask>
+            var todos = new List<Todo>()
             {
-                todo1,
-                todo2
+                todo1
             };
+            #endregion
 
+            modelBuilder.Entity<Account>().HasData(accounts);
             modelBuilder.Entity<User>().HasData(users);
-            modelBuilder.Entity<TodoStatus>().HasData(todoStatus);
-            modelBuilder.Entity<TodoTask>().HasData(todo);
+            modelBuilder.Entity<Project>().HasData(projects);
+            modelBuilder.Entity<Status>().HasData(statuses);
+            modelBuilder.Entity<Todo>().HasData(todos);
 
-            // Создание связей между таблицами
-            modelBuilder.Entity<TodoTask>()
-                .HasOne(t => t.Status)
-                .WithMany(s => s.Todo)
-                .HasForeignKey(t => t.StatusId)
-                .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<TodoTask>()
-                .HasOne(t => t.CreateUser)
-                .WithMany(u => u.Todos)
-                .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-           
+
+            // Создание связей 1 к 1 для Account и User
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.User)
+                .WithOne(u => u.Account);
+
+            // Создание связей 1 ко многим для Project и User
+            modelBuilder.Entity<Project>()
+                .HasMany(p => p.User)
+                .WithOne(u => u.Project);
+
+            // Создание связей многие ко многим для Project и Todo
+            modelBuilder.Entity<Project>()
+                .HasMany(p => p.Todo)
+                .WithMany(t => t.Project);
+
+            // Создание связей многие ко многим для Todo и Status
+            modelBuilder.Entity<Todo>()
+                .HasMany(t => t.Statuse)
+                .WithMany(s => s.Todo);
+
         }
 
-
-
     }
+
 }
