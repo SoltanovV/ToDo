@@ -37,7 +37,7 @@ namespace ToDoTaskServer.Controllers
 
         [Route("CreateTask")]
         [HttpPost]
-        public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model, int id, )
+        public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model, int id)
         {
             try
             {
