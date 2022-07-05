@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ToDoTask.Models;
-using ToDoTask.Models.Task;
+using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
 
 namespace ToDoTaskServer.Controllers
 {
     [Route("api/TaskController")]
+    [ApiController]
     public class TaskController : Controller
     {
         private readonly ILogger<TaskController> _logger;
@@ -24,7 +25,7 @@ namespace ToDoTaskServer.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-                return Ok(_db.TodoTask);
+                return Ok(_db.Todo);
             }
             catch (Exception ex)
             {
@@ -36,29 +37,29 @@ namespace ToDoTaskServer.Controllers
 
         [Route("CreateTask")]
         [HttpPost]
-        public async Task<ActionResult<TodoTask>> CreateTask([FromBody] TaskViewModel model)
+        public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model, int id, )
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<TaskViewModel, TodoTask>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<TodoViewModel, Todo>());
                 var mapper = new Mapper(config);
-                var result = mapper.Map<TodoTask>(model);
+                var result = mapper.Map<Todo>(model);
 
+                //todo.CreateUser.Projects.
                 _db.Add(result);
                 _db.SaveChanges();
-
                 _logger.LogInformation("Запрос обработан и отправлен");
 
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
 
                 return BadRequest(_logger);
             }
-        } 
+        }
     }
 }
