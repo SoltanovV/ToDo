@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ToDoTask.Models;
-using ToDoTask.Models.ViewModel;
+using ToDoTaskServer.Models.Entity;
+using ToDoTaskServer.Models.ViewModel;
 
 namespace ToDoTask.Controllers
 {
     [Route("api/UserController")]
+    [ApiController]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
@@ -26,26 +28,26 @@ namespace ToDoTask.Controllers
                 _logger.LogInformation("Запрос получен");
                 return Ok(_db.User);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(_logger);
             }
-        } 
+        }
 
         [Route("ViewUser")]
         [HttpGet]
-        public async Task<IActionResult> ViewUser(int id)
-            {
+        public async Task<IActionResult> ViewUser(/*int id,*/ string name)
+        {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var result = _db.User.FirstOrDefault(u => u.Id == id);
+                var result = _db.User.FirstOrDefault(u => u.Name == name);
 
                 _logger.LogInformation("Запрос выполнен");
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(_logger);
@@ -61,7 +63,7 @@ namespace ToDoTask.Controllers
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>()
-                            .ForMember("Name", opt => opt.MapFrom(c => c.FirstName + " " + c.LastName)) // Конкатенация полей Firstname и LastName и запись в поле Name
+                            .ForMember("Name", opt => opt.MapFrom(u => u.FirstName+ " " + u.LastName)) // Конкатенация полей Firstname и LastName и запись в поле Name
                             );
                 var mapper = new Mapper(config);
                 var result = mapper.Map<User>(model);
@@ -70,7 +72,7 @@ namespace ToDoTask.Controllers
 
                 _logger.LogInformation("Запрос обработан и отправлен");
 
-                return Ok(result);
+                return Ok();
 
             }
             catch (Exception ex)
