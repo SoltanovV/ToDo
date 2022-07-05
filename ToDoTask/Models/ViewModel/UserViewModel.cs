@@ -1,27 +1,24 @@
-﻿namespace ToDoTask.Models.ViewModel
+﻿namespace ToDoTaskServer.Models.ViewModel
 {
-    /// <summary>
-    /// Модель представления для User
-    /// </summary>
     public class UserViewModel
     {
         /// <summary>
-        /// Имя
+        /// Имя пользователя
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Фамилия пользователя
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// Логин
+        /// Email пользователя
         /// </summary>
-        public string Login { get; set; }    
+        public string Email { get; set; }
 
         /// <summary>
-        /// Пароль
+        /// Пароль пользователя
         /// </summary>
         public string Password { get; set; }
     }

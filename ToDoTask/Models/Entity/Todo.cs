@@ -1,12 +1,13 @@
-﻿using System;
+﻿using System.Text.Json.Serialization;
 
-namespace ToDoTask.Models.Task
+namespace ToDoTaskServer.Models.Entity
 {
     /// <summary>
     /// Задачи
     /// </summary>
-    public class TodoTask
+    public class Todo
     {
+
         /// <summary>
         /// Id Задачи
         /// </summary>
@@ -25,7 +26,7 @@ namespace ToDoTask.Models.Task
         /// <summary>
         /// Дата постановки задачи
         /// </summary>
-        public DateTime StartData { get; set; }
+        public DateTime StartData { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Дата завершения задачи
@@ -33,19 +34,37 @@ namespace ToDoTask.Models.Task
         public DateTime EndData { get; set; }
 
         /// <summary>
-        /// Кто создал задачу
+        /// Внешний ключ для User
         /// </summary>
-        public User CreateUser { get; set; } 
+        public int UserId { get; set; }
 
         /// <summary>
         /// Выполняющий задачи (может быть Null т.к. это может быть общая задача)
         /// </summary>
-        public User? Responsible { get; set; }
+        [JsonIgnore]
+        public IEnumerable<User>? Users { get; set; }
 
         /// <summary>
-        /// Статус задачи
+        /// Внешний ключ для Status
         /// </summary>
-        public TodoStatus Status { get; set; }
+        public int StatusId { get; set; }
 
+        /// <summary>
+        /// Навигационное свойство для Statuse
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<Status> Statuse { get; set; }
+
+        /// <summary>
+        /// Внешний ключ для Projects
+        /// </summary>
+        public int ProjectsId { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для Project
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<Project> Project { get; set; }
     }
+
 }
