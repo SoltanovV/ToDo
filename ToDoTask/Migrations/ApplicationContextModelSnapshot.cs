@@ -37,15 +37,30 @@ namespace ToDoTaskServer.Migrations
                     b.ToTable("ProjectTodo");
                 });
 
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ProjectUser");
+                });
+
             modelBuilder.Entity("StatusTodo", b =>
                 {
-                    b.Property<int>("StatuseId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("TodoId")
                         .HasColumnType("int");
 
-                    b.HasKey("StatuseId", "TodoId");
+                    b.HasKey("StatusId", "TodoId");
 
                     b.HasIndex("TodoId");
 
@@ -83,6 +98,46 @@ namespace ToDoTaskServer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Priority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("PriorityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TodoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Priority");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PriorityName = "Срочно",
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PriorityName = "В обычном темпе",
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PriorityName = "Можно не торопиться",
+                            TodoId = 0
+                        });
+                });
+
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -117,7 +172,7 @@ namespace ToDoTaskServer.Migrations
                             Id = 1,
                             DeadLine = new DateTime(2078, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "пизда",
-                            StartData = new DateTime(2022, 7, 5, 20, 38, 52, 644, DateTimeKind.Local).AddTicks(3908),
+                            StartData = new DateTime(2022, 7, 6, 21, 2, 38, 772, DateTimeKind.Local).AddTicks(4858),
                             TodoId = 1,
                             UserId = 1
                         });
@@ -135,7 +190,7 @@ namespace ToDoTaskServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TaskId")
+                    b.Property<int>("TodoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -146,20 +201,20 @@ namespace ToDoTaskServer.Migrations
                         new
                         {
                             Id = 1,
-                            StatusName = "Срочно",
-                            TaskId = 0
+                            StatusName = "В ожидании",
+                            TodoId = 0
                         },
                         new
                         {
                             Id = 2,
-                            StatusName = "В обычном темпе",
-                            TaskId = 0
+                            StatusName = "В работе",
+                            TodoId = 0
                         },
                         new
                         {
                             Id = 3,
-                            StatusName = "Можно не торопиться",
-                            TaskId = 0
+                            StatusName = "Завершено",
+                            TodoId = 0
                         });
                 });
 
@@ -182,7 +237,10 @@ namespace ToDoTaskServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectsId")
+                    b.Property<int>("PriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartData")
@@ -196,6 +254,8 @@ namespace ToDoTaskServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PriorityId");
+
                     b.ToTable("Todo");
 
                     b.HasData(
@@ -205,8 +265,9 @@ namespace ToDoTaskServer.Migrations
                             Description = "dsdsd",
                             EndData = new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NameTask = "хуй",
-                            ProjectsId = 1,
-                            StartData = new DateTime(2022, 7, 5, 20, 38, 52, 644, DateTimeKind.Local).AddTicks(3930),
+                            PriorityId = 0,
+                            ProjectId = 1,
+                            StartData = new DateTime(2022, 7, 6, 21, 2, 38, 772, DateTimeKind.Local).AddTicks(4881),
                             StatusId = 1,
                             UserId = 1
                         });
@@ -238,14 +299,10 @@ namespace ToDoTaskServer.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TodoId")
+                    b.Property<int>("TodoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("TodoId");
 
                     b.ToTable("User");
 
@@ -257,8 +314,24 @@ namespace ToDoTaskServer.Migrations
                             Email = "dsdsd",
                             Name = "dsds",
                             Password = "вывывы",
-                            ProjectId = 1
+                            ProjectId = 1,
+                            TodoId = 0
                         });
+                });
+
+            modelBuilder.Entity("TodoUser", b =>
+                {
+                    b.Property<int>("TodoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TodoId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("TodoUser");
                 });
 
             modelBuilder.Entity("ProjectTodo", b =>
@@ -276,11 +349,26 @@ namespace ToDoTaskServer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.HasOne("ToDoTaskServer.Models.Entity.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ToDoTaskServer.Models.Entity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("StatusTodo", b =>
                 {
                     b.HasOne("ToDoTaskServer.Models.Entity.Status", null)
                         .WithMany()
-                        .HasForeignKey("StatuseId")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -302,29 +390,35 @@ namespace ToDoTaskServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ToDoTaskServer.Models.Entity.User", b =>
+            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Todo", b =>
                 {
-                    b.HasOne("ToDoTaskServer.Models.Entity.Project", "Project")
-                        .WithMany("User")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("ToDoTaskServer.Models.Entity.Priority", "Priority")
+                        .WithMany("Todo")
+                        .HasForeignKey("PriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Priority");
+                });
+
+            modelBuilder.Entity("TodoUser", b =>
+                {
                     b.HasOne("ToDoTaskServer.Models.Entity.Todo", null)
-                        .WithMany("Users")
-                        .HasForeignKey("TodoId");
+                        .WithMany()
+                        .HasForeignKey("TodoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Project");
+                    b.HasOne("ToDoTaskServer.Models.Entity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Project", b =>
+            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Priority", b =>
                 {
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Todo", b =>
-                {
-                    b.Navigation("Users");
+                    b.Navigation("Todo");
                 });
 
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.User", b =>

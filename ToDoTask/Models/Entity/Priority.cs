@@ -1,6 +1,9 @@
 ﻿namespace ToDoTaskServer.Models.Entity
 {
-    public class Status
+    /// <summary>
+    /// Статус задачи
+    /// </summary>
+    public class Priority
     {
         /// <summary>
         /// Id статуса
@@ -10,13 +13,12 @@
         /// <summary>
         /// Имя статуса
         /// </summary>
-        public string StatusName { get; set; }
+        public string PriorityName { get; set; }
 
         /// <summary>
         /// Внешний ключ
         /// </summary>
         public int TodoId { get; set; }
-
         /// <summary>
         /// Навигационное свойство для Task
         /// </summary>

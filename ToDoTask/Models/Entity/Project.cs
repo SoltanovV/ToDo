@@ -11,7 +11,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Id проекта
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>

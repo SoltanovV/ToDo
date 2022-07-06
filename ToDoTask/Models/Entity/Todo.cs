@@ -53,12 +53,23 @@ namespace ToDoTaskServer.Models.Entity
         /// Навигационное свойство для Statuse
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<Status> Statuse { get; set; }
+        public IEnumerable<Status> Status { get; set; }
+
+        /// <summary>
+        /// Внешний ключ для Priority
+        /// </summary>
+        public int PriorityId { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для Priority
+        /// </summary>
+        [JsonIgnore]
+        public Priority Priority { get; set; }
 
         /// <summary>
         /// Внешний ключ для Projects
         /// </summary>
-        public int ProjectsId { get; set; }
+        public int ProjectId { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Project

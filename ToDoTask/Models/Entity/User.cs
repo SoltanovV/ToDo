@@ -45,11 +45,21 @@ namespace ToDoTaskServer.Models.Entity
         /// </summary>
         public int ProjectId { get; set; }
 
-
         /// <summary>
         /// Навигационное свойство для User
         /// </summary>
         [JsonIgnore]
-        public Project Project { get; set; }
+        public IEnumerable<Project> Project { get; set; }
+
+        /// <summary>
+        /// Внешний ключ для Todo
+        /// </summary>
+        public int TodoId { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для Todo
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<Todo> Todo { get; set; }
     }
 }

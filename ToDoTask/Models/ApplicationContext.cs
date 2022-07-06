@@ -9,6 +9,7 @@ namespace ToDoTask.Models
         public DbSet<Account> Account { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Todo> Todo { get; set; }
+        public DbSet<Priority> Priority { get; set; }
         public DbSet<Status> Status { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
@@ -65,23 +66,49 @@ namespace ToDoTask.Models
             };
             #endregion
 
+            #region Заполнение Priority
+            var priority1 = new Priority()
+            {
+                Id = 1,
+                PriorityName = "Срочно",
+
+            };
+            var priority2 = new Priority()
+            {
+                Id = 2,
+                PriorityName = "В обычном темпе",
+
+            };
+            var priority3 = new Priority()
+            {
+                Id = 3,
+                PriorityName = "Можно не торопиться",
+
+            };
+
+            var priorities = new List<Priority>()
+            {
+                priority1, priority2, priority3
+            };
+            #endregion
+
             #region Заполнение Status
             var status1 = new Status()
             {
                 Id = 1,
-                StatusName = "Срочно",
+                StatusName = "В ожидании",
 
             };
             var status2 = new Status()
             {
                 Id = 2,
-                StatusName = "В обычном темпе",
+                StatusName = "В работе",
 
             };
             var status3 = new Status()
             {
                 Id = 3,
-                StatusName = "Можно не торопиться",
+                StatusName = "Завершено",
 
             };
 
@@ -98,7 +125,7 @@ namespace ToDoTask.Models
                 Id = 1,
                 NameTask = "хуй",
                 Description = "dsdsd",
-                ProjectsId = 1,
+                ProjectId = 1,
                 EndData = new DateTime(2077, 01, 01),
                 StatusId = 1,
                 UserId = 1,
@@ -113,6 +140,7 @@ namespace ToDoTask.Models
             modelBuilder.Entity<Account>().HasData(accounts);
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Project>().HasData(projects);
+            modelBuilder.Entity<Priority>().HasData(priorities);
             modelBuilder.Entity<Status>().HasData(statuses);
             modelBuilder.Entity<Todo>().HasData(todos);
 
@@ -125,7 +153,7 @@ namespace ToDoTask.Models
             // Создание связей 1 ко многим для Project и User
             modelBuilder.Entity<Project>()
                 .HasMany(p => p.User)
-                .WithOne(u => u.Project);
+                .WithMany(u => u.Project);
 
             // Создание связей многие ко многим для Project и Todo
             modelBuilder.Entity<Project>()
@@ -134,9 +162,16 @@ namespace ToDoTask.Models
 
             // Создание связей многие ко многим для Todo и Status
             modelBuilder.Entity<Todo>()
-                .HasMany(t => t.Statuse)
+                .HasMany(t => t.Status)
                 .WithMany(s => s.Todo);
 
+            modelBuilder.Entity<Todo>()
+                .HasMany(t => t.Users)
+                .WithMany(u => u.Todo);
+
+            modelBuilder.Entity<Todo>()
+                .HasOne(t => t.Priority)
+                .WithMany(p => p.Todo);
         }
 
     }
