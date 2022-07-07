@@ -38,7 +38,7 @@ namespace ToDoTaskServer.Models.Entity
         /// Навигационное свойство для User
         /// </summary>
         [JsonIgnore]
-        public List<User> User { get; set; }
+        public IEnumerable<User> User { get; set; }
 
         /// <summary>
         /// Внешний ключ для Todo

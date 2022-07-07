@@ -1,4 +1,7 @@
-﻿namespace ToDoTaskServer.Models.Entity
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ToDoTaskServer.Models.Entity
 {
     /// <summary>
     /// Статус задачи
@@ -16,11 +19,12 @@
         public string PriorityName { get; set; }
 
         /// <summary>
-        /// Внешний ключ
+        /// Внейшний ключ
         /// </summary>
         public int TodoId { get; set; }
+
         /// <summary>
-        /// Навигационное свойство для Task
+        /// Навигационное свойство для Ещвщ
         /// </summary>
         public IEnumerable<Todo> Todo { get; set; }
     }

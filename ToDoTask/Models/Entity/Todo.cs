@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ToDoTaskServer.Models.Entity
 {
@@ -42,7 +43,7 @@ namespace ToDoTaskServer.Models.Entity
         /// Выполняющий задачи (может быть Null т.к. это может быть общая задача)
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<User>? Users { get; set; }
+        public IEnumerable<User> TodoUser { get; set; }
 
         /// <summary>
         /// Внешний ключ для Status
@@ -53,7 +54,7 @@ namespace ToDoTaskServer.Models.Entity
         /// Навигационное свойство для Statuse
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<Status> Status { get; set; }
+        public Status Status { get; set; }
 
         /// <summary>
         /// Внешний ключ для Priority

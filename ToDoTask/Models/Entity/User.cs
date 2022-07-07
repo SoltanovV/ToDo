@@ -37,7 +37,6 @@ namespace ToDoTaskServer.Models.Entity
         /// Навигационное свойство Account
         /// </summary>
         [JsonIgnore]
-        [ForeignKey("AccountId")]
         public Account Account { get; set; }
 
         /// <summary>

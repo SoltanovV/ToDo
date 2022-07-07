@@ -1,4 +1,6 @@
-﻿namespace ToDoTaskServer.Models.Entity
+﻿using System.Text.Json.Serialization;
+
+namespace ToDoTaskServer.Models.Entity
 {
     public class Status
     {
@@ -20,6 +22,7 @@
         /// <summary>
         /// Навигационное свойство для Task
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Todo> Todo { get; set; }
     }
 }
