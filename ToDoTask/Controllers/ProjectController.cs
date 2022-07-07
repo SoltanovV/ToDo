@@ -13,6 +13,7 @@ namespace ToDoTaskServer.Controllers
     {
         private readonly ILogger<ProjectController> _logger;
         private ApplicationContext _db;
+
         public ProjectController(ILogger<ProjectController> logger, ApplicationContext db)
         {
             _logger = logger;
@@ -25,7 +26,7 @@ namespace ToDoTaskServer.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-                //var result = _db.Project.FirstOrDefault(p => p.Id == id);
+                                
                 return Ok(_db.Project);
             }
             catch(Exception ex)
