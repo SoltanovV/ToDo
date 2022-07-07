@@ -43,7 +43,8 @@ namespace ToDoTask.Models
                 Email = "dsdsd",
                 AccountId = 1,
                 Password = "вывывы",
-                ProjectId = 1
+                ProjectId = 1,
+                TodoId = 1
             };
             var users = new List<User>()
             {
@@ -77,7 +78,6 @@ namespace ToDoTask.Models
             {
                 Id = 2,
                 PriorityName = "В обычном темпе",
-
             };
             var priority3 = new Priority()
             {
@@ -96,20 +96,18 @@ namespace ToDoTask.Models
             var status1 = new Status()
             {
                 Id = 1,
-                StatusName = "В ожидании",
+                StatusName = "В ожидании"
 
             };
             var status2 = new Status()
             {
                 Id = 2,
-                StatusName = "В работе",
-
+                StatusName = "В работе"
             };
             var status3 = new Status()
             {
                 Id = 3,
-                StatusName = "Завершено",
-
+                StatusName = "Завершено"
             };
 
             var statuses = new List<Status>()
@@ -129,11 +127,24 @@ namespace ToDoTask.Models
                 EndData = new DateTime(2077, 01, 01),
                 StatusId = 1,
                 UserId = 1,
+                PriorityId = 1
+            };
+
+            var todo2 = new Todo()
+            {
+                Id = 2,
+                NameTask = "хуй",
+                Description = "dsdsd",
+                ProjectId = 1,
+                EndData = new DateTime(2077, 01, 01),
+                StatusId = 1,
+                UserId = 1,
+                PriorityId = 1
             };
 
             var todos = new List<Todo>()
             {
-                todo1
+                todo1, todo2
             };
             #endregion
 
@@ -146,9 +157,10 @@ namespace ToDoTask.Models
 
 
             // Создание связей 1 к 1 для Account и User
-            modelBuilder.Entity<Account>()
-                .HasOne(a => a.User)
-                .WithOne(u => u.Account);
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Account)
+                .WithOne(a => a.User)
+                .HasForeignKey<User>(a => a.AccountId);
 
             // Создание связей 1 ко многим для Project и User
             modelBuilder.Entity<Project>()
@@ -162,16 +174,18 @@ namespace ToDoTask.Models
 
             // Создание связей многие ко многим для Todo и Status
             modelBuilder.Entity<Todo>()
-                .HasMany(t => t.Status)
-                .WithMany(s => s.Todo);
+                .HasOne(t => t.Status)
+                .WithMany(s => s.Todo)
+                .HasForeignKey(t => t.StatusId);
 
             modelBuilder.Entity<Todo>()
-                .HasMany(t => t.Users)
+                .HasMany(t => t.TodoUser)
                 .WithMany(u => u.Todo);
 
             modelBuilder.Entity<Todo>()
                 .HasOne(t => t.Priority)
-                .WithMany(p => p.Todo);
+                .WithMany(p => p.Todo)
+                .HasForeignKey(t => t.PriorityId);
         }
 
     }
