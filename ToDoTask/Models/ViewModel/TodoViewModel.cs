@@ -21,5 +21,16 @@
         /// Дата завершения задачи
         /// </summary>
         public DateTime EndData { get; set; }
+
+        /// <summary>
+        /// Внешний ключ для Priority
+        /// </summary>
+        public int PriorityId { get; set; }
+
+        /// <summary>
+        /// Внешний ключ для Status
+        /// </summary>
+        public int StatusId { get; set; }
+
     }
 }
