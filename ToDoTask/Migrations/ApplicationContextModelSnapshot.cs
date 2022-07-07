@@ -52,21 +52,6 @@ namespace ToDoTaskServer.Migrations
                     b.ToTable("ProjectUser");
                 });
 
-            modelBuilder.Entity("StatusTodo", b =>
-                {
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TodoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StatusId", "TodoId");
-
-                    b.HasIndex("TodoId");
-
-                    b.ToTable("StatusTodo");
-                });
-
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Account", b =>
                 {
                     b.Property<int?>("Id")
@@ -122,19 +107,7 @@ namespace ToDoTaskServer.Migrations
                         {
                             Id = 1,
                             PriorityName = "Срочно",
-                            TodoId = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            PriorityName = "В обычном темпе",
-                            TodoId = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PriorityName = "Можно не торопиться",
-                            TodoId = 0
+                            TodoId = 1
                         });
                 });
 
@@ -172,7 +145,7 @@ namespace ToDoTaskServer.Migrations
                             Id = 1,
                             DeadLine = new DateTime(2078, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "пизда",
-                            StartData = new DateTime(2022, 7, 6, 21, 2, 38, 772, DateTimeKind.Local).AddTicks(4858),
+                            StartData = new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(397),
                             TodoId = 1,
                             UserId = 1
                         });
@@ -202,19 +175,7 @@ namespace ToDoTaskServer.Migrations
                         {
                             Id = 1,
                             StatusName = "В ожидании",
-                            TodoId = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            StatusName = "В работе",
-                            TodoId = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            StatusName = "Завершено",
-                            TodoId = 0
+                            TodoId = 1
                         });
                 });
 
@@ -256,6 +217,8 @@ namespace ToDoTaskServer.Migrations
 
                     b.HasIndex("PriorityId");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Todo");
 
                     b.HasData(
@@ -265,9 +228,9 @@ namespace ToDoTaskServer.Migrations
                             Description = "dsdsd",
                             EndData = new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NameTask = "хуй",
-                            PriorityId = 0,
+                            PriorityId = 1,
                             ProjectId = 1,
-                            StartData = new DateTime(2022, 7, 6, 21, 2, 38, 772, DateTimeKind.Local).AddTicks(4881),
+                            StartData = new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(421),
                             StatusId = 1,
                             UserId = 1
                         });
@@ -315,7 +278,7 @@ namespace ToDoTaskServer.Migrations
                             Name = "dsds",
                             Password = "вывывы",
                             ProjectId = 1,
-                            TodoId = 0
+                            TodoId = 1
                         });
                 });
 
@@ -364,21 +327,6 @@ namespace ToDoTaskServer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StatusTodo", b =>
-                {
-                    b.HasOne("ToDoTaskServer.Models.Entity.Status", null)
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ToDoTaskServer.Models.Entity.Todo", null)
-                        .WithMany()
-                        .HasForeignKey("TodoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Account", b =>
                 {
                     b.HasOne("ToDoTaskServer.Models.Entity.User", "User")
@@ -398,7 +346,15 @@ namespace ToDoTaskServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ToDoTaskServer.Models.Entity.Status", "Status")
+                        .WithMany("Todo")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Priority");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("TodoUser", b =>
@@ -417,6 +373,11 @@ namespace ToDoTaskServer.Migrations
                 });
 
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Priority", b =>
+                {
+                    b.Navigation("Todo");
+                });
+
+            modelBuilder.Entity("ToDoTaskServer.Models.Entity.Status", b =>
                 {
                     b.Navigation("Todo");
                 });
