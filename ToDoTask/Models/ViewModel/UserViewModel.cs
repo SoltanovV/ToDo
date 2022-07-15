@@ -3,14 +3,21 @@
     public class UserViewModel
     {
         /// <summary>
+        /// Внешний ключ для Account
+        /// </summary>
+        public int AccountId { get; set; } = 1;
+        /// <summary>
+        /// Внешний ключ для Project
+        /// </summary>
+        public int ProjectId { get; set; } = 1;
+        /// <summary>
+        /// Внешний ключ для Todo
+        /// </summary>
+        public int TodoId { get; set; } = 1;
+        /// <summary>
         /// Имя пользователя
         /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Фамилия пользователя
-        /// </summary>
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Email пользователя

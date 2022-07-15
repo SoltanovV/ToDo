@@ -62,9 +62,7 @@ namespace ToDoTask.Controllers
             {
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>()
-                            .ForMember("Name", opt => opt.MapFrom(u => u.FirstName+ " " + u.LastName)) // Конкатенация полей Firstname и LastName и запись в поле Name
-                            );
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
                 var mapper = new Mapper(config);
                 var result = mapper.Map<User>(model);
                 _db.Add(result);
@@ -86,7 +84,7 @@ namespace ToDoTask.Controllers
 
         [Route("UpdateUser")]
         [HttpPut]
-        public async Task<ActionResult> UpdateUser(int id)
+        public async Task<ActionResult<User>> UpdateUser([FromBody] UserViewModel model, int id)
         {
             try
             {
@@ -94,12 +92,19 @@ namespace ToDoTask.Controllers
 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
                 _logger.LogInformation("Запрос обработан");
-                if (search == null) Ok("Пользователь не найден");
+                if (search != null)
+                {
+                    var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
+                    var mapper = new Mapper(config);
+
+                    var result = mapper.Map<User>(model);
+                    _db.Update(result);
+
+                    _db.SaveChanges();
+                }
                 else
                 {
-                   
-
-                    
+                    Ok("Пользователь не найден");
                 }
                 return Ok();
             }
