@@ -83,5 +83,57 @@ namespace ToDoTask.Controllers
             }
 
         }
+
+        [Route("UpdateUser")]
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+
+                var search = _db.User.FirstOrDefault(u => u.Id == id);
+                _logger.LogInformation("Запрос обработан");
+                if (search == null) Ok("Пользователь не найден");
+                else
+                {
+                   
+
+                    
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+       
     }
+    //[Route("DeleteUser")]
+    //[HttpDelete]
+    //public async Task<IActionResult> DeleteUser(int id)
+    //{
+    //    try
+    //    {
+    //        _logger.LogInformation("Запрос получен");
+
+    //        var search = _db.User.FirstOrDefault(u => u.Id == id);
+    //        _logger.LogInformation("Запрос обработан");
+    //        if (search == null) Ok("Пользователь не найден");
+
+    //        var result = _db.User.Remove(search);
+    //        _db.SaveChanges();
+
+    //        return Ok();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        _logger.LogError(ex.Message);
+
+    //        return BadRequest(ex.Message);
+    //    }
+    //}
 }
