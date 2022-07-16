@@ -82,40 +82,38 @@ namespace ToDoTask.Controllers
 
         }
 
-        [Route("UpdateUser")]
         [HttpPut]
-        public async Task<ActionResult<User>> UpdateUser([FromBody] UserViewModel model, int id)
+        [Route("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(int id, string name, string email)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
-                _logger.LogInformation("Запрос обработан");
+                //var search = _db.User.FirstOrDefault(u => u.Id == id);
                 if (search != null)
                 {
-                    var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
-                    var mapper = new Mapper(config);
+                    //TODO: *использовать маппре
 
-                    var result = mapper.Map<User>(model);
-                    _db.Update(result);
+                        search.Name = name;
+                        search.Email = email;
 
+                    _db.User.Update(search);
                     _db.SaveChanges();
+
+                    return Ok(search);
                 }
-                else
-                {
-                    Ok("Пользователь не найден");
-                }
-                return Ok();
+                return BadRequest();
+
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
-
                 return BadRequest(ex.Message);
             }
         }
-       
+
     }
     //[Route("DeleteUser")]
     //[HttpDelete]
