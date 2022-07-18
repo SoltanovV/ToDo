@@ -60,5 +60,65 @@ namespace ToDoTaskServer.Controllers
                 return BadRequest(_logger);
             }
         }
+
+        [Route("UpdateTask")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateTask(int id, string name, string description, int userId, DateTime startDate, DateTime endDate, int statusId, int priorityId)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+
+                var search = _db.Todo.FirstOrDefault(t => t.Id == id);
+                if(search != null)
+                {
+                    search.NameTask = name;
+                    search.Description = description;
+                    search.UserId = userId;
+                    search.StartData = startDate;
+                    search.EndData = endDate;
+                    search.StatusId = statusId;
+                    search.PriorityId = priorityId;
+                    
+                    
+
+                    _db.Todo.Update(search);
+                    _db.SaveChanges();
+
+                    return Ok(search);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("DeleteTask")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+
+                var search = _db.Todo.FirstOrDefault(t => t.Id == id);
+                _logger.LogInformation("Запрос обработан");
+                if (search == null) Ok("Задача не найдена");
+
+                var result = _db.Todo.Remove(search);
+                _db.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
