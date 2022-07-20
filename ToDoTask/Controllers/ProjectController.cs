@@ -59,5 +59,30 @@ namespace ToDoTaskServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Route("DeleteProject")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+
+                var search = _db.Project.FirstOrDefault(t => t.Id == id);
+                _logger.LogInformation("Запрос обработан");
+                if (search == null) Ok("Задача не найдена");
+
+                var result = _db.Project.Remove(search);
+                _db.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
