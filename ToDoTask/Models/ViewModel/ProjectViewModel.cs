@@ -21,5 +21,7 @@
         /// Дата сдачи проекта
         /// </summary>
         public DateTime DeadLine { get; set; }
+
+        public int UserId { get; set; }
     }
 }

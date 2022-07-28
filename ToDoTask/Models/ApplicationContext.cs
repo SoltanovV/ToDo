@@ -22,17 +22,18 @@ namespace ToDoTask.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Заполнение Account
-            var account1 = new Account()
-            {
-                Id = 1,
-                Token = "sdasdsads",
-                UserId = 1
-            };
-
-            var accounts = new List<Account>()
-            {
-                account1
-            };
+            //var account1 = new Account()
+            //{
+            //    Id = 1,
+            //    Token = "sdasdsads",
+            //    Login = "Влад",
+            //    Password = "dsds23as",
+            //    UserId = 1,
+            //};
+            //var accounts = new List<Account>()
+            //{
+            //    account1
+            //};
             #endregion
 
             #region Заполнение User
@@ -41,8 +42,6 @@ namespace ToDoTask.Models
                 Id = 1,
                 Name = "dsds",
                 Email = "dsdsd",
-                AccountId = 1,
-                Password = "вывывы",
                 ProjectId = 1,
                 TodoId = 1
             };
@@ -148,7 +147,7 @@ namespace ToDoTask.Models
             };
             #endregion
 
-            modelBuilder.Entity<Account>().HasData(accounts);
+           // modelBuilder.Entity<Account>().HasData(accounts);
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Project>().HasData(projects);
             modelBuilder.Entity<Priority>().HasData(priorities);
@@ -157,10 +156,10 @@ namespace ToDoTask.Models
 
 
             // Создание связей 1 к 1 для Account и User
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Account)
-                .WithOne(a => a.User)
-                .HasForeignKey<User>(a => a.AccountId);
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.User)
+                .WithOne(u => u.Account)
+                .HasForeignKey<Account>(a => a.UserId);
 
             // Создание связей 1 ко многим для Project и User
             modelBuilder.Entity<Project>()
@@ -179,7 +178,7 @@ namespace ToDoTask.Models
                 .HasForeignKey(t => t.StatusId);
 
             modelBuilder.Entity<Todo>()
-                .HasMany(t => t.TodoUser)
+                .HasMany(t => t.User)
                 .WithMany(u => u.Todo);
 
             modelBuilder.Entity<Todo>()
