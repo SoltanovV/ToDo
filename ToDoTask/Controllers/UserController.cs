@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
 
-namespace ToDoTask.Controllers
+namespace ASPBackend.Controllers
 {
     [Route("api/UserController")]
     [ApiController]
+    [EnableCors("AllowAllOrigin")]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
@@ -35,6 +37,22 @@ namespace ToDoTask.Controllers
             }
         }
 
+        [Route("ViewAllAccount")]
+        [HttpGet]
+        public async Task<IActionResult> ViewAllAccount()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                return Ok(_db.Account);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
         [Route("ViewUser")]
         [HttpGet]
         public async Task<IActionResult> ViewUser(/*int id,*/ string name)
@@ -54,23 +72,24 @@ namespace ToDoTask.Controllers
             }
         }
 
-        [Route("CreateUser")]
+        
+        [Route("CreateAccount")]
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody] UserViewModel model)
+        public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>().ForMember("UserId", opt => opt.MapFrom(a => a.UserId)));
                 var mapper = new Mapper(config);
-                var result = mapper.Map<User>(model);
+                var result = mapper.Map<Account>(model);
                 _db.Add(result);
                 _db.SaveChanges();
 
                 _logger.LogInformation("Запрос обработан и отправлен");
 
-                return Ok();
+                return Ok(result);
 
             }
             catch (Exception ex)
