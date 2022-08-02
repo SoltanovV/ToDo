@@ -15,7 +15,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -40,8 +40,8 @@ namespace ToDoTask.Models
             var user1 = new User()
             {
                 Id = 1,
-                Name = "dsds",
-                Email = "dsdsd",
+                Name = "Владислав",
+                Email = "dsdsd@gmail.com",
                 ProjectId = 1,
                 TodoId = 1
             };
@@ -55,7 +55,7 @@ namespace ToDoTask.Models
             var project1 = new Project()
             {
                 Id = 1,
-                Name = "пизда",
+                Name = "Test",
                 DeadLine = new DateTime(2078, 01, 01),
                 TodoId = 1,
                 UserId = 1
@@ -120,7 +120,7 @@ namespace ToDoTask.Models
             var todo1 = new Todo()
             {
                 Id = 1,
-                NameTask = "хуй",
+                NameTask = "Доделать БД",
                 Description = "dsdsd",
                 ProjectId = 1,
                 EndData = new DateTime(2077, 01, 01),
@@ -132,7 +132,7 @@ namespace ToDoTask.Models
             var todo2 = new Todo()
             {
                 Id = 2,
-                NameTask = "хуй",
+                NameTask = "Исправить ошибки при запуске",
                 Description = "dsdsd",
                 ProjectId = 1,
                 EndData = new DateTime(2077, 01, 01),

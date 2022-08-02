@@ -7,9 +7,9 @@ using ToDoTaskServer.Models.ViewModel;
 
 namespace ASPBackend.Controllers
 {
+    [EnableCors("AllowAllOrigin")]
     [Route("api/UserController")]
     [ApiController]
-    [EnableCors("AllowAllOrigin")]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
@@ -21,7 +21,7 @@ namespace ASPBackend.Controllers
             _logger = logger;
         }
 
-        [Route("ViewAllUser")]
+        [Route("viewAllUser")]
         [HttpGet]
         public async Task<IActionResult> ViewAllUser()
         {
@@ -37,7 +37,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("ViewAllAccount")]
+        [Route("viewAll/Account")]
         [HttpGet]
         public async Task<IActionResult> ViewAllAccount()
         {
@@ -53,7 +53,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("ViewUser")]
+        [Route("viewUser")]
         [HttpGet]
         public async Task<IActionResult> ViewUser(/*int id,*/ string name)
         {
@@ -73,7 +73,7 @@ namespace ASPBackend.Controllers
         }
 
         
-        [Route("CreateAccount")]
+        [Route("create/Account")]
         [HttpPost]
         public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
         {
@@ -102,7 +102,7 @@ namespace ASPBackend.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser")]
+        [Route("update/User")]
         public async Task<IActionResult> UpdateUser(int id, string name, string email)
         {
             try
@@ -133,7 +133,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("DeleteUser")]
+        [Route("delete/User")]
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(int id)
         {
