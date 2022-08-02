@@ -37,7 +37,6 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Навигационное свойство для User
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<User> User { get; set; }
 
         /// <summary>

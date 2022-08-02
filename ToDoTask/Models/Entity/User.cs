@@ -14,6 +14,16 @@ namespace ToDoTaskServer.Models.Entity
         public int Id { get; set; }
 
         /// <summary>
+        /// Внешний ключ для Account
+        /// </summary>
+        public int AccountId { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство Account
+        /// </summary>
+        public Account Account { get; set; }
+
+        /// <summary>
         /// Имя пользователя
         /// </summary>
         public string Name { get; set; }
@@ -22,22 +32,6 @@ namespace ToDoTaskServer.Models.Entity
         /// Email пользователя
         /// </summary>
         public string Email { get; set; }
-
-        /// <summary>
-        /// Пароль пользователя
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
-        /// Внешний ключ для Account
-        /// </summary>
-        public int AccountId { get; set; }
-
-        /// <summary>
-        /// Навигационное свойство Account
-        /// </summary>
-        [JsonIgnore]
-        public Account Account { get; set; }
 
         /// <summary>
         /// Внешний ключ для Project

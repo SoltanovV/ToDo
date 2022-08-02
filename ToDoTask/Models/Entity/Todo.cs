@@ -43,7 +43,7 @@ namespace ToDoTaskServer.Models.Entity
         /// Выполняющий задачи (может быть Null т.к. это может быть общая задача)
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<User> TodoUser { get; set; }
+        public IEnumerable<User> User { get; set; }
 
         /// <summary>
         /// Внешний ключ для Status

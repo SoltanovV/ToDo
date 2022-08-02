@@ -8,7 +8,7 @@ using ToDoTask.Models;
 
 #nullable disable
 
-namespace ToDoTaskServer.Migrations
+namespace ASPbackend.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -54,11 +54,19 @@ namespace ToDoTaskServer.Migrations
 
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Account", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -73,14 +81,6 @@ namespace ToDoTaskServer.Migrations
                         .IsUnique();
 
                     b.ToTable("Account");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Token = "sdasdsads",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("ToDoTaskServer.Models.Entity.Priority", b =>
@@ -107,7 +107,19 @@ namespace ToDoTaskServer.Migrations
                         {
                             Id = 1,
                             PriorityName = "Срочно",
-                            TodoId = 1
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PriorityName = "В обычном темпе",
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PriorityName = "Можно не торопиться",
+                            TodoId = 0
                         });
                 });
 
@@ -145,7 +157,7 @@ namespace ToDoTaskServer.Migrations
                             Id = 1,
                             DeadLine = new DateTime(2078, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "пизда",
-                            StartData = new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(397),
+                            StartData = new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1071),
                             TodoId = 1,
                             UserId = 1
                         });
@@ -175,7 +187,19 @@ namespace ToDoTaskServer.Migrations
                         {
                             Id = 1,
                             StatusName = "В ожидании",
-                            TodoId = 1
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "В работе",
+                            TodoId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Завершено",
+                            TodoId = 0
                         });
                 });
 
@@ -230,7 +254,19 @@ namespace ToDoTaskServer.Migrations
                             NameTask = "хуй",
                             PriorityId = 1,
                             ProjectId = 1,
-                            StartData = new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(421),
+                            StartData = new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1098),
+                            StatusId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "dsdsd",
+                            EndData = new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NameTask = "хуй",
+                            PriorityId = 1,
+                            ProjectId = 1,
+                            StartData = new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1101),
                             StatusId = 1,
                             UserId = 1
                         });
@@ -255,10 +291,6 @@ namespace ToDoTaskServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
@@ -273,10 +305,9 @@ namespace ToDoTaskServer.Migrations
                         new
                         {
                             Id = 1,
-                            AccountId = 1,
+                            AccountId = 0,
                             Email = "dsdsd",
                             Name = "dsds",
-                            Password = "вывывы",
                             ProjectId = 1,
                             TodoId = 1
                         });
@@ -287,12 +318,12 @@ namespace ToDoTaskServer.Migrations
                     b.Property<int>("TodoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("TodoId", "UsersId");
+                    b.HasKey("TodoId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("TodoUser");
                 });
@@ -367,7 +398,7 @@ namespace ToDoTaskServer.Migrations
 
                     b.HasOne("ToDoTaskServer.Models.Entity.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

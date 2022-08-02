@@ -1,17 +1,12 @@
 import React from 'react';
+import reqReadyStateChange from './Users.js'
 
 function App() {
-    return (
-       <div>
-           <form method="POST">
-               <p>Введите логин</p>
-               <input type="text"/>
-               <p>Введите пароль</p>
-               <input type="password"/>
-               <button type={"submit"}>Войти</button>
-           </form>
-       </div>
+
+        return (
+            reqReadyStateChange()
         )
+
 }
 
 export default App

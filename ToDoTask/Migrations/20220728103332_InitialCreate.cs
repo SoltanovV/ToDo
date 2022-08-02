@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ToDoTaskServer.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace ASPbackend.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -62,10 +64,9 @@ namespace ToDoTaskServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     TodoId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -113,6 +114,8 @@ namespace ToDoTaskServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -179,11 +182,11 @@ namespace ToDoTaskServer.Migrations
                 columns: table => new
                 {
                     TodoId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoUser", x => new { x.TodoId, x.UsersId });
+                    table.PrimaryKey("PK_TodoUser", x => new { x.TodoId, x.UserId });
                     table.ForeignKey(
                         name: "FK_TodoUser_Todo_TodoId",
                         column: x => x.TodoId,
@@ -191,8 +194,8 @@ namespace ToDoTaskServer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TodoUser_User_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_TodoUser_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -201,32 +204,41 @@ namespace ToDoTaskServer.Migrations
             migrationBuilder.InsertData(
                 table: "Priority",
                 columns: new[] { "Id", "PriorityName", "TodoId" },
-                values: new object[] { 1, "Срочно", 1 });
+                values: new object[,]
+                {
+                    { 1, "Срочно", 0 },
+                    { 2, "В обычном темпе", 0 },
+                    { 3, "Можно не торопиться", 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Project",
                 columns: new[] { "Id", "DeadLine", "Name", "StartData", "TodoId", "UserId" },
-                values: new object[] { 1, new DateTime(2078, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "пизда", new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(397), 1, 1 });
+                values: new object[] { 1, new DateTime(2078, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "пизда", new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1071), 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Status",
                 columns: new[] { "Id", "StatusName", "TodoId" },
-                values: new object[] { 1, "В ожидании", 1 });
+                values: new object[,]
+                {
+                    { 1, "В ожидании", 0 },
+                    { 2, "В работе", 0 },
+                    { 3, "Завершено", 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "AccountId", "Email", "Name", "Password", "ProjectId", "TodoId" },
-                values: new object[] { 1, 1, "dsdsd", "dsds", "вывывы", 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "Account",
-                columns: new[] { "Id", "Token", "UserId" },
-                values: new object[] { 1, "sdasdsads", 1 });
+                columns: new[] { "Id", "AccountId", "Email", "Name", "ProjectId", "TodoId" },
+                values: new object[] { 1, 0, "dsdsd", "dsds", 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Todo",
                 columns: new[] { "Id", "Description", "EndData", "NameTask", "PriorityId", "ProjectId", "StartData", "StatusId", "UserId" },
-                values: new object[] { 1, "dsdsd", new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "хуй", 1, 1, new DateTime(2022, 7, 6, 21, 33, 52, 765, DateTimeKind.Local).AddTicks(421), 1, 1 });
+                values: new object[,]
+                {
+                    { 1, "dsdsd", new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "хуй", 1, 1, new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1098), 1, 1 },
+                    { 2, "dsdsd", new DateTime(2077, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "хуй", 1, 1, new DateTime(2022, 7, 28, 12, 33, 28, 913, DateTimeKind.Local).AddTicks(1101), 1, 1 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Account_UserId",
@@ -255,9 +267,9 @@ namespace ToDoTaskServer.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TodoUser_UsersId",
+                name: "IX_TodoUser_UserId",
                 table: "TodoUser",
-                column: "UsersId");
+                column: "UserId");
         }
 
         /// <inheritdoc />

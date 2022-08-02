@@ -4,16 +4,16 @@ using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
 
-namespace ToDoTaskServer.Controllers
+namespace ASPBackend.Controllers
 {
     [Route("api/TaskController")]
     [ApiController]
-    public class TaskController : Controller
+    public class TodoController : Controller
     {
-        private readonly ILogger<TaskController> _logger;
+        private readonly ILogger<TodoController> _logger;
         private ApplicationContext _db;
 
-        public TaskController(ApplicationContext db, ILogger<TaskController> logger)
+        public TodoController(ApplicationContext db, ILogger<TodoController> logger)
         {
             _db = db;
             _logger = logger;
