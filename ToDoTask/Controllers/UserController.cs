@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
 
-namespace ToDoTask.Controllers
+namespace ASPBackend.Controllers
 {
+    [EnableCors("AllowAllOrigin")]
     [Route("api/UserController")]
     [ApiController]
     public class UserController : Controller
@@ -20,7 +22,7 @@ namespace ToDoTask.Controllers
             _logger = logger;
         }
 
-        [Route("ViewAllUser")]
+        [Route("viewAllUser")]
         [HttpGet]
         public async Task<IActionResult> ViewAllUser()
         {
@@ -37,7 +39,23 @@ namespace ToDoTask.Controllers
             }
         }
 
-        [Route("ViewUser")]
+        [Route("viewAll/Account")]
+        [HttpGet]
+        public async Task<IActionResult> ViewAllAccount()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                return Ok(_db.Account);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
+        [Route("viewUser")]
         [HttpGet]
         public async Task<IActionResult> ViewUser(/*int id,*/ string name)
         {
@@ -56,23 +74,24 @@ namespace ToDoTask.Controllers
             }
         }
 
-        [Route("CreateUser")]
+        
+        [Route("create/Account")]
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody] UserViewModel model)
+        public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>().ForMember("UserId", opt => opt.MapFrom(a => a.UserId)));
                 var mapper = new Mapper(config);
-                var result = mapper.Map<User>(model);
+                var result = mapper.Map<Account>(model);
                 _db.Add(result);
                 _db.SaveChanges();
 
                 _logger.LogInformation("Запрос обработан и отправлен");
 
-                return Ok();
+                return Ok(result);
 
             }
             catch (Exception ex)
@@ -85,7 +104,7 @@ namespace ToDoTask.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser")]
+        [Route("update/User")]
         public async Task<IActionResult> UpdateUser(int id, string name, string email)
         {
             try
@@ -116,7 +135,7 @@ namespace ToDoTask.Controllers
             }
         }
 
-        [Route("DeleteUser")]
+        [Route("delete/User")]
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(int id)
         {

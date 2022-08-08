@@ -14,6 +14,9 @@ builder.Services.AddMvc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors();
+
+
 // Настройка информации Swagger
 builder.Services.AddSwaggerGen(options =>
 {
@@ -34,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(b => b.AllowAnyOrigin());
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHttpsRedirection();

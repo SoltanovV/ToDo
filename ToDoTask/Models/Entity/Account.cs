@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ToDoTaskServer.Models.Entity
 {
@@ -10,7 +11,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Id аккаунта
         /// </summary>
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Токен акканута
