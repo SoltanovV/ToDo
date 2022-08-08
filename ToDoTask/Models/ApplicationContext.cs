@@ -15,7 +15,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -43,7 +43,6 @@ namespace ToDoTask.Models
                 Email = "dsdsd",
                 AccountId = 1,
                 Password = "вывывы",
-                ProjectId = 1,
                 TodoId = 1
             };
             var users = new List<User>()
@@ -59,7 +58,6 @@ namespace ToDoTask.Models
                 Name = "пизда",
                 DeadLine = new DateTime(2078, 01, 01),
                 TodoId = 1,
-                UserId = 1
             };
             var projects = new List<Project>()
             {
@@ -165,7 +163,8 @@ namespace ToDoTask.Models
             // Создание связей 1 ко многим для Project и User
             modelBuilder.Entity<Project>()
                 .HasMany(p => p.User)
-                .WithMany(u => u.Project);
+                .WithMany(u => u.Project)
+                .UsingEntity(j => j.ToTable("UserProject"));
 
             // Создание связей многие ко многим для Project и Todo
             modelBuilder.Entity<Project>()
@@ -179,7 +178,7 @@ namespace ToDoTask.Models
                 .HasForeignKey(t => t.StatusId);
 
             modelBuilder.Entity<Todo>()
-                .HasMany(t => t.TodoUser)
+                .HasMany(t => t.User)
                 .WithMany(u => u.Todo);
 
             modelBuilder.Entity<Todo>()

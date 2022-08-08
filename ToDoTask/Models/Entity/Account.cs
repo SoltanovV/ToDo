@@ -18,11 +18,6 @@ namespace ToDoTaskServer.Models.Entity
         public string Token { get; set; }
 
         /// <summary>
-        /// Внешний ключ для User
-        /// </summary>        
-        public int UserId { get; set; }
-
-        /// <summary>
         /// Навигационное свойство для User
         /// </summary>
         public User User { get; set; }

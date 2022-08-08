@@ -30,14 +30,8 @@ namespace ToDoTaskServer.Models.Entity
         public DateTime DeadLine { get; set; }
 
         /// <summary>
-        /// Внешний ключ для User
-        /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
         /// Навигационное свойство для User
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<User> User { get; set; }
 
         /// <summary>
