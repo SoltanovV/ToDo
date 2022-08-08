@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
@@ -26,7 +27,8 @@ namespace ToDoTask.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-                return Ok(_db.User);
+                var result = _db.User.Include(p => p.Project).Include(t => t.Todo);
+                return Ok(result);
             }
             catch (Exception ex)
             {
