@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ASPbackend.Models.Entity;
+using Models.Entity;
 using System.Text.Json.Serialization;
 
 namespace ToDoTaskServer.Models.Entity
@@ -11,7 +12,6 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Id проекта
         /// </summary>
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -30,19 +30,24 @@ namespace ToDoTaskServer.Models.Entity
         public DateTime DeadLine { get; set; }
 
         /// <summary>
-        /// Навигационное свойство для User
+        /// Навигационное свойство для UserProject
         /// </summary>
-        public IEnumerable<User> User { get; set; }
+        [JsonIgnore]
+        public IEnumerable<UserProject> UserProject { get; set; }
 
         /// <summary>
-        /// Внешний ключ для Todo
+        /// Навигационное свойство для User
         /// </summary>
-        public int TodoId { get; set; }
+        public IEnumerable<User> Users { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для ProjectTodo
+        /// </summary>
+        public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Todo
         /// </summary>
-        [JsonIgnore]
-        public IEnumerable<Todo> Todo { get; set; }
+        public IEnumerable<Todo> Todos { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ASPbackend.Models.Entity;
+using Models.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ToDoTaskServer.Models.Entity
@@ -14,8 +16,25 @@ namespace ToDoTaskServer.Models.Entity
         public int Id { get; set; }
 
         /// <summary>
+        /// Имя пользователя
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для UserProject
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<UserProject> UserProject { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для Project
+        /// </summary>
+        public IEnumerable<Project> Projects { get; set; }
+
+        /// <summary>
         /// Внешний ключ для Account
         /// </summary>
+        [JsonIgnore]
         public int AccountId { get; set; }
 
         /// <summary>
@@ -24,38 +43,14 @@ namespace ToDoTaskServer.Models.Entity
         public Account Account { get; set; }
 
         /// <summary>
-        /// Имя пользователя
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
-        /// Внешний ключ для Account
+        /// Навигационное свойство для UserTodo
         /// </summary>
         [JsonIgnore]
-        public int AccountId { get; set; }
-
-        /// <summary>
-        /// Email пользователя
-        /// </summary>
-
-        public Account Account { get; set; }
-
-        /// <summary>
-        /// Навигационное свойство для User
-        /// </summary>
-        
-        public IEnumerable<Project> Project { get; set; }
-
-        /// <summary>
-        /// Внешний ключ для Todo
-        /// </summary>
-        [JsonIgnore]
-        public int TodoId { get; set; }
+        public IEnumerable<UserTodo> UserTodo { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Todo
         /// </summary>
-        
-        public IEnumerable<Todo> Todo { get; set; }
+        public IEnumerable<Todo> Todos { get; set; }
     }
 }

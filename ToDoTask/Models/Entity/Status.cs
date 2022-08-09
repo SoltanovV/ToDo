@@ -2,6 +2,9 @@
 
 namespace ToDoTaskServer.Models.Entity
 {
+    /// <summary>
+    /// Статус задачи
+    /// </summary>
     public class Status
     {
         /// <summary>
@@ -15,14 +18,8 @@ namespace ToDoTaskServer.Models.Entity
         public string StatusName { get; set; }
 
         /// <summary>
-        /// Внешний ключ
-        /// </summary>
-        public int TodoId { get; set; }
-
-        /// <summary>
         /// Навигационное свойство для Task
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<Todo> Todo { get; set; }
     }
 }

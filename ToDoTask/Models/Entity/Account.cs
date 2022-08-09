@@ -19,6 +19,21 @@ namespace ToDoTaskServer.Models.Entity
         public string Token { get; set; }
 
         /// <summary>
+        /// Логин аккаунта
+        /// </summary>
+        public string Login { get; set; }
+
+        /// <summary>
+        /// Пароль аккаунта
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Email аккаунта
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
         /// Навигационное свойство для User
         /// </summary>
         public User User { get; set; }

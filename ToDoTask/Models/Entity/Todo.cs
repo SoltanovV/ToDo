@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ASPbackend.Models.Entity;
+using Models.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ToDoTaskServer.Models.Entity
@@ -35,48 +37,48 @@ namespace ToDoTaskServer.Models.Entity
         public DateTime EndData { get; set; }
 
         /// <summary>
-        /// Внешний ключ для User
-        /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
-        /// Выполняющий задачи (может быть Null т.к. это может быть общая задача)
+        /// Навигационное свойство для UserTodo
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<User> User { get; set; }
+        public IEnumerable<UserTodo> UserTodo { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для User
+        /// </summary>
+        public IEnumerable<User> Users { get; set; }
 
         /// <summary>
         /// Внешний ключ для Status
         /// </summary>
+        /// [JsonIgnore]
         public int StatusId { get; set; }
 
         /// <summary>
-        /// Навигационное свойство для Statuse
+        /// Навигационное свойство для Status
         /// </summary>
-        [JsonIgnore]
         public Status Status { get; set; }
 
         /// <summary>
         /// Внешний ключ для Priority
         /// </summary>
+        /// [JsonIgnore]
         public int PriorityId { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Priority
         /// </summary>
-        [JsonIgnore]
         public Priority Priority { get; set; }
 
         /// <summary>
-        /// Внешний ключ для Projects
+        /// Навигационное свойство для ProjectTodo
         /// </summary>
-        public int ProjectId { get; set; }
+        [JsonIgnore]
+        public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Project
         /// </summary>
-        [JsonIgnore]
-        public IEnumerable<Project> Project { get; set; }
+        public IEnumerable<Project> Projects { get; set; }
     }
 
 }

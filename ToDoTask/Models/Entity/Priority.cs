@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ToDoTaskServer.Models.Entity
 {
     /// <summary>
-    /// Статус задачи
+    /// Приоритет задачи
     /// </summary>
     public class Priority
     {
@@ -17,11 +17,6 @@ namespace ToDoTaskServer.Models.Entity
         /// Имя статуса
         /// </summary>
         public string PriorityName { get; set; }
-
-        /// <summary>
-        /// Внейшний ключ
-        /// </summary>
-        public int TodoId { get; set; }
 
         /// <summary>
         /// Навигационное свойство для Ещвщ
