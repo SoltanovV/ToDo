@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
@@ -20,14 +21,19 @@ namespace ASPBackend.Controllers
             _db = db;
         }
         [HttpGet]
-        [Route("ViewProject")]
+        [Route("view")]
         public async Task<IActionResult> ViewPeroject()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                                
-                return Ok(_db.Project);
+                var result = _db.Project
+                    .Include(p => p.ProjectTodo)
+                    .ThenInclude(pt => pt.Todo)
+                    .Include(u => u.UserProject)
+                    .ThenInclude(u => u.User)
+                    .ToList();
+                return Ok(result);
             }
             catch(Exception ex)
             {
@@ -37,7 +43,7 @@ namespace ASPBackend.Controllers
         }
 
         [HttpPost]
-        [Route("CreateProject")]
+        [Route("create")]
         public async Task<ActionResult<Project>> CreateProject([FromBody] ProjectViewModel model) 
         {
             try
@@ -60,7 +66,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("DeleteProject")]
+        [Route("delete")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProject(int id)
         {

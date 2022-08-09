@@ -9,7 +9,7 @@ using ToDoTaskServer.Models.ViewModel;
 namespace ASPBackend.Controllers
 {
     [EnableCors("AllowAllOrigin")]
-    [Route("api/UserController")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
@@ -22,14 +22,20 @@ namespace ASPBackend.Controllers
             _logger = logger;
         }
 
-        [Route("viewAllUser")]
+        [Route("view")]
         [HttpGet]
         public async Task<IActionResult> ViewAllUser()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var result = _db.User.Include(p => p.Project).Include(t => t.Todo);
+                var result = _db.User
+                    .Include(u => u.UserProject)
+                    .ThenInclude(up => up.Project)
+                    .Include(u => u.Account)
+                    .Include(u => u.UserTodo)
+                    .ThenInclude(ut => ut.Todo)
+                    .ToList();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -39,14 +45,15 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("viewAll/Account")]
+        [Route("view/Account")]
         [HttpGet]
         public async Task<IActionResult> ViewAllAccount()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                return Ok(_db.Account);
+                var result = _db.Account.Include(a => a.User).ThenInclude(u => u.UserProject);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -55,7 +62,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("viewUser")]
+        [Route("view/{id}")]
         [HttpGet]
         public async Task<IActionResult> ViewUser(/*int id,*/ string name)
         {
@@ -75,7 +82,7 @@ namespace ASPBackend.Controllers
         }
 
         
-        [Route("create/Account")]
+        [Route("create")]
         [HttpPost]
         public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
         {
@@ -83,7 +90,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>().ForMember("UserId", opt => opt.MapFrom(a => a.UserId)));
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>());
                 var mapper = new Mapper(config);
                 var result = mapper.Map<Account>(model);
                 _db.Add(result);
@@ -104,7 +111,7 @@ namespace ASPBackend.Controllers
         }
 
         [HttpPut]
-        [Route("update/User")]
+        [Route("update")]
         public async Task<IActionResult> UpdateUser(int id, string name, string email)
         {
             try
@@ -118,7 +125,6 @@ namespace ASPBackend.Controllers
                     //TODO: *использовать маппре
 
                         search.Name = name;
-                        search.Email = email;
 
                     _db.User.Update(search);
                     _db.SaveChanges();
@@ -135,7 +141,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("delete/User")]
+        [Route("delete")]
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(int id)
         {

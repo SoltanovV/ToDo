@@ -21,7 +21,7 @@ namespace ASPBackend.Controllers
             _db = db;
         }
 
-        [Route("ViewStatus")]
+        [Route("view")]
         [HttpGet]
         public async Task<IActionResult> ViewPeroject()
         {
@@ -38,7 +38,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("CreateStatus")]
+        [Route("create")]
         [HttpPost]
         public async Task<ActionResult<Status>> CreateStatus([FromBody]StatusViewModel status)
         {

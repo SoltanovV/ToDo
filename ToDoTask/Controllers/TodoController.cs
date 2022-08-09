@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
 
 namespace ASPBackend.Controllers
 {
-    [Route("api/TaskController")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TodoController : Controller
     {
@@ -18,7 +19,41 @@ namespace ASPBackend.Controllers
             _db = db;
             _logger = logger;
         }
-        [Route("ViewTask")]
+        [Route("priority")]
+        [HttpGet]
+        public async Task<IActionResult> ViewPriority()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var result = _db.Todo.Include(t => t.Priority);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
+        [Route("status")]
+        [HttpGet]
+        public async Task<IActionResult> ViewStatus()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var result = _db.Todo.Include(t => t.Status);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
+        [Route("view")]
         [HttpGet]
         public async Task<IActionResult> ViewAllTask()
         {
@@ -35,7 +70,7 @@ namespace ASPBackend.Controllers
         }
 
 
-        [Route("CreateTask")]
+        [Route("create")]
         [HttpPost]
         public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
         {
@@ -61,7 +96,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("UpdateTask")]
+        [Route("update")]
         [HttpPut]
         public async Task<IActionResult> UpdateTask(int id, string name, string description, int userId, DateTime startDate, DateTime endDate, int statusId, int priorityId)
         {
@@ -74,11 +109,11 @@ namespace ASPBackend.Controllers
                 {
                     search.NameTask = name;
                     search.Description = description;
-                    search.UserId = userId;
+                    //search.UserId = userId;
                     search.StartData = startDate;
                     search.EndData = endDate;
-                    search.StatusId = statusId;
-                    search.PriorityId = priorityId;
+                    //search.StatusId = statusId;
+                    //search.PriorityId = priorityId;
                     
                     
 
@@ -96,7 +131,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("DeleteTask")]
+        [Route("delete")]
         [HttpDelete]
         public async Task<IActionResult> DeleteTask(int id)
         {
