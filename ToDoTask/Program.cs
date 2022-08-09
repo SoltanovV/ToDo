@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 using ToDoTask.Models;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddCors();
 
+builder.Services.AddMvc().AddJsonOptions(o => {
+    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    o.JsonSerializerOptions.MaxDepth = 0;
+});
 
 // Настройка информации Swagger
 builder.Services.AddSwaggerGen(options =>
