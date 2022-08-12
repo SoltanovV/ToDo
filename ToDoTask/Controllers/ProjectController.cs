@@ -27,13 +27,18 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
+
                 var result = _db.Project
                     .Include(p => p.ProjectTodo)
                     .ThenInclude(pt => pt.Todo)
                     .Include(u => u.UserProject)
-                    .ThenInclude(u => u.User)
-                    .ToList();
+                    .ThenInclude(u => u.User).ToList();
+                    
+
+                _logger.LogInformation("Запрос обработан");
+
                 return Ok(result);
+                
             }
             catch(Exception ex)
             {

@@ -2,23 +2,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using ToDoTask.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
-
 builder.Services.AddMvc();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddCors();
+//Настройка Cors
+builder.Services.AddCors(opions =>
+{
+    opions.AddPolicy(name: "CorsPolicy", policy =>
+        {
+            policy.WithOrigins("https://localhost:3000");
+        });
+});
 
+//
 builder.Services.AddMvc().AddJsonOptions(o => {
-    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     o.JsonSerializerOptions.MaxDepth = 0;
 });
 
@@ -42,9 +51,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(b => b.AllowAnyOrigin());
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
 
 app.MapControllers();
