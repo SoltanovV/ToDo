@@ -8,7 +8,6 @@ using ToDoTaskServer.Models.ViewModel;
 
 namespace ASPBackend.Controllers
 {
-    [EnableCors("AllowAllOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
