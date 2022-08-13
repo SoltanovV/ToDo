@@ -63,15 +63,32 @@ namespace ASPBackend.Controllers
 
         [Route("view/{id}")]
         [HttpGet]
-        public async Task<IActionResult> ViewUser(/*int id,*/ string name)
+        public async Task<IActionResult> ViewUser(int id)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var result = _db.User.FirstOrDefault(u => u.Name == name);
+                var result = _db.User
+                    .Where(u => u.Id == id)
+                    .Include(u => u.UserTodo)
+                    .ThenInclude(ut => ut.Todo)
+                    .ThenInclude(t => t.Status)
+                    .Include(u => u.UserProject)
+                    .ThenInclude(up => up.Project)
+                    .FirstOrDefault();
+                   
 
-                _logger.LogInformation("Запрос выполнен");
-                return Ok(result);
+                if (result != null)
+                {
+                    _logger.LogInformation("Запрос выполнен");
+                    return Ok(result);
+                }
+                else
+                {
+                    _logger.LogInformation("Пользователь не найден");
+                    return Ok("Пользователь не найден");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -97,6 +114,7 @@ namespace ASPBackend.Controllers
 
                 _logger.LogInformation("Запрос обработан и отправлен");
 
+
                 return Ok(result);
 
             }
@@ -116,7 +134,7 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-
+                
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
                 //var search = _db.User.FirstOrDefault(u => u.Id == id);
                 if (search != null)
