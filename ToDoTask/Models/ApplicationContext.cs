@@ -94,13 +94,13 @@ namespace ToDoTask.Models
             };
             var user2 = new User()
             {
-                Id = 1,
+                Id = 2,
                 Name = "Софка",
                 AccountId = 2,
             };
             var user3 = new User()
             {
-                Id = 1,
+                Id = 3,
                 Name = "Максим",
                 AccountId = 3,
             };
@@ -130,20 +130,6 @@ namespace ToDoTask.Models
             var userTodo = new List<UserTodo>()
             {
                 ut1,ut2, ut3
-            };
-            #endregion
-
-            #region Заполнение Project
-            var project1 = new Project()
-            {
-                Id = 1,
-                Name = "Test",
-                DeadLine = new DateTime(2078, 01, 01),
-                //TodoId = 1
-            };
-            var projects = new List<Project>()
-            {
-                project1
             };
             #endregion
 
@@ -196,6 +182,19 @@ namespace ToDoTask.Models
             };
             #endregion
 
+            #region Заполнение Project
+            var project1 = new Project()
+            {
+                Id = 1,
+                Name = "Test",
+                DeadLine = new DateTime(2078, 01, 01)
+            };
+            var projects = new List<Project>()
+            {
+                project1
+            };
+            #endregion
+
             #region Заполнение ProjectTodo
             var pt1 = new ProjectTodo()
             {
@@ -205,7 +204,7 @@ namespace ToDoTask.Models
 
             var pt2 = new ProjectTodo()
             {
-                ProjectId = 2,
+                ProjectId = 1,
                 TodoId = 2
             };
 
@@ -234,7 +233,7 @@ namespace ToDoTask.Models
             };
             var todo2 = new Todo()
             {
-                Id = 1,
+                Id = 2,
                 NameTask = "Доделать клиент",
                 Description = "Доделать клиентскую часть на React",
                 EndData = new DateTime(2077, 01, 01),
@@ -244,7 +243,7 @@ namespace ToDoTask.Models
             };
             var todo3 = new Todo()
             {
-                Id = 1,
+                Id = 3,
                 NameTask = "Залить проект на сервер",
                 Description = "dsdsd",
                 EndData = new DateTime(2077, 01, 01),
