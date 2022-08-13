@@ -50,7 +50,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Внешний ключ для Status
         /// </summary>
-        /// [JsonIgnore]
+        [JsonIgnore]
         public int StatusId { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Внешний ключ для Priority
         /// </summary>
-        /// [JsonIgnore]
+        [JsonIgnore]
         public int PriorityId { get; set; }
 
         /// <summary>

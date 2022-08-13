@@ -2,6 +2,26 @@
   text-align: center;
 }
 
+.cartUser {
+  background-color: rgba(146, 237, 131, 0.1);
+  padding: 20px;
+  width: 350px;
+}
+.priority {
+  color: red;
+  font-size: 25px;
+}
+
+
+.cartUser:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.title-main {
+  display: inline-block;
+  border-bottom: 2px solid black;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -43,6 +43,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Навигационное свойство для ProjectTodo
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
         /// <summary>

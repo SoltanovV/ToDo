@@ -127,9 +127,15 @@ namespace ToDoTask.Models
                 TodoId = 1,
             };
 
+            var ut4 = new UserTodo()
+            {
+                UserId = 2,
+                TodoId = 4,
+            };
+
             var userTodo = new List<UserTodo>()
             {
-                ut1,ut2, ut3
+                ut1,ut2, ut3, ut4
             };
             #endregion
 
@@ -252,9 +258,20 @@ namespace ToDoTask.Models
 
             };
 
+            var todo4 = new Todo()
+            {
+                Id = 4,
+                NameTask = "Нарисовать дизайн",
+                Description = "Срочно доделать БД",
+                EndData = new DateTime(2077, 01, 01),
+                StatusId = 2,
+                PriorityId = 1
+
+            };
+
             var todos = new List<Todo>()
             {
-                todo1, todo2, todo3
+                todo1, todo2, todo3, todo4
             };
             #endregion
 
