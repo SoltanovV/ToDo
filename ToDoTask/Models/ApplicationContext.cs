@@ -143,18 +143,18 @@ namespace ToDoTask.Models
             var priority1 = new Priority()
             {
                 Id = 1,
-                PriorityName = "Срочно",
+                PriorityName = "Высокий",
 
             };
             var priority2 = new Priority()
             {
                 Id = 2,
-                PriorityName = "В обычном темпе",
+                PriorityName = "Средний",
             };
             var priority3 = new Priority()
             {
                 Id = 3,
-                PriorityName = "Можно не торопиться",
+                PriorityName = "Низкий",
 
             };
 
@@ -193,7 +193,7 @@ namespace ToDoTask.Models
             {
                 Id = 1,
                 Name = "Test",
-                DeadLine = new DateTime(2078, 01, 01)
+                EndDate = new DateTime(2078, 01, 01)
             };
             var projects = new List<Project>()
             {
@@ -232,7 +232,7 @@ namespace ToDoTask.Models
                 Id = 1,
                 NameTask = "Доделать БД и связи",
                 Description = "Срочно доделать БД",
-                EndData = new DateTime(2077, 01, 01),
+                EndDate = new DateTime(2077, 01, 01),
                 StatusId = 2,
                 PriorityId = 1 
 
@@ -242,7 +242,7 @@ namespace ToDoTask.Models
                 Id = 2,
                 NameTask = "Доделать клиент",
                 Description = "Доделать клиентскую часть на React",
-                EndData = new DateTime(2077, 01, 01),
+                EndDate = new DateTime(2077, 01, 01),
                 StatusId = 2,
                 PriorityId = 2
 
@@ -252,7 +252,7 @@ namespace ToDoTask.Models
                 Id = 3,
                 NameTask = "Залить проект на сервер",
                 Description = "dsdsd",
-                EndData = new DateTime(2077, 01, 01),
+                EndDate = new DateTime(2077, 01, 01),
                 StatusId = 1,
                 PriorityId = 3
 
@@ -263,7 +263,7 @@ namespace ToDoTask.Models
                 Id = 4,
                 NameTask = "Нарисовать дизайн",
                 Description = "Срочно доделать БД",
-                EndData = new DateTime(2077, 01, 01),
+                EndDate = new DateTime(2077, 01, 01),
                 StatusId = 2,
                 PriorityId = 1
 

@@ -55,12 +55,17 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewAllTask()
+        public async Task<IActionResult> ViewTask()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                return Ok(_db.Todo);
+                var result = _db.Todo
+                    .Include(t => t.Priority)
+                    .Include(t => t.UserTodo)
+                    .ThenInclude(ut => ut.User)
+                    .ToList();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -110,8 +115,8 @@ namespace ASPBackend.Controllers
                     search.NameTask = name;
                     search.Description = description;
                     //search.UserId = userId;
-                    search.StartData = startDate;
-                    search.EndData = endDate;
+                    search.StartDate = startDate;
+                    search.EndDate = endDate;
                     //search.StatusId = statusId;
                     //search.PriorityId = priorityId;
                     

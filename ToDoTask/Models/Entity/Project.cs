@@ -22,12 +22,12 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Дата начала(создания)
         /// </summary>
-        public DateTime StartData { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Дата сдачи проекта
         /// </summary>
-        public DateTime DeadLine { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Навигационное свойство для UserProject
