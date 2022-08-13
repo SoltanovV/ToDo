@@ -17,7 +17,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -35,9 +35,20 @@ namespace ToDoTask.Models
                 
                 
             };
+
+            var account2 = new Account()
+            {
+                Id = 2,
+                Token = "dsdsds122j3hk54534kl523kl432j4l2",
+                Login = "KoMa",
+                Password = "dssd3423fg456h56ds23as",
+                Email = "jjkk@hfdgf",
+
+
+            };
             var accounts = new List<Account>()
             {
-                account1
+                account1, account2
             };
             #endregion
 
@@ -59,9 +70,20 @@ namespace ToDoTask.Models
                 //Password = "вывывы",
                 //TodoId = 1
             };
+            var user2 = new User()
+            {
+                Id = 2,
+                Name = "Максим",
+                AccountId = 2,
+
+                //Email = "dsdsd",
+                //AccountId = 1,
+                //Password = "вывывы",
+                //TodoId = 1
+            };
             var users = new List<User>()
             {
-                user1
+                user1, user2
             };
             #endregion
 
