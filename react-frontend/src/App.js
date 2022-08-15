@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import moment from "moment";
 
 export default class App extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        fetch("https://localhost:7055/api/User/view")
+        const URL = 'https://localhost:7055/api/Todo/view'
+        fetch(URL)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -31,28 +33,22 @@ export default class App extends Component {
     }
     render() {
         const { error, isLoaded, items } = this.state;
-        console.log(items)
+        let d = items.map(t => (t.users))
+        console.log(d)
         if (error) {
             return <div>Ошибка: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Загрузка...</div>;
         } else {
             return (
-               <div>
+               <div className={'card-table'}>
                    {items.map(item =>(
-                       <div key={item.id} className={'cartUser'}>
-                           <h1> {item.projects.map(p =>(p.name))}</h1>
-                           <h3 className={'title-main'}>Задачи</h3>
-                           <ul>
-                               {item.todos.map(p =>(
-                                   <li key={p.id}> {p.nameTask}
-                                       <p>Стату задачи: {p.status.statusName}</p>
-                                       <p>Приоритет: <span className={'priority'}>{p.priority.priorityName}</span></p>
-                                   </li>
-                               ))}
-
-                           </ul>
-                           <h3> Выполняющий: {item.name}</h3>
+                       <div className="card-col">
+                           <div key={item.id} className={'cardUser'}>
+                               <p className={'task-name'}>{item.nameTask}</p>
+                               <p className={'task-description'}>{item.description}</p>
+                               <p className={'task-date'}>{moment(item.startDate).format('DD.MM.YY') } – {moment(item.endDate).format('DD.MM.YY')}</p>
+                           </div>
                        </div>
                    ))}
                </div>
