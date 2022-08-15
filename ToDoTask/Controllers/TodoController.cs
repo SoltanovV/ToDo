@@ -107,6 +107,7 @@ namespace ASPBackend.Controllers
             }
         }
 
+        //TODO: попробывать переделать все красиво 
         [Route("update/{id}")]
         [HttpPut]
         public async Task<ActionResult<Todo>> UpdateTask(int id, int userId, [FromBody]TodoViewModel model)
