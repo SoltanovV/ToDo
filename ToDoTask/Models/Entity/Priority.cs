@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ToDoTaskServer.Models.Entity
 {
@@ -21,6 +22,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Навигационное свойство для Ещвщ
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Todo> Todo { get; set; }
     }
 }

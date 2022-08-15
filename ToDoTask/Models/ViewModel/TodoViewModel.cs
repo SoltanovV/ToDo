@@ -8,6 +8,11 @@
         public string NameTask { get; set; }
 
         /// <summary>
+        /// Id пользователя
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Описание задачи
         /// </summary>
         public string Description { get; set; }
@@ -25,12 +30,12 @@
         /// <summary>
         /// Внешний ключ для Priority
         /// </summary>
-        public int PriorityId { get; set; }
+        public int StatusId { get; set; }
 
         /// <summary>
-        /// Внешний ключ для Status
+        /// Внешний ключ для Priority
         /// </summary>
-        public int StatusId { get; set; }
+        public int PriorityId { get; set; }
 
     }
 }

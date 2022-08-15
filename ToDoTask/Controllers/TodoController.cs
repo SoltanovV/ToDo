@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ASPbackend.Models.Entity;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
@@ -86,12 +87,14 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<TodoViewModel, Todo>());
+                var config = new MapperConfiguration(cfg => cfg
+                                                               .CreateMap<TodoViewModel, Todo>()
+                                                                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)));
                 var mapper = new Mapper(config);
                 var result = mapper.Map<Todo>(model);
-                //todo.CreateUser.Projects.
+
                 _db.Add(result);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 _logger.LogInformation("Запрос обработан и отправлен");
 
                 return Ok(result);
@@ -104,31 +107,46 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("update")]
+        [Route("update/{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateTask(int id, string name, string description, int userId, DateTime startDate, DateTime endDate, int statusId, int priorityId)
+        public async Task<ActionResult<Todo>> UpdateTask(int id, int userId, [FromBody]TodoViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
-                var search = _db.Todo.FirstOrDefault(t => t.Id == id);
-                if(search != null)
+                var searchTodo = _db.Todo.Where(t => t.Id == id).FirstOrDefault();
+                var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+                //var d = _db.User.Where(u => u.Id == userId).FirstOrDefault();
+
+                if (searchTodo != null /*& serachUser != null*/)
                 {
-                    search.NameTask = name;
-                    search.Description = description;
-                    //search.UserId = userId;
-                    search.StartData = startDate;
-                    search.EndData = endDate;
-                    //search.StatusId = statusId;
-                    //search.PriorityId = priorityId;
-                    
                     
 
-                    _db.Todo.Update(search);
+                    //var config = new MapperConfiguration(cfg => cfg
+                    //                                               .CreateMap<TodoViewModel, Todo>()
+                    //                                               .ForMember(t => t.StatusId, e => e.MapFrom(src => src.StatusId))
+                    //                                               .ForPath(t => t.PriorityId, e => e.MapFrom(src => src.PriorityId))
+                    //                                               /*.ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null))*/);
+                    //var mapper = new Mapper(config);
+                    //var result = mapper.Map<Todo>(model);
+                    searchTodo.NameTask = model.NameTask;
+                    searchTodo.Description = model.Description;
+                    searchTodo.StartData = model.StartData;
+                    searchTodo.EndData = model.EndData;
+                    searchTodo.StatusId = model.StatusId;
+                    searchTodo.PriorityId = model.PriorityId;
+
+                    _db.UsersTodos.Remove(user);
                     _db.SaveChanges();
 
-                    return Ok(search);
+                    user.UserId = model.UserId;
+
+                    _db.UsersTodos.Add(user);
+                    _db.Update(searchTodo);
+                    _db.SaveChanges();
+
+                    return Ok();
                 }
                 return BadRequest();
             }

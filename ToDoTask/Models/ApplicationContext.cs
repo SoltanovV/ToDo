@@ -14,10 +14,12 @@ namespace ToDoTask.Models
         public DbSet<Priority> Priority { get; set; } = null!;
         public DbSet<Status> Status { get; set; } = null!;
 
+        public DbSet<UserTodo> UsersTodos { get; set; } = null!;
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -87,12 +89,16 @@ namespace ToDoTask.Models
             };
             #endregion
 
-            var ut = new UserTodo()
+            var ut1 = new UserTodo()
             {
-               UserId=1,
+               UserId = 1,
                TodoId = 1,
             };
 
+            var userTodo = new List<UserTodo>()
+            {
+                ut1
+            };
             #region Заполнение Project
             var project1 = new Project()
             {
@@ -181,7 +187,7 @@ namespace ToDoTask.Models
                 todo1
             };
             #endregion
-            modelBuilder.Entity<UserTodo>().HasData(ut);
+            modelBuilder.Entity<UserTodo>().HasData(userTodo);
             modelBuilder.Entity<ProjectTodo>().HasData(pt);
             modelBuilder.Entity<Account>().HasData(accounts);
             modelBuilder.Entity<UserProject>().HasData(up);

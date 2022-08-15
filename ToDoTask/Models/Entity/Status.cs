@@ -20,6 +20,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Навигационное свойство для Task
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Todo> Todo { get; set; }
     }
 }
