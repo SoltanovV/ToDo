@@ -28,7 +28,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
                 var result = _db.Todo.Include(t => t.Priority);
-                return Ok(result);
+                return Ok("Успешно");
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
                 var result = _db.Todo.Include(t => t.Status);
-                return Ok(result);
+                return Ok("Успешно");
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace ASPBackend.Controllers
                     .Include(t => t.ProjectTodo)
                     .ThenInclude(tp => tp.Project)
                     .ToList();
-                return Ok(result);
+                return Ok("Успешно");
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace ASPBackend.Controllers
                 await _db.SaveChangesAsync();
                 _logger.LogInformation("Запрос обработан и отправлен");
 
-                return Ok(result);
+                return Ok("Успешно");
             }
             catch (Exception ex)
             {
@@ -110,44 +110,35 @@ namespace ASPBackend.Controllers
         //TODO: попробывать переделать все красиво 
         [Route("update/{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateTask(int id, [FromBody]TodoViewModel model)
+        public async Task<ActionResult<Todo>> UpdateTask(int id, [FromBody]TodoViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
                 var searchTodo = _db.Todo.Where(t => t.Id == id).FirstOrDefault();
-                //var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
-                //var d = _db.User.Where(u => u.Id == userId).FirstOrDefault();
 
-                if (searchTodo != null /*& serachUser != null*/)
+                if (searchTodo != null)    
                 {
-                    //var config = new MapperConfiguration(cfg => cfg
-                    //                                               .CreateMap<TodoViewModel, Todo>()
-                    //                                               .ForMember(t => t.StatusId, e => e.MapFrom(src => src.StatusId))
-                    //                                               .ForPath(t => t.PriorityId, e => e.MapFrom(src => src.PriorityId))
-                    //                                               /*.ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null))*/);
+                    //var config = new MapperConfiguration(cfg => cfg.CreateMap<TodoViewModel, Todo>());
                     //var mapper = new Mapper(config);
                     //var result = mapper.Map<Todo>(model);
+
                     searchTodo.NameTask = model.NameTask;
                     searchTodo.Description = model.Description;
-                    searchTodo.StartData = model.StartData;
                     searchTodo.EndData = model.EndData;
                     searchTodo.StatusId = model.StatusId;
                     searchTodo.PriorityId = model.PriorityId;
 
-                    //_db.UsersTodos.Remove(user);
-                    //_db.SaveChanges();
-
-                    //user.UserId = model.UserId;
-
-                    //_db.UsersTodos.Add(user);
-                    _db.Update(searchTodo);
+                    _db.Todo.Update(searchTodo);
                     _db.SaveChanges();
 
-                    return Ok();
+                    _logger.LogInformation("Запрос обработан и отправлен");
+
+                    return Ok("Успешно");
                 }
-                return BadRequest();
+                _logger.LogInformation("Ошибка пользователь не найден");
+                return BadRequest("Ошибка пользователь не найден");
             }
             catch (Exception ex)
             {
@@ -156,33 +147,33 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("update/user")]
-        public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
-        {
-            try 
-            {
-                var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+        //[HttpPut]
+        //[Route("update/user")]
+        //public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
+        //{
+        //    try 
+        //    {
+        //        var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
 
-                if(user != null)
-                {
-                _db.UsersTodos.Remove(user);
-                _db.SaveChanges();
+        //        if(user != null)
+        //        {
+        //        _db.UsersTodos.Remove(user);
+        //        _db.SaveChanges();
 
-                user.UserId = model.UserId;
-                _db.UsersTodos.Add(user);
-                _db.SaveChanges();
+        //        user.UserId = model.UserId;
+        //        _db.UsersTodos.Add(user);
+        //        _db.SaveChanges();
 
-                return Ok();
-                }
-                return BadRequest();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok();
+        //        }
+        //        return BadRequest();
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [Route("delete")]
         [HttpDelete]
@@ -199,7 +190,7 @@ namespace ASPBackend.Controllers
                 var result = _db.Todo.Remove(search);
                 _db.SaveChanges();
 
-                return Ok();
+                return Ok("Успешно");
             }
             catch (Exception ex)
             {
