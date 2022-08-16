@@ -3,8 +3,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
-using ToDoTaskServer.Models.Entity;
-using ToDoTaskServer.Models.ViewModel;
+using AspBackend.Models.Entity;
+using AspBackend.Models.ViewModel;
 
 namespace ASPBackend.Controllers
 {
