@@ -79,7 +79,7 @@ namespace ASPBackend.Controllers
         }
 
 
-        [Route("create")]
+        [Route("create")] 
         [HttpPost]
         public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
         {
@@ -110,14 +110,14 @@ namespace ASPBackend.Controllers
         //TODO: попробывать переделать все красиво 
         [Route("update/{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateTask(int id, int userId, [FromBody]TodoViewModel model)
+        public async Task<IActionResult> UpdateTask(int id, [FromBody]TodoViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
                 var searchTodo = _db.Todo.Where(t => t.Id == id).FirstOrDefault();
-                var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+                //var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
                 //var d = _db.User.Where(u => u.Id == userId).FirstOrDefault();
 
                 if (searchTodo != null /*& serachUser != null*/)
@@ -136,12 +136,12 @@ namespace ASPBackend.Controllers
                     searchTodo.StatusId = model.StatusId;
                     searchTodo.PriorityId = model.PriorityId;
 
-                    _db.UsersTodos.Remove(user);
-                    _db.SaveChanges();
+                    //_db.UsersTodos.Remove(user);
+                    //_db.SaveChanges();
 
-                    user.UserId = model.UserId;
+                    //user.UserId = model.UserId;
 
-                    _db.UsersTodos.Add(user);
+                    //_db.UsersTodos.Add(user);
                     _db.Update(searchTodo);
                     _db.SaveChanges();
 
@@ -150,6 +150,34 @@ namespace ASPBackend.Controllers
                 return BadRequest();
             }
             catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("update/user")]
+        public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
+        {
+            try 
+            {
+                var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+
+                if(user != null)
+                {
+                _db.UsersTodos.Remove(user);
+                _db.SaveChanges();
+
+                user.UserId = model.UserId;
+                _db.UsersTodos.Add(user);
+                _db.SaveChanges();
+
+                return Ok();
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
