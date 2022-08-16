@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Models.Entity;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
@@ -34,7 +35,6 @@ namespace ASPBackend.Controllers
                     .Include(u => u.UserProject)
                     .ThenInclude(u => u.User).ToList();
                     
-
                 _logger.LogInformation("Запрос обработан");
 
                 return Ok(result);
@@ -61,8 +61,99 @@ namespace ASPBackend.Controllers
                 _db.Project.Add(result);
                 _db.SaveChanges();
 
-                return Ok(result);
+                _logger.LogInformation("Запрос выполнен и отправлен");
 
+                return Ok();
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("add/user")]
+        public async Task<ActionResult<UserProject>> AddUserProject(int userId, int projectId, [FromBody] ProjectViewModel model)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var userAdd = _db.User.FirstOrDefault(p => p.Id == userId);
+                var project = _db.Project.FirstOrDefault(p => p.Id == projectId);
+                //var userProject = _db.UsersProjects.
+                
+
+                if (project != null & userAdd != null)
+                {
+                    
+                    //_db
+                    //_db.UsersProjects.Add(result);
+                    //_db.SaveChanges();
+
+                    _logger.LogInformation("Запрос обработан и отправлен");
+
+                    return Ok();
+                }
+                _logger.LogInformation("Пользователь не найден");
+
+                return BadRequest("Проект не найден");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete/user")]
+        public async Task<IActionResult> DeleteUserProject(int userId, int projectId)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var userDelete = _db.UsersProjects.FirstOrDefault(p => p.UserId == userId);
+                var project = _db.Project.FirstOrDefault(p => p.Id == projectId);
+                if (project != null & userDelete != null)
+                {
+                    _db.UsersProjects.Remove(userDelete);
+                    _db.SaveChanges();
+                    _logger.LogInformation("Запрос обработан и отправлен");
+
+                    return Ok();
+                }
+                _logger.LogInformation("Пользователь не найден");
+
+                return BadRequest("Проект не найден");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectViewModel model)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var project = _db.Project.FirstOrDefault(p => p.Id == id);
+                if (project != null)
+                {
+                    project.Name = model.Name;
+                    _logger.LogInformation("Запрос обработан и отправлен");
+                    _db.SaveChanges();
+
+                    return Ok();
+                }
+                _logger.LogInformation("Проект не найден");
+
+                return BadRequest("Проект не найден");
             }
             catch(Exception ex)
             {
@@ -80,10 +171,14 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос получен");
 
                 var search = _db.Project.FirstOrDefault(t => t.Id == id);
-                _logger.LogInformation("Запрос обработан");
-                if (search == null) Ok("Задача не найдена");
+
+                if (search == null) return Ok("Задача не найдена");
+
+                _logger.LogInformation("Запрос обработан и выполнен");
+
 
                 var result = _db.Project.Remove(search);
+
                 _db.SaveChanges();
 
                 return Ok();
