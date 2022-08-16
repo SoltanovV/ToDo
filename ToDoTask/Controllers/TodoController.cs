@@ -156,28 +156,61 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("update/user")]
-        public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
+        // [HttpPut]
+        // [Route("update/user")]
+        // public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
+        // {
+        //     try 
+        //     {
+        //         var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+
+        //         if(user != null)
+        //         {
+        //             _db.UsersTodos.Remove(user);
+        //             _db.SaveChanges();
+
+        //             user.UserId = model.UserId;
+        //             _db.UsersTodos.Add(user);
+        //             _db.SaveChanges();
+
+        //             return Ok();
+        //         }
+        //         return BadRequest();
+        //     }
+        //     catch(Exception ex)
+        //     {
+        //         _logger.LogError(ex.Message);
+        //         return BadRequest(ex.Message);
+        //     }
+        // }
+        
+        [HttpPost]
+        [Route("add/user")]
+        public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
         {
-            try 
+            try
             {
-                var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
+                _logger.LogInformation("Запрос получен");
+                var userAdd = _db.User.FirstOrDefault(t => t.Id == model.UserId);
+                var todo = _db.Todo.FirstOrDefault(t => t.Id == model.TodoId);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserTodoViewModel, UserTodo>());
+                var mapper = new Mapper(config);
+                var result = mapper.Map<UserTodo>(model);
 
-                if(user != null)
+                if (todo != null & userAdd != null)
                 {
-                _db.UsersTodos.Remove(user);
-                _db.SaveChanges();
+                    _db.UsersTodos.Add(result);
+                    _db.SaveChanges();
 
-                user.UserId = model.UserId;
-                _db.UsersTodos.Add(user);
-                _db.SaveChanges();
+                    _logger.LogInformation("Запрос обработан и отправлен");
 
-                return Ok();
+                    return Ok();
                 }
-                return BadRequest();
+                _logger.LogInformation("Пользователь не найден");
+
+                return BadRequest("Задача не найдена");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
