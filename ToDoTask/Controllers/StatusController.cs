@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using ToDoTaskServer.Models.Entity;
 using ToDoTaskServer.Models.ViewModel;
@@ -23,13 +24,14 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewPeroject()
+        public async Task<IActionResult> ViewProject()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-
-                return Ok(_db.Status);
+                var result = _db.Status
+                    .Include(s => s.Todo);
+                return Ok(result);
             }
             catch (Exception ex)
             {

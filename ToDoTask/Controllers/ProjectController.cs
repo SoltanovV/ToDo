@@ -22,7 +22,7 @@ namespace ASPBackend.Controllers
         }
         [HttpGet]
         [Route("view")]
-        public async Task<IActionResult> ViewPeroject()
+        public async Task<IActionResult> ViewProject()
         {
             try
             {
