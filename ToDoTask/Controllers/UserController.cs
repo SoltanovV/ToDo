@@ -44,22 +44,22 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("view/Account")]
-        [HttpGet]
-        public async Task<IActionResult> ViewAllAccount()
-        {
-            try
-            {
-                _logger.LogInformation("Запрос получен");
-                var result = _db.Account.Include(a => a.User).ThenInclude(u => u.UserProject);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(_logger);
-            }
-        }
+        //[Route("view/Account")]
+        //[HttpGet]
+        //public async Task<IActionResult> ViewAllAccount()
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("Запрос получен");
+        //        var result = _db.Account.Include(a => a.User).ThenInclude(u => u.UserProject);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return BadRequest(_logger);
+        //    }
+        //}
 
         [Route("view/{id}")]
         [HttpGet]
@@ -115,7 +115,7 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос обработан и отправлен");
 
 
-                return Ok(result);
+                return Ok();
 
             }
             catch (Exception ex)
@@ -129,24 +129,29 @@ namespace ASPBackend.Controllers
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> UpdateUser(int id, string name, string email)
+        public async Task<ActionResult<User>> UpdateUser(int id, string name, string email)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
+                var account = _db.Account.FirstOrDefault(a => a.Id == id);
                 //var search = _db.User.FirstOrDefault(u => u.Id == id);
                 if (search != null)
                 {
                     //TODO: *использовать маппре
 
-                        search.Name = name;
-
+                    search.Name = name;
+                    account.Email = email;
+                    //var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)));
+                    //var mapper = new Mapper(config);
+                    //var result = mapper.Map<User>(model);
+                    _logger.LogInformation("Запрос обработан и отправлен");
                     _db.User.Update(search);
                     _db.SaveChanges();
 
-                    return Ok(search);
+                    return Ok();
                 }
                 return BadRequest();
 
@@ -167,7 +172,7 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос получен");
 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
-                _logger.LogInformation("Запрос обработан");
+                _logger.LogInformation("Запрос обработан и отправлен");
                 if (search == null) Ok("Пользователь не найден");
 
                 var result = _db.User.Remove(search);

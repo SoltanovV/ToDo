@@ -26,10 +26,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Пароль аккаунта
         /// </summary>
-        public string Password
-        {
-            get { return Password.HashPassword }
-        }
+        public string Password { get; set; }
 
         /// <summary>
         /// Email аккаунта
