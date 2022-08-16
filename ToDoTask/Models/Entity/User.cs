@@ -1,9 +1,7 @@
 ﻿using ASPbackend.Models.Entity;
-using Models.Entity;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace ToDoTaskServer.Models.Entity
+namespace AspBackend.Models.Entity
 {
     /// <summary>
     /// Пользователь

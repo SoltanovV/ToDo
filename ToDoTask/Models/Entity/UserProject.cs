@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using ToDoTaskServer.Models.Entity;
+using AspBackend.Models.Entity;
 
-namespace Models.Entity;
+namespace AspBackend.Models.Entity;
 
 public class UserProject
 {

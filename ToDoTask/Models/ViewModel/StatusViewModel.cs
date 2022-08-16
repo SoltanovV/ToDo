@@ -1,4 +1,4 @@
-﻿namespace ToDoTaskServer.ViewModel.ViewModel
+﻿namespace AspBackend.ViewModel.ViewModel
 {
     public class StatusViewModel
     {

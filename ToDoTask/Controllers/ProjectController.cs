@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AspBackend.Models.ViewModel;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models.Entity;
+using AspBackend.Models.Entity;
 using ToDoTask.Models;
-using ToDoTaskServer.Models.Entity;
-using ToDoTaskServer.Models.ViewModel;
 
-namespace ASPBackend.Controllers
+
+namespace AspBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -75,22 +74,21 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("add/user")]
-        public async Task<ActionResult<UserProject>> AddUserProject(int userId, int projectId, [FromBody] ProjectViewModel model)
+        public async Task<ActionResult<UserProject>> AddUserProject([FromBody] UserProjectViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var userAdd = _db.User.FirstOrDefault(p => p.Id == userId);
-                var project = _db.Project.FirstOrDefault(p => p.Id == projectId);
-                //var userProject = _db.UsersProjects.
-                
+                var userAdd = _db.User.FirstOrDefault(p => p.Id == model.UserId);
+                var project = _db.Project.FirstOrDefault(p => p.Id == model.ProjectId);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserProjectViewModel, UserProject>());
+                var mapper = new Mapper(config);
+                var result = mapper.Map<UserProject>(model);
 
                 if (project != null & userAdd != null)
                 {
-                    
-                    //_db
-                    //_db.UsersProjects.Add(result);
-                    //_db.SaveChanges();
+                    _db.UsersProjects.Add(result);
+                    _db.SaveChanges();
 
                     _logger.LogInformation("Запрос обработан и отправлен");
 

@@ -1,7 +1,7 @@
 ﻿using ASPbackend.Models.Entity;
 using Microsoft.EntityFrameworkCore;
-using Models.Entity;
-using ToDoTaskServer.Models.Entity;
+using AspBackend.Models.Entity;
+
 
 namespace ToDoTask.Models
 {

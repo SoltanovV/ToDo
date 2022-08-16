@@ -1,8 +1,6 @@
-﻿using ASPbackend.Models.Entity;
-using Models.Entity;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace ToDoTaskServer.Models.Entity
+namespace AspBackend.Models.Entity
 {
     /// <summary>
     /// Проект

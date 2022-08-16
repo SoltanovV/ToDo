@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
-using ToDoTaskServer.Models.Entity;
-using ToDoTaskServer.Models.ViewModel;
-using ToDoTaskServer.ViewModel.ViewModel;
+using AspBackend.Models.Entity;
+using AspBackend.Models.ViewModel;
+using AspBackend.ViewModel.ViewModel;
 
 namespace ASPBackend.Controllers
 {
@@ -13,10 +13,10 @@ namespace ASPBackend.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        private readonly ILogger<ProjectController> _logger;
+        private readonly ILogger<StatusController> _logger;
         private ApplicationContext _db;
 
-        public StatusController(ILogger<ProjectController> logger, ApplicationContext db)
+        public StatusController(ILogger<StatusController> logger, ApplicationContext db)
         {
             _logger = logger;
             _db = db;

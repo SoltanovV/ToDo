@@ -1,4 +1,4 @@
-﻿namespace ToDoTaskServer.Models.ViewModel
+﻿namespace AspBackend.Models.ViewModel
 {
     public class TodoViewModel
     {
