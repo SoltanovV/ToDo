@@ -110,7 +110,7 @@ namespace ASPBackend.Controllers
         //TODO: попробывать переделать все красиво 
         [Route("update/{id}")]
         [HttpPut]
-        public async Task<ActionResult<Todo>> UpdateTask(int id, int userId, [FromBody]TodoViewModel model)
+        public async Task<IActionResult> UpdateTask(int id, int userId, [FromBody]TodoViewModel model)
         {
             try
             {
@@ -122,8 +122,6 @@ namespace ASPBackend.Controllers
 
                 if (searchTodo != null /*& serachUser != null*/)
                 {
-                    
-
                     //var config = new MapperConfiguration(cfg => cfg
                     //                                               .CreateMap<TodoViewModel, Todo>()
                     //                                               .ForMember(t => t.StatusId, e => e.MapFrom(src => src.StatusId))

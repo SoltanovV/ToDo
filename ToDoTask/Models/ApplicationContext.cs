@@ -15,6 +15,7 @@ namespace ToDoTask.Models
         public DbSet<Status> Status { get; set; } = null!;
 
         public DbSet<UserTodo> UsersTodos { get; set; } = null!;
+        public DbSet<UserProject>  UsersProjects { get; set; } = null!;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
@@ -48,9 +49,20 @@ namespace ToDoTask.Models
 
 
             };
+
+            var account3 = new Account()
+            {
+                Id = 3,
+                Token = "d235k4456kljkl456h2j3hk54534kl523kl432j4l2",
+                Login = "Sofka",
+                Password = "sdf486dfg456dfg456",
+                Email = "jfdfgfghhjhjk@d",
+
+
+            };
             var accounts = new List<Account>()
             {
-                account1, account2
+                account1, account2,account3
             };
             #endregion
 
@@ -83,9 +95,20 @@ namespace ToDoTask.Models
                 //Password = "вывывы",
                 //TodoId = 1
             };
+            var user3 = new User()
+            {
+                Id = 3,
+                Name = "Софка",
+                AccountId = 3,
+
+                //Email = "dsdsd",
+                //AccountId = 1,
+                //Password = "вывывы",
+                //TodoId = 1
+            };
             var users = new List<User>()
             {
-                user1, user2
+                user1, user2, user3
             };
             #endregion
 

@@ -23,5 +23,7 @@
         public DateTime DeadLine { get; set; }
 
         public int UserId { get; set; }
+
+        public int TodoId { get; set; }
     }
 }

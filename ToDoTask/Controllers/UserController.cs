@@ -68,6 +68,7 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
+
                 var result = _db.User
                     .Where(u => u.Id == id)
                     .Include(u => u.UserTodo)
@@ -77,7 +78,6 @@ namespace ASPBackend.Controllers
                     .ThenInclude(up => up.Project)
                     .FirstOrDefault();
                    
-
                 if (result != null)
                 {
                     _logger.LogInformation("Запрос выполнен");
