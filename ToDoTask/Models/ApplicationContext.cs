@@ -7,12 +7,12 @@ namespace ToDoTask.Models
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Project> Project { get; set; }
-        public DbSet<Account> Account { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Todo> Todo { get; set; }
-        public DbSet<Priority> Priority { get; set; }
-        public DbSet<Status> Status { get; set; }
+        public DbSet<Project> Project { get; set; } = null!;
+        public DbSet<Account> Account { get; set; } = null!;
+        public DbSet<User> User { get; set; } = null!;
+        public DbSet<Todo> Todo { get; set; } = null!;
+        public DbSet<Priority> Priority { get; set; } = null!;
+        public DbSet<Status> Status { get; set; } = null!;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
@@ -52,8 +52,6 @@ namespace ToDoTask.Models
                 Login = "Максим",
                 Password = "dsds2вывфаыаывпdf4e3as",
                 Email = "sdsds@h",
-
-
             };
             var accounts = new List<Account>()
             {
@@ -106,7 +104,9 @@ namespace ToDoTask.Models
             };
             var users = new List<User>()
             {
+
                 user1, user2, user3
+
             };
             #endregion
 
