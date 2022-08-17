@@ -69,7 +69,7 @@ namespace ASPBackend.Controllers
                     .Include(t => t.ProjectTodo)
                     .ThenInclude(tp => tp.Project)
                     .ToList();
-                return Ok("Успешно");
+                return Ok(result);
             }
             catch (Exception ex)
             {
