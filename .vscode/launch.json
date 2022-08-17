@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ToDoTask/bin/Debug/net6.0/ASP-backend.dll",
+            "program": "${workspaceFolder}/ToDoTask/bin/Debug/net6.0/AspBackend.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ToDoTask",
             "stopAtEntry": false,

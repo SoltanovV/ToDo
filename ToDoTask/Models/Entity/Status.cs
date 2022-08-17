@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ToDoTaskServer.Models.Entity
+namespace AspBackend.Models.Entity
 {
     /// <summary>
     /// Статус задачи
@@ -20,6 +20,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Навигационное свойство для Task
         /// </summary>
+        [JsonIgnore]
         public IEnumerable<Todo> Todo { get; set; }
     }
 }

@@ -1,16 +1,14 @@
 ﻿using ASPbackend.Models.Entity;
-using Models.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace ToDoTaskServer.Models.Entity
+namespace AspBackend.Models.Entity
 {
     /// <summary>
     /// Задачи
     /// </summary>
     public class Todo
     {
-
         /// <summary>
         /// Id Задачи
         /// </summary>

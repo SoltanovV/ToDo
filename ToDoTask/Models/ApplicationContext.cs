@@ -1,7 +1,7 @@
 ﻿using ASPbackend.Models.Entity;
 using Microsoft.EntityFrameworkCore;
-using Models.Entity;
-using ToDoTaskServer.Models.Entity;
+using AspBackend.Models.Entity;
+
 
 namespace ToDoTask.Models
 {
@@ -13,6 +13,9 @@ namespace ToDoTask.Models
         public DbSet<Todo> Todo { get; set; } = null!;
         public DbSet<Priority> Priority { get; set; } = null!;
         public DbSet<Status> Status { get; set; } = null!;
+
+        public DbSet<UserTodo> UsersTodos { get; set; } = null!;
+        public DbSet<UserProject>  UsersProjects { get; set; } = null!;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
@@ -102,18 +105,27 @@ namespace ToDoTask.Models
                 Name = "Максим",
                 AccountId = 3,
             };
+            var user3 = new User()
+            {
+                Id = 3,
+                Name = "Софка",
+                AccountId = 3,
+
+                //Email = "dsdsd",
+                //AccountId = 1,
+                //Password = "вывывы",
+                //TodoId = 1
+            };
             var users = new List<User>()
             {
-
                 user1, user2, user3
-
             };
             #endregion
 
             #region Заполнение UserTodo
             var ut1 = new UserTodo()
             {
-               UserId=1,
+               UserId = 1,
                TodoId = 1,
             };
             var ut2 = new UserTodo()
@@ -274,7 +286,6 @@ namespace ToDoTask.Models
                 todo1, todo2, todo3, todo4
             };
             #endregion
-
             modelBuilder.Entity<UserTodo>().HasData(userTodo);
             modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
             modelBuilder.Entity<UserProject>().HasData(userProject);
