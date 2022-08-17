@@ -1,5 +1,4 @@
-﻿using ASPbackend.Models.Entity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using AspBackend.Models.Entity;
 
 
@@ -105,17 +104,7 @@ namespace ToDoTask.Models
                 Name = "Максим",
                 AccountId = 3,
             };
-            var user3 = new User()
-            {
-                Id = 3,
-                Name = "Софка",
-                AccountId = 3,
 
-                //Email = "dsdsd",
-                //AccountId = 1,
-                //Password = "вывывы",
-                //TodoId = 1
-            };
             var users = new List<User>()
             {
                 user1, user2, user3

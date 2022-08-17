@@ -183,8 +183,8 @@ namespace ASPBackend.Controllers
                     //var result = mapper.Map<Todo>(model);
                     searchTodo.NameTask = model.NameTask;
                     searchTodo.Description = model.Description;
-                    searchTodo.StartData = model.StartData;
-                    searchTodo.EndData = model.EndData;
+                    searchTodo.StartDate = model.StartData;
+                    searchTodo.EndDate = model.EndData;
                     searchTodo.StatusId = model.StatusId;
                     searchTodo.PriorityId = model.PriorityId;
 

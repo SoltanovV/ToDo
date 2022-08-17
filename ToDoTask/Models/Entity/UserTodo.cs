@@ -1,6 +1,4 @@
-﻿using AspBackend.Models.Entity;
-
-namespace ASPbackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity;
 
 public class UserTodo
 {

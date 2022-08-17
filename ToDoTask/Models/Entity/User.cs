@@ -1,5 +1,4 @@
-﻿using ASPbackend.Models.Entity;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace AspBackend.Models.Entity
 {

@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using ToDoTaskServer.Models.Entity;
 
 namespace AspBackend.Models.Entity;
 public class ProjectTodo
