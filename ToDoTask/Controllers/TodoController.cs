@@ -20,6 +20,7 @@ namespace ASPBackend.Controllers
             _db = db;
             _logger = logger;
         }
+
         [Route("priority")]
         [HttpGet]
         public async Task<IActionResult> ViewPriority()
@@ -29,6 +30,59 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос получен");
                 var result = _db.Todo.Include(t => t.Priority);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
+        [Route("edit/priority")]
+        [HttpPut]
+        public async Task<ActionResult<Todo>> EditPriority(int id, int priorityId)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
+
+                if (seacrh != null)
+                {
+                    
+                     seacrh.PriorityId = priorityId;
+                    _db.Todo.Update(seacrh);
+                    _db.SaveChanges();
+                    _logger.LogInformation("Запрос обработан и выполнен");
+                    return Ok(seacrh);
+                }
+                return BadRequest("Ошибка");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+
+        [Route("edit/status")]
+        [HttpPut]
+        public async Task<ActionResult<Todo>> EditStatus(int id, int statusId)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+                var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
+
+                if (seacrh != null)
+                {
+                    seacrh.StatusId = statusId;
+                    _db.Todo.Update(seacrh);
+                    _db.SaveChanges();
+                    _logger.LogInformation("Запрос обработан и выполнен");
+                    return Ok(seacrh);
+                }
+                return BadRequest("Ошибка");
             }
             catch (Exception ex)
             {
@@ -78,7 +132,6 @@ namespace ASPBackend.Controllers
             }
         }
 
-
         [Route("create")] 
         [HttpPost]
         public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
@@ -87,9 +140,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
 
-                var config = new MapperConfiguration(cfg => cfg
-                                                               .CreateMap<TodoViewModel, Todo>()
-                                                                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)));
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<TodoViewModel, Todo>());
                 var mapper = new Mapper(config);
                 var result = mapper.Map<Todo>(model);
 
@@ -156,34 +207,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        // [HttpPut]
-        // [Route("update/user")]
-        // public async Task<IActionResult> UpdateUserTodo(int userId, [FromBody]TodoViewModel model)
-        // {
-        //     try 
-        //     {
-        //         var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
-
-        //         if(user != null)
-        //         {
-        //             _db.UsersTodos.Remove(user);
-        //             _db.SaveChanges();
-
-        //             user.UserId = model.UserId;
-        //             _db.UsersTodos.Add(user);
-        //             _db.SaveChanges();
-
-        //             return Ok();
-        //         }
-        //         return BadRequest();
-        //     }
-        //     catch(Exception ex)
-        //     {
-        //         _logger.LogError(ex.Message);
-        //         return BadRequest(ex.Message);
-        //     }
-        // }
-        
+       
         [HttpPost]
         [Route("add/user")]
         public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
@@ -233,7 +257,7 @@ namespace ASPBackend.Controllers
                     _db.SaveChanges();
                     _logger.LogInformation("Запрос обработан и отправлен");
                     
-                    return Ok();
+                    return Ok("Успешно");
                 }
                 _logger.LogInformation("Пользователь не найден");
 
