@@ -17,7 +17,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -35,28 +35,52 @@ namespace ToDoTask.Models
                 
                 
             };
-
             var account2 = new Account()
             {
                 Id = 2,
-                Token = "dsdsds122j3hk54534kl523kl432j4l2",
-                Login = "KoMa",
-                Password = "dssd3423fg456h56ds23as",
-                Email = "jjkk@hfdgf",
+                Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
+                Login = "Софка",
+                Password = "sf324gfg9dgdfhask3m3n423",
+                Email = "sdsds@h",
 
 
+            };
+            var account3 = new Account()
+            {
+                Id = 3,
+                Token = "dcervrt34gfv3fdcv234d",
+                Login = "Максим",
+                Password = "dsds2вывфаыаывпdf4e3as",
+                Email = "sdsds@h",
             };
             var accounts = new List<Account>()
             {
-                account1, account2
+                account1, account2, account3
             };
             #endregion
 
-            var up = new UserProject()
+            #region Заполнение UserProject
+            var up1 = new UserProject()
             {
                 ProjectId = 1,
                 UserId = 1
             };
+            var up2 = new UserProject()
+            {
+                ProjectId = 1,
+                UserId = 2
+            };
+            var up3 = new UserProject()
+            {
+                ProjectId = 1,
+                UserId = 3
+            };
+
+            var userProject = new List<UserProject>()
+            {
+                up1,up2, up3
+            };
+            #endregion
 
             #region Заполнение User
             var user1 = new User()
@@ -65,45 +89,53 @@ namespace ToDoTask.Models
                 Name = "Влад",
                 AccountId =1,
                 
-                //Email = "dsdsd",
-                //AccountId = 1,
-                //Password = "вывывы",
-                //TodoId = 1
             };
             var user2 = new User()
             {
                 Id = 2,
-                Name = "Максим",
+                Name = "Софка",
                 AccountId = 2,
-
-                //Email = "dsdsd",
-                //AccountId = 1,
-                //Password = "вывывы",
-                //TodoId = 1
+            };
+            var user3 = new User()
+            {
+                Id = 3,
+                Name = "Максим",
+                AccountId = 3,
             };
             var users = new List<User>()
             {
-                user1, user2
+
+                user1, user2, user3
+
             };
             #endregion
 
-            var ut = new UserTodo()
+            #region Заполнение UserTodo
+            var ut1 = new UserTodo()
             {
                UserId=1,
                TodoId = 1,
             };
-
-            #region Заполнение Project
-            var project1 = new Project()
+            var ut2 = new UserTodo()
             {
-                Id = 1,
-                Name = "Test",
-                DeadLine = new DateTime(2078, 01, 01),
-                //TodoId = 1
+                UserId = 2,
+                TodoId = 2,
             };
-            var projects = new List<Project>()
+            var ut3 = new UserTodo()
             {
-                project1
+                UserId = 3,
+                TodoId = 1,
+            };
+
+            var ut4 = new UserTodo()
+            {
+                UserId = 2,
+                TodoId = 4,
+            };
+
+            var userTodo = new List<UserTodo>()
+            {
+                ut1,ut2, ut3, ut4
             };
             #endregion
 
@@ -111,18 +143,18 @@ namespace ToDoTask.Models
             var priority1 = new Priority()
             {
                 Id = 1,
-                PriorityName = "Срочно",
+                PriorityName = "Высокий",
 
             };
             var priority2 = new Priority()
             {
                 Id = 2,
-                PriorityName = "В обычном темпе",
+                PriorityName = "Средний",
             };
             var priority3 = new Priority()
             {
                 Id = 3,
-                PriorityName = "Можно не торопиться",
+                PriorityName = "Низкий",
 
             };
 
@@ -156,35 +188,98 @@ namespace ToDoTask.Models
             };
             #endregion
 
-            #region Заполнение Todo
+            #region Заполнение Project
+            var project1 = new Project()
+            {
+                Id = 1,
+                Name = "Test",
+                EndDate = new DateTime(2078, 01, 01)
+            };
+            var projects = new List<Project>()
+            {
+                project1
+            };
+            #endregion
 
-            var pt = new ProjectTodo()
+            #region Заполнение ProjectTodo
+            var pt1 = new ProjectTodo()
             {
                 ProjectId = 1,
                 TodoId = 1
             };
 
+            var pt2 = new ProjectTodo()
+            {
+                ProjectId = 1,
+                TodoId = 2
+            };
+
+            var pt3 = new ProjectTodo()
+            {
+                ProjectId = 1,
+                TodoId = 3
+            };
+
+            var projectTodo = new List<ProjectTodo>()
+            {
+                pt1, pt2, pt3
+            };
+            #endregion
+
+            #region Заполнение Todo
             var todo1 = new Todo()
             {
                 Id = 1,
-                NameTask = "Доделать БД",
-                Description = "dsdsd",
-                EndData = new DateTime(2077, 01, 01),
-                StatusId = 1,
+                NameTask = "Доделать БД и связи",
+                Description = "Срочно доделать БД",
+                EndDate = new DateTime(2077, 01, 01),
+                StatusId = 2,
                 PriorityId = 1 
 
             };
+            var todo2 = new Todo()
+            {
+                Id = 2,
+                NameTask = "Доделать клиент",
+                Description = "Доделать клиентскую часть на React",
+                EndDate = new DateTime(2077, 01, 01),
+                StatusId = 2,
+                PriorityId = 2
 
+            };
+            var todo3 = new Todo()
+            {
+                Id = 3,
+                NameTask = "Залить проект на сервер",
+                Description = "dsdsd",
+                EndDate = new DateTime(2077, 01, 01),
+                StatusId = 1,
+                PriorityId = 3
+
+            };
+
+            var todo4 = new Todo()
+            {
+                Id = 4,
+                NameTask = "Нарисовать дизайн",
+                Description = "Срочно доделать БД",
+                EndDate = new DateTime(2077, 01, 01),
+                StatusId = 2,
+                PriorityId = 1
+
+            };
 
             var todos = new List<Todo>()
             {
-                todo1
+                todo1, todo2, todo3, todo4
             };
             #endregion
-            modelBuilder.Entity<UserTodo>().HasData(ut);
-            modelBuilder.Entity<ProjectTodo>().HasData(pt);
+
+            modelBuilder.Entity<UserTodo>().HasData(userTodo);
+            modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
+            modelBuilder.Entity<UserProject>().HasData(userProject);
+
             modelBuilder.Entity<Account>().HasData(accounts);
-            modelBuilder.Entity<UserProject>().HasData(up);
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Project>().HasData(projects);
             modelBuilder.Entity<Priority>().HasData(priorities);

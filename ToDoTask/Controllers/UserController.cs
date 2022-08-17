@@ -30,10 +30,14 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос получен");
                 var result = _db.User
                     .Include(u => u.UserProject)
-                    .ThenInclude(up => up.Project)
+                        .ThenInclude(up => up.Project)
                     .Include(u => u.Account)
                     .Include(u => u.UserTodo)
-                    .ThenInclude(ut => ut.Todo)
+                        .ThenInclude(ut => ut.Todo)
+                            .ThenInclude(t => t.Status)
+                     .Include(u => u.UserTodo)
+                        .ThenInclude(ut => ut.Todo)
+                            .ThenInclude(t => t.Priority)
                     .ToList();
                 return Ok(result);
             }

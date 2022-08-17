@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import './App.css';
+import moment from "moment";
 
 export default class App extends Component {
     constructor(props) {
@@ -11,7 +13,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        fetch("https://localhost:7055/api/User/view")
+        const URL = 'https://localhost:7055/api/Todo/view'
+        fetch(URL)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -20,8 +23,6 @@ export default class App extends Component {
                         items: result
                     });
                 },
-                // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
-                // чтобы не перехватывать исключения из ошибок в самих компонентах.
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -32,43 +33,25 @@ export default class App extends Component {
     }
     render() {
         const { error, isLoaded, items } = this.state;
-        const project = items
-        let pro
-        let text
-        //console.log(items)
-
-        //Point
-// for (let i = 0; i < comment.length; i++) {
-//     return comm = comment[i].comment.$values
-//     Comment
-//     console.log(comment[i].x)
-//     for (let j = 0; j < comm.length; j++) {
-//         text = comm[i].text
-//         //console.log(text)
-//     }
-// }
-//         for(let i=0; i < project.length; i++){
-//             pro = project[i].projects
-//             for(let j=0; j < pro.length; j++){
-//                 text = pro[i]
-//                 console.log(text.name)
-//                 console.log(text.deadLine)
-//             }
-//         }
-        console.log(items[2])
+        let d = items.map(t => (t.users))
+        console.log(d)
         if (error) {
             return <div>Ошибка: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Загрузка...</div>;
         } else {
             return (
-                <ul>
-                    {items.map(item => (
-                        <li key={item.id}>
-
-                        </li>
-                    ))}
-                </ul>
+               <div className={'card-table'}>
+                   {items.map(item =>(
+                       <div className="card-col">
+                           <div key={item.id} className={'cardUser'}>
+                               <p className={'task-name'}>{item.nameTask}</p>
+                               <p className={'task-description'}>{item.description}</p>
+                               <p className={'task-date'}>{moment(item.startDate).format('DD.MM.YY') } – {moment(item.endDate).format('DD.MM.YY')}</p>
+                           </div>
+                       </div>
+                   ))}
+               </div>
             );
         }
     }

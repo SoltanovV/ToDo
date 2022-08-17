@@ -29,12 +29,12 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Дата постановки задачи
         /// </summary>
-        public DateTime StartData { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Дата завершения задачи
         /// </summary>
-        public DateTime EndData { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Навигационное свойство для UserTodo
@@ -50,7 +50,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Внешний ключ для Status
         /// </summary>
-        /// [JsonIgnore]
+        [JsonIgnore]
         public int StatusId { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace ToDoTaskServer.Models.Entity
         /// <summary>
         /// Внешний ключ для Priority
         /// </summary>
-        /// [JsonIgnore]
+        [JsonIgnore]
         public int PriorityId { get; set; }
 
         /// <summary>
