@@ -27,12 +27,12 @@ namespace AspBackend.Models.Entity
         /// <summary>
         /// Дата постановки задачи
         /// </summary>
-        public DateTime StartData { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Дата завершения задачи
         /// </summary>
-        public DateTime EndData { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Навигационное свойство для UserTodo

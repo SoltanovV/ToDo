@@ -1,4 +1,3 @@
-﻿using ASPbackend.Models.Entity;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -110,12 +109,13 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewAllTask()
+        public async Task<IActionResult> ViewTask()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 var result = _db.Todo
+
                     .Include(t => t.UserTodo)
                     .ThenInclude(tu => tu.User)
                     .Include(t => t.Status)
@@ -123,6 +123,7 @@ namespace ASPBackend.Controllers
                     .Include(t => t.ProjectTodo)
                     .ThenInclude(tp => tp.Project)
                     .ToList();
+                    
                 return Ok(result);
             }
             catch (Exception ex)
