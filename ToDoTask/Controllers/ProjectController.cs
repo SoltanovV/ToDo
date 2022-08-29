@@ -94,9 +94,9 @@ namespace AspBackend.Controllers
 
                     return Ok();
                 }
-                _logger.LogInformation("Пользователь не найден");
+                _logger.LogInformation("Проект или пользователь не найден");
 
-                return BadRequest("Проект не найден");
+                return BadRequest("Проект или пользователь не найден");
             }
             catch (Exception ex)
             {

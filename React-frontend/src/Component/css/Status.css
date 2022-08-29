@@ -5,16 +5,46 @@
     align-items: center;
     width: 33%;
 }
+
 .card-table {
     display: flex;
     justify-content: space-between;
-    height: 100vh;
-    background: #2F2E33;
+    height: 100%;
+    width: 100%;
 }
-.title-main {
-    display: inline-block;
-    color: white;
-    border-bottom: 2px solid white;
-    font-size: 50px;
 
+.title-main {
+    background: #DCDBE7;
+    border-radius: 25px;
+    width: 380px;
+    height: 56px;
+    display: inline-block;
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    line-height: 21px;
+}
+
+.title-col {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    width: 100%;
+    min-height: 55px;
+    background: #DCDBE7;
+    border-radius: 25px;
+    align-items: center;
+    color: #2F2E33;
+}
+
+.title-col button {
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    transition: 0.3s;
+}
+
+.title-col button:hover {
+    color: #7C7CAF;
 }

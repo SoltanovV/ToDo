@@ -21,6 +21,8 @@
         /// Email пользователя
         /// </summary>
         public string Email { get; set; }
+
+        public int AccountId { get; set; }
   
     }
 }

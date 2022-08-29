@@ -1,35 +1,21 @@
 import React, {Component} from 'react';
 import moment from "moment";
+import './css/TodoStyle.css'
+import todoApi from './Api/TodoApi'
 
-class Todo extends Component {
+export default class todoCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             items: []
-        }
-    }
-    componentDidMount() {
-        const URL = 'https://localhost:7055/api/Todo/view'
-        fetch(URL)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        items: result
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+        };
+        // const todo = todoApi();
+        // console.log(todo.map(t => (t.nameTask)))
     }
     render() {
+
         const { error, isLoaded, items } = this.state;
         if (error) {
             return <div>Ошибка: {error.message}</div>;
@@ -52,5 +38,3 @@ class Todo extends Component {
         }
     }
 }
-
-export default Todo;

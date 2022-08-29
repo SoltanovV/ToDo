@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
+using AspBackend.Utilities;
 
 namespace ASPBackend.Controllers
 {
@@ -101,20 +102,21 @@ namespace ASPBackend.Controllers
             }
         }
 
-        
+
         [Route("create")]
         [HttpPost]
-        public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
+        public async Task<ActionResult<User>> CreateAccount([FromBody] UserViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>());
-                var mapper = new Mapper(config);
-                var result = mapper.Map<Account>(model);
-                _db.Add(result);
-                _db.SaveChanges();
+                //var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
+                //var mapper = new Mapper(config);
+                //var result = mapper.Map<User>(model);
+                var result = AutomapperUtil<UserViewModel, User>.Map(model);
+                await _db.AddAsync(result);
+                await _db.SaveChangesAsync();
 
                 _logger.LogInformation("Запрос обработан и отправлен");
 

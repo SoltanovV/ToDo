@@ -24,13 +24,17 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewProject()
+        public async Task<IActionResult> ViewTodo()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
+
                 var result = _db.Status
-                    .Include(s => s.Todo);
+                    .Include(s => s.Todo)
+                    .ToList();
+
+                _logger.LogInformation("Запрос обработна");
                 return Ok(result);
             }
             catch (Exception ex)

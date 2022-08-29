@@ -19,7 +19,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -275,6 +275,7 @@ namespace ToDoTask.Models
                 todo1, todo2, todo3, todo4
             };
             #endregion
+
             modelBuilder.Entity<UserTodo>().HasData(userTodo);
             modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
             modelBuilder.Entity<UserProject>().HasData(userProject);
@@ -350,6 +351,7 @@ namespace ToDoTask.Models
                 .WithMany(s => s.Todo)
                 .HasForeignKey(t => t.StatusId);
 
+            // Создание связей многие ко многим для Todo и Priority
             modelBuilder.Entity<Todo>()
                 .HasOne(t => t.Priority)
                 .WithMany(p => p.Todo)

@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
+import ColumStatus from "./ColumStatus";
+import './css/HomeWindow.css'
+import AddColum from "./AddColum";
 
-class MainWindow extends Component {
+class HomeWindow extends Component {
     render() {
         return (
-            <div>
-                
+            <div className='todo-window'>
+                <AddColum/>
+                <ColumStatus/>
             </div>
         );
     }
 }
 
-export default MainWindow;
+export default HomeWindow;

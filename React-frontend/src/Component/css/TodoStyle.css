@@ -1,7 +1,62 @@
 .cardRow {
     padding: 40px;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: center;
     width: 33%;
+}
+
+.cardUser {
+    width: 383px;
+    height: 181px;
+    left: 577px;
+    top: 151px;
+
+    background: #FFFFFF;
+    border-radius: 25px;
+}
+
+
+.task-name {
+    width: 159px;
+    height: 18px;
+    left: 597px;
+    top: 169px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #000000;
+}
+.task-date {
+    width: 122px;
+    height: 16px;
+    left: 600px;
+    top: 299px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+}
+.task-respons{
+    width: 23px;
+    height: 23px;
+    left: 886px;
+    top: 296px;
+
+    border: 1px solid #FFFFFF;
+}
+.card-col:not(:last-child) {
+    border-right: 1px solid rgba(194, 194, 194, 0.54);
+}
+
+.priority {
+    color: red;
+    font-size: 25px;
 }

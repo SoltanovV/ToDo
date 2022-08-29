@@ -1,0 +1,8 @@
+.todo-window{
+    width: 1753px;
+    height: 1050px;
+    display: flex;
+    background: #F0F0F7;
+    border-radius: 40px;
+    margin: 15px 15px 15px 150px;
+}

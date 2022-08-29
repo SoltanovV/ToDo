@@ -12,13 +12,6 @@
   border-radius: 25px;
 }
 
-.card-col {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 33%;
-}
 .task-name {
   width: 159px;
   height: 18px;
@@ -63,17 +56,6 @@
   font-size: 25px;
 }
 
-.card-table {
-  display: flex;
-  justify-content: space-between;
-  height: 100vh;
-  background: #2F2E33;
-}
-
-.title-main {
-  display: inline-block;
-  border-bottom: 2px solid black;
-}
 
 .App-logo {
   height: 40vmin;
@@ -108,4 +90,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.main {
+  background-color: black;
+  display: flex;
+  justify-content: right;
 }
