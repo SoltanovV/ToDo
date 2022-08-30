@@ -6,6 +6,7 @@ using ToDoTask.Models;
 using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
 using AspBackend.Utilities;
+using AspBackend.Interface;
 
 namespace ASPBackend.Controllers
 {
@@ -14,12 +15,14 @@ namespace ASPBackend.Controllers
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
-
+        private IUserService _userService;
         private ApplicationContext _db;
-        public UserController(ApplicationContext db, ILogger<UserController> logger)
+
+        public UserController(ApplicationContext db, ILogger<UserController> logger, IUserService userService)
         {
             _db = db;
             _logger = logger;
+            _userService = userService;
         }
 
         [Route("view")]
@@ -110,11 +113,10 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
+
                 // Маппим UserViewModel в User
-                //var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
-                //var mapper = new Mapper(config);
-                //var result = mapper.Map<User>(model);
                 var result = AutomapperUtil<UserViewModel, User>.Map(model);
+
                 await _db.AddAsync(result);
                 await _db.SaveChangesAsync();
 
@@ -134,28 +136,19 @@ namespace ASPBackend.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<ActionResult<User>> UpdateUser(int id, string name, string email)
+        [Route("update/{id}")]
+        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] UserViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
                 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
-                var account = _db.Account.FirstOrDefault(a => a.Id == id);
-                //var search = _db.User.FirstOrDefault(u => u.Id == id);
                 if (search != null)
                 {
-                    //TODO: *использовать маппре
+                     await _userService.UpdateUser(model);
 
-                    search.Name = name;
-                    account.Email = email;
-                    //var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)));
-                    //var mapper = new Mapper(config);
-                    //var result = mapper.Map<User>(model);
                     _logger.LogInformation("Запрос обработан и отправлен");
-                    _db.User.Update(search);
-                    _db.SaveChanges();
 
                     return Ok();
                 }

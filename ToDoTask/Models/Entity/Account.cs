@@ -14,7 +14,7 @@ namespace AspBackend.Models.Entity
         public int Id { get; set; }
 
         /// <summary>
-        /// Токен акканута
+        /// Токен пользователя
         /// </summary>
         public string Token { get; set; }
 
@@ -27,11 +27,6 @@ namespace AspBackend.Models.Entity
         /// Пароль аккаунта
         /// </summary>
         public string Password { get; set; }
-
-        /// <summary>
-        /// Email аккаунта
-        /// </summary>
-        public string Email { get; set; }
 
         /// <summary>
         /// Навигационное свойство для User

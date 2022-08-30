@@ -32,28 +32,21 @@ namespace ToDoTask.Models
                 Id = 1,
                 Token = "sdasdsads",
                 Login = "Влад",
-                Password = "dsds23as",
-                Email = "sdsds@h",
-                
-                
+                Password = "dsds23as"        
             };
             var account2 = new Account()
             {
                 Id = 2,
                 Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
                 Login = "Софка",
-                Password = "sf324gfg9dgdfhask3m3n423",
-                Email = "sdsds@h",
-
-
+                Password = "sf324gfg9dgdfhask3m3n423"
             };
             var account3 = new Account()
             {
                 Id = 3,
                 Token = "dcervrt34gfv3fdcv234d",
                 Login = "Максим",
-                Password = "dsds2вывфаыаывпdf4e3as",
-                Email = "sdsds@h",
+                Password = "dsds2вывфаыаывпdf4e3as"
             };
             var accounts = new List<Account>()
             {
@@ -90,19 +83,22 @@ namespace ToDoTask.Models
                 Id = 1,
                 Name = "Влад",
                 AccountId =1,
-                
+                Email = "sdsds@h"
+
             };
             var user2 = new User()
             {
                 Id = 2,
                 Name = "Софка",
                 AccountId = 2,
+                Email = "sdsds@h"
             };
             var user3 = new User()
             {
                 Id = 3,
                 Name = "Максим",
                 AccountId = 3,
+                Email = "sdsds@h"
             };
 
             var users = new List<User>()

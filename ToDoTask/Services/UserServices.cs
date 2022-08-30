@@ -8,7 +8,7 @@ using ToDoTask.Models;
 
 namespace AspBackend.Services
 {
-    public class UserServices
+    public class UserServices : IUserService
     {
         private ApplicationContext _db;
 
@@ -16,7 +16,7 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Account> CreateUser(User user)
+        public async Task<Account> CreateAccount(User user)
         {
             try
             {
@@ -36,6 +36,22 @@ namespace AspBackend.Services
                 throw;
             }
 
+        }
+        public async Task<User> UpdateUser(UserViewModel model)
+        {
+            try
+            {
+
+                var result = AutomapperUtil<UserViewModel, User>.Map(model);
+                _db.User.Update(result);
+                await _db.SaveChangesAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

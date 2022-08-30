@@ -18,6 +18,11 @@ namespace AspBackend.Models.Entity
         public string Name { get; set; }
 
         /// <summary>
+        /// Email аккаунта
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
         /// Навигационное свойство для UserProject
         /// </summary>
         [JsonIgnore]
