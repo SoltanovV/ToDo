@@ -1,14 +1,13 @@
-﻿using AspBackend.Interface;
-using AspBackend.Models.Entity;
+﻿using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
+using AspBackend.Services.Interface;
 using AspBackend.Utilities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
 namespace AspBackend.Services
 {
-    public class UserServices : IUserService
+    public class UserServices : IUserServices
     {
         private ApplicationContext _db;
 
@@ -16,19 +15,19 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Account> CreateAccount(User user)
+        public async Task<Account> CreateAccount(AccountViewModel model)
         {
             try
             {
-                var createdUser = await _db.User.AddAsync(user);
+                var map = AutomapperUtil<AccountViewModel, Account>.Map(model);
+                var createdAccount = await _db.Account.AddAsync(map);
 
                 await _db.SaveChangesAsync();
 
-                var created = await _db.User
-                  .Include(u => u.Account)
-                  .SingleOrDefaultAsync(u => u.Id == createdUser.Entity.Id);
+                var created = await _db.Account
+                    .SingleOrDefaultAsync(u => u.Id == createdAccount.Entity.Id);
 
-                return created.Account;
+                return created;
 
             }
             catch (Exception ex)
@@ -47,6 +46,26 @@ namespace AspBackend.Services
                 await _db.SaveChangesAsync();
 
                 return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<User> DeleteUserAsync(int id)
+        {
+            try
+            {
+
+                var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
+
+                var result = _db.User.Remove(search);
+
+                await _db.SaveChangesAsync();
+
+                return search;
+
             }
             catch (Exception ex)
             {

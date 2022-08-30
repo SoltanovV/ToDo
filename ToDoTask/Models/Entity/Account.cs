@@ -31,6 +31,6 @@ namespace AspBackend.Models.Entity
         /// <summary>
         /// Навигационное свойство для User
         /// </summary>
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

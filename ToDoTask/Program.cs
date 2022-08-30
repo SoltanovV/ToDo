@@ -1,3 +1,5 @@
+using AspBackend.Services;
+using AspBackend.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -25,11 +27,16 @@ builder.Services.AddCors(opions =>
         });
 });
 
-//
+//Настройка JSON 
 builder.Services.AddMvc().AddJsonOptions(o => {
     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     o.JsonSerializerOptions.MaxDepth = 0;
 });
+
+//Подключение сервисов
+builder.Services.AddTransient<IUserServices, UserServices>();
+builder.Services.AddTransient<ITodoServices, TodoServices>();
+
 
 // Настройка информации Swagger
 builder.Services.AddSwaggerGen(options =>
