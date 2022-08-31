@@ -33,8 +33,7 @@ namespace ASPBackend.Controllers
                     .Include(u => u.Account)
                     .Include(u => u.UserTodo)
                         .ThenInclude(ut => ut.Todo)
-                    
-                    .ToList();
+                        .ThenInclude(t=> t.Priority);
 
                 return Ok(result);
             }

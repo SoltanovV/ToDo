@@ -32,7 +32,7 @@ namespace AspBackend.Controllers
                     .Include(p => p.ProjectTodo)
                     .ThenInclude(pt => pt.Todo)
                     .Include(u => u.UserProject)
-                    .ThenInclude(u => u.User).ToList();
+                    .ThenInclude(u => u.User);
                     
                 _logger.LogInformation("Запрос ViewProject выполнен");
 
