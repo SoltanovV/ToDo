@@ -2,6 +2,7 @@
 using AspBackend.Models.ViewModel;
 using AspBackend.Services.Interface;
 using AspBackend.Utilities;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
@@ -14,7 +15,7 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Todo> CreateTask(TodoViewModel model)
+        public async Task<Todo> CreateTodo(TodoViewModel model)
         {
             try
             {
@@ -29,6 +30,27 @@ namespace AspBackend.Services
                 return created;
             }
             catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Todo> UpdateTodo(int id, TodoViewModel model)
+        {
+            try
+            {
+                Todo todo = AutomapperUtil<TodoViewModel,Todo>.Map(model);        
+
+                _db.Todo.Update(todo);
+                
+                await _db.SaveChangesAsync();
+
+                var update = _db.Todo.FirstOrDefault(t => t.Id == id);
+
+                return update;
+
+            }
+            catch(Exception ex)
             {
                 throw;
             }
