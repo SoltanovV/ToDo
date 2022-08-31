@@ -42,6 +42,7 @@ namespace AspBackend.Models.Entity
         /// <summary>
         /// Навигационное свойство Account
         /// </summary>
+        [JsonIgnore]
         public Account Account { get; set; }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace AspBackend.Utilities
         {
             try
             {
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<T, F>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<T, F>(MemberList.Source)/*IgnoreAllSourcePropertiesWithAnInaccessibleSetter()*/);
                 var mapper = new Mapper(config);
                 var result = mapper.Map<F>(model);
 
