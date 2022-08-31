@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/index.css';
 import App from './App';
-import ColStatus from "./Component/ColumStatus";
+// import ColStatus from "./Component/ColumStatus";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

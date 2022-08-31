@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from "moment";
 import './css/TodoStyle.css'
-import todoApi from './Api/TodoApi'
+import TodoApi from './Api/TodoApi'
 
 export default class todoCard extends Component {
     constructor(props) {
@@ -11,8 +11,8 @@ export default class todoCard extends Component {
             isLoaded: false,
             items: []
         };
-        // const todo = todoApi();
-        // console.log(todo.map(t => (t.nameTask)))
+        const todo = TodoApi();
+        console.log(todo)
     }
     render() {
 
