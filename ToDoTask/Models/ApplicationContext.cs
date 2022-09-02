@@ -19,7 +19,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         
@@ -32,32 +32,25 @@ namespace ToDoTask.Models
                 Id = 1,
                 Token = "sdasdsads",
                 Login = "Влад",
-                Password = "dsds23as",
-                Email = "sdsds@h",
-                
-                
+                Password = "dsds23as"        
             };
             var account2 = new Account()
             {
                 Id = 2,
                 Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
                 Login = "Софка",
-                Password = "sf324gfg9dgdfhask3m3n423",
-                Email = "sdsds@h",
-
-
+                Password = "sf324gfg9dgdfhask3m3n423"
             };
             var account3 = new Account()
             {
                 Id = 3,
                 Token = "dcervrt34gfv3fdcv234d",
                 Login = "Максим",
-                Password = "dsds2вывфаыаывпdf4e3as",
-                Email = "sdsds@h",
+                Password = "dsds2вывфаыаывпdf4e3as"
             };
             var accounts = new List<Account>()
             {
-                account1, account2, account3
+                account1, account2, /*account3*/
             };
             #endregion
 
@@ -80,7 +73,7 @@ namespace ToDoTask.Models
 
             var userProject = new List<UserProject>()
             {
-                up1,up2, up3
+                up1,up2, /*up3*/
             };
             #endregion
 
@@ -90,24 +83,27 @@ namespace ToDoTask.Models
                 Id = 1,
                 Name = "Влад",
                 AccountId =1,
-                
+                Email = "sdsds@h"
+
             };
             var user2 = new User()
             {
                 Id = 2,
                 Name = "Софка",
                 AccountId = 2,
+                Email = "sdsds@h"
             };
             var user3 = new User()
             {
                 Id = 3,
                 Name = "Максим",
                 AccountId = 3,
+                Email = "sdsds@h"
             };
 
             var users = new List<User>()
             {
-                user1, user2, user3
+                user1, user2, /*user3*/
             };
             #endregion
 
@@ -136,7 +132,7 @@ namespace ToDoTask.Models
 
             var userTodo = new List<UserTodo>()
             {
-                ut1,ut2, ut3, ut4
+                ut1,ut2, /*ut3,*/ ut4
             };
             #endregion
 
@@ -275,6 +271,7 @@ namespace ToDoTask.Models
                 todo1, todo2, todo3, todo4
             };
             #endregion
+
             modelBuilder.Entity<UserTodo>().HasData(userTodo);
             modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
             modelBuilder.Entity<UserProject>().HasData(userProject);
@@ -350,6 +347,7 @@ namespace ToDoTask.Models
                 .WithMany(s => s.Todo)
                 .HasForeignKey(t => t.StatusId);
 
+            // Создание связей многие ко многим для Todo и Priority
             modelBuilder.Entity<Todo>()
                 .HasOne(t => t.Priority)
                 .WithMany(p => p.Todo)

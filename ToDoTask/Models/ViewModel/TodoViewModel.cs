@@ -2,6 +2,7 @@
 {
     public class TodoViewModel
     {
+        public int Id { get; set; }
         /// <summary>
         /// Название задачи
         /// </summary>

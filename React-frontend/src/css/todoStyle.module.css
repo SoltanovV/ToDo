@@ -1,0 +1,7 @@
+.cardRow {
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 33%;
+}

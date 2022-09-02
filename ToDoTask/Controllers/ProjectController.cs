@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AspBackend.Models.Entity;
 using ToDoTask.Models;
-
+using AspBackend.Utilities;
+using AspBackend.Services;
+using AspBackend.Services.Interface;
 
 namespace AspBackend.Controllers
 {
@@ -14,11 +16,13 @@ namespace AspBackend.Controllers
     {
         private readonly ILogger<ProjectController> _logger;
         private ApplicationContext _db;
+        private IProjectServices _projectSerices;
 
-        public ProjectController(ILogger<ProjectController> logger, ApplicationContext db)
+        public ProjectController(ILogger<ProjectController> logger, ApplicationContext db, IProjectServices projectSerices)
         {
             _logger = logger;
             _db = db;
+            _projectSerices = projectSerices;
         }
         [HttpGet]
         [Route("view")]
@@ -26,15 +30,15 @@ namespace AspBackend.Controllers
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
+                _logger.LogInformation("Запрос ViewProject получен");
 
                 var result = _db.Project
                     .Include(p => p.ProjectTodo)
                     .ThenInclude(pt => pt.Todo)
                     .Include(u => u.UserProject)
-                    .ThenInclude(u => u.User).ToList();
+                    .ThenInclude(u => u.User);
                     
-                _logger.LogInformation("Запрос обработан");
+                _logger.LogInformation("Запрос ViewProject выполнен");
 
                 return Ok(result);
                 
@@ -53,14 +57,11 @@ namespace AspBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<ProjectViewModel, Project>());
-                var mapper = new Mapper(config);
-                var result = mapper.Map<Project>(model);
 
-                _db.Project.Add(result);
-                _db.SaveChanges();
+                var map = AutomapperUtil< ProjectViewModel, Project>.Map(model);
+                var result = await _projectSerices.CreateProject(map);
 
-                _logger.LogInformation("Запрос выполнен и отправлен");
+                _logger.LogInformation("Запрос CreateProject выполнен");
 
                 return Ok();
 
@@ -68,6 +69,51 @@ namespace AspBackend.Controllers
             catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+            
+        [HttpPut]
+        [Route("update/{id}")]
+        public async Task<ActionResult<Project>> UpdateProject(int id, [FromBody] ProjectViewModel model)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос UpdateProject получен");
+
+                var map = AutomapperUtil<ProjectViewModel, Project>.Map(model);
+                var result = await _projectSerices.UpdateProject(map);
+
+                _logger.LogInformation("Запрос UpdateProject выполнен");
+                    
+
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("delete/{id}")]
+        [HttpDelete]
+        public async Task<ActionResult< Project>> DeleteProject(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос DeleteProject получен");
+
+                 var result = await _projectSerices.DeleteProject(id);
+
+                _logger.LogInformation("Запрос DeleteProject выполнен");
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -78,25 +124,15 @@ namespace AspBackend.Controllers
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
-                var userAdd = _db.User.FirstOrDefault(p => p.Id == model.UserId);
-                var project = _db.Project.FirstOrDefault(p => p.Id == model.ProjectId);
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserProjectViewModel, UserProject>());
-                var mapper = new Mapper(config);
-                var result = mapper.Map<UserProject>(model);
+                _logger.LogInformation("Запрос AddUserProject получен");
 
-                if (project != null & userAdd != null)
-                {
-                    _db.UsersProjects.Add(result);
-                    _db.SaveChanges();
+                var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
+                var result = await _projectSerices.AddUserProject(map);
 
-                    _logger.LogInformation("Запрос обработан и отправлен");
+                _logger.LogInformation("Запрос AddUserProject выполнен");
 
-                    return Ok();
-                }
-                _logger.LogInformation("Пользователь не найден");
+                return Ok();
 
-                return BadRequest("Проект не найден");
             }
             catch (Exception ex)
             {
@@ -107,84 +143,23 @@ namespace AspBackend.Controllers
 
         [HttpDelete]
         [Route("delete/user")]
-        public async Task<IActionResult> DeleteUserProject(int userId, int projectId)
+        public async Task<ActionResult<UserProject>> DeleteUserProject(UserProjectViewModel model)
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
-                var userDelete = _db.UsersProjects.FirstOrDefault(p => p.UserId == userId);
-                var project = _db.Project.FirstOrDefault(p => p.Id == projectId);
-                if (project != null & userDelete != null)
-                {
-                    _db.UsersProjects.Remove(userDelete);
-                    _db.SaveChanges();
-                    _logger.LogInformation("Запрос обработан и отправлен");
+                _logger.LogInformation("Запрос DeleteUserProject получен");
 
-                    return Ok();
-                }
-                _logger.LogInformation("Пользователь не найден");
+                var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
+                var result = await _projectSerices.DeleteUserProject(map);
 
-                return BadRequest("Проект не найден");
+                _logger.LogInformation("Запрос DeleteUserProject выполнен");
+
+                return Ok(result);
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut]
-        [Route("update")]
-        public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectViewModel model)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос получен");
-                var project = _db.Project.FirstOrDefault(p => p.Id == id);
-                if (project != null)
-                {
-                    project.Name = model.Name;
-                    _logger.LogInformation("Запрос обработан и отправлен");
-                    _db.SaveChanges();
-
-                    return Ok();
-                }
-                _logger.LogInformation("Проект не найден");
-
-                return BadRequest("Проект не найден");
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Route("delete")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteProject(int id)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос получен");
-
-                var search = _db.Project.FirstOrDefault(t => t.Id == id);
-
-                if (search == null) return Ok("Задача не найдена");
-
-                _logger.LogInformation("Запрос обработан и выполнен");
-
-
-                var result = _db.Project.Remove(search);
-
-                _db.SaveChanges();
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-
                 return BadRequest(ex.Message);
             }
         }

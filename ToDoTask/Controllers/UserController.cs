@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
+using AspBackend.Services.Interface;
 
 namespace ASPBackend.Controllers
 {
@@ -13,12 +12,14 @@ namespace ASPBackend.Controllers
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
-
+        private IUserServices _userService;
         private ApplicationContext _db;
-        public UserController(ApplicationContext db, ILogger<UserController> logger)
+
+        public UserController(ApplicationContext db, ILogger<UserController> logger, IUserServices userService)
         {
             _db = db;
             _logger = logger;
+            _userService = userService;
         }
 
         [Route("view")]
@@ -29,16 +30,11 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос получен");
                 var result = _db.User
-                    .Include(u => u.UserProject)
-                        .ThenInclude(up => up.Project)
                     .Include(u => u.Account)
                     .Include(u => u.UserTodo)
                         .ThenInclude(ut => ut.Todo)
-                            .ThenInclude(t => t.Status)
-                     .Include(u => u.UserTodo)
-                        .ThenInclude(ut => ut.Todo)
-                            .ThenInclude(t => t.Priority)
-                    .ToList();
+                        .ThenInclude(t=> t.Priority);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -48,22 +44,22 @@ namespace ASPBackend.Controllers
             }
         }
 
-        //[Route("view/Account")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewAllAccount()
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос получен");
-        //        var result = _db.Account.Include(a => a.User).ThenInclude(u => u.UserProject);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
+        [Route("view/Account")]
+        [HttpGet]
+        public async Task<IActionResult> ViewAccount()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен ViewAccount получен");
+                var result = _db.Account.Include(a => a.User).ThenInclude(u => u.UserProject);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
 
         [Route("view/{id}")]
         [HttpGet]
@@ -71,20 +67,17 @@ namespace ASPBackend.Controllers
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
+                _logger.LogInformation("Запрос ViewUser получен");
 
                 var result = _db.User
                     .Where(u => u.Id == id)
                     .Include(u => u.UserTodo)
                     .ThenInclude(ut => ut.Todo)
-                    .ThenInclude(t => t.Status)
-                    .Include(u => u.UserProject)
-                    .ThenInclude(up => up.Project)
                     .FirstOrDefault();
                    
                 if (result != null)
                 {
-                    _logger.LogInformation("Запрос выполнен");
+                    _logger.LogInformation("Запрос ViewUser выполнен");
                     return Ok(result);
                 }
                 else
@@ -101,22 +94,54 @@ namespace ASPBackend.Controllers
             }
         }
 
-        
-        [Route("create")]
+        [Route("create/account")]
         [HttpPost]
         public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
-                // Маппим UserViewModel в User
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<AccountViewModel, Account>());
-                var mapper = new Mapper(config);
-                var result = mapper.Map<Account>(model);
-                _db.Add(result);
-                _db.SaveChanges();
+                _logger.LogInformation("Запрос CreateAccount получен");
 
-                _logger.LogInformation("Запрос обработан и отправлен");
+                // Маппим UserViewModel в User
+
+                var result = await _userService.CreateAccount(model);
+
+                //await _db.AddAsync(result);
+                //await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Запрос CreateAccount выполнен");
+
+
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [Route("create")]
+        [HttpPost]
+        public async Task<ActionResult<User>> CreateAccount([FromBody] UserViewModel model)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
+               
+                // Маппим UserViewModel в User
+               
+                //var map = AutomapperUtil<UserViewModel, User>.Map(model);
+                //var result = await _userService.CreateAccount(map);
+                
+
+                //await _db.AddAsync(result);
+                //await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Запрос CreateAccount выполнен");
 
 
                 return Ok();
@@ -132,28 +157,19 @@ namespace ASPBackend.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<ActionResult<User>> UpdateUser(int id, string name, string email)
+        [Route("update/{id}")]
+        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] UserViewModel model)
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
+                _logger.LogInformation("Запрос UpdateUser получен");
                 
                 var search = _db.User.FirstOrDefault(u => u.Id == id);
-                var account = _db.Account.FirstOrDefault(a => a.Id == id);
-                //var search = _db.User.FirstOrDefault(u => u.Id == id);
                 if (search != null)
                 {
-                    //TODO: *использовать маппре
+                     await _userService.UpdateUser(model);
 
-                    search.Name = name;
-                    account.Email = email;
-                    //var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)));
-                    //var mapper = new Mapper(config);
-                    //var result = mapper.Map<User>(model);
-                    _logger.LogInformation("Запрос обработан и отправлен");
-                    _db.User.Update(search);
-                    _db.SaveChanges();
+                    _logger.LogInformation("Запрос UpdateUser выполнен");
 
                     return Ok();
                 }
@@ -173,16 +189,21 @@ namespace ASPBackend.Controllers
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
+                _logger.LogInformation("Запрос DeleteUser получен");
 
-                var search = _db.User.FirstOrDefault(u => u.Id == id);
-                _logger.LogInformation("Запрос обработан и отправлен");
-                if (search == null) Ok("Пользователь не найден");
-
-                var result = _db.User.Remove(search);
-                _db.SaveChanges();
-
-                return Ok();
+                var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
+                
+                if (search != null) 
+                {
+                    _logger.LogInformation("Запрос DeleteUser выполнен");
+                    var result = _userService.DeleteUserAsync(id);
+                    await _db.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Пользователь не найден");
+                }
             }
             catch (Exception ex)
             {

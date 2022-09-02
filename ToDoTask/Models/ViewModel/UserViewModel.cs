@@ -21,6 +21,6 @@
         /// Email пользователя
         /// </summary>
         public string Email { get; set; }
-  
+
     }
 }

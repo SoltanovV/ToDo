@@ -2,10 +2,7 @@
 {
     public class AccountViewModel
     {
-        /// <summary>
-        /// Id аккаунта
-        /// </summary>
-        public int Id { get; set; }
+
         /// <summary>
         /// Токен акканута
         /// </summary>

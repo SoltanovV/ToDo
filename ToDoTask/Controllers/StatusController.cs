@@ -6,6 +6,7 @@ using ToDoTask.Models;
 using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
 using AspBackend.ViewModel.ViewModel;
+using AspBackend.Utilities;
 
 namespace ASPBackend.Controllers
 {
@@ -24,13 +25,17 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewProject()
+        public async Task<IActionResult> ViewTodo()
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
+                _logger.LogInformation("Запрос ViewTodo получен");
+
                 var result = _db.Status
-                    .Include(s => s.Todo);
+                    .Include(s => s.Todo)
+                    .ToList();
+
+                _logger.LogInformation("Запрос ViewTodo обработна");
                 return Ok(result);
             }
             catch (Exception ex)
@@ -42,17 +47,17 @@ namespace ASPBackend.Controllers
 
         [Route("create")]
         [HttpPost]
-        public async Task<ActionResult<Status>> CreateStatus([FromBody]StatusViewModel status)
+        public async Task<ActionResult<Status>> CreateStatus([FromBody]StatusViewModel model)
         {
             try
             {
-                _logger.LogInformation("Запрос получен");
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<StatusViewModel, Status>());
-                var mapper = new Mapper(config);
-                var result = mapper.Map<Status>(status);
+                _logger.LogInformation("Запрос CreateStatus получен");
 
-                _db.Status.Add(result);
-                _db.SaveChanges();
+                var result = AutomapperUtil<StatusViewModel, Status>.Map(model);
+
+                await _db.Status.AddAsync(result);
+                await _db.SaveChangesAsync();
+                _logger.LogInformation("Запрос CreateStatus выполнен");
 
                 return Ok(result);
 
