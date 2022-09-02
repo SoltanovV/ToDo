@@ -36,6 +36,7 @@ builder.Services.AddMvc().AddJsonOptions(o => {
 //Подключение сервисов
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<ITodoServices, TodoServices>();
+builder.Services.AddTransient<IProjectServices, ProjectServices>();
 
 
 // Настройка информации Swagger

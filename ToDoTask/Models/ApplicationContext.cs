@@ -50,7 +50,7 @@ namespace ToDoTask.Models
             };
             var accounts = new List<Account>()
             {
-                account1, account2, account3
+                account1, account2, /*account3*/
             };
             #endregion
 
@@ -73,7 +73,7 @@ namespace ToDoTask.Models
 
             var userProject = new List<UserProject>()
             {
-                up1,up2, up3
+                up1,up2, /*up3*/
             };
             #endregion
 
@@ -103,7 +103,7 @@ namespace ToDoTask.Models
 
             var users = new List<User>()
             {
-                user1, user2, user3
+                user1, user2, /*user3*/
             };
             #endregion
 
@@ -132,7 +132,7 @@ namespace ToDoTask.Models
 
             var userTodo = new List<UserTodo>()
             {
-                ut1,ut2, ut3, ut4
+                ut1,ut2, /*ut3,*/ ut4
             };
             #endregion
 
