@@ -6,8 +6,11 @@ namespace AspBackend.Services.Interface
 {
     public interface ITodoServices
     {
-        public Task<Todo> CreateTodo(TodoViewModel model);
+        public Task<Todo> CreateTodo(Todo model);
+        public Task<Todo> UpdateTodo(Todo model);
+        public Task<Todo> DeleteTodo(int id);
 
-        public Task<Todo> UpdateTodo(int id, TodoViewModel model);
+        public Task<UserTodo> AddUser(UserTodo model);
+        public Task<UserTodo> DeleteUser(UserTodo model);
     }
 }

@@ -121,7 +121,7 @@ namespace ASPBackend.Controllers
 
         [Route("view")]
         [HttpGet]
-        public async Task<IActionResult> ViewTask()
+        public async Task<ActionResult<IEnumerable<Todo>>> ViewTask()
         {
             try
             {
@@ -129,9 +129,8 @@ namespace ASPBackend.Controllers
                 _logger.LogInformation("Запрос ViewTask получен");
                 var result = _db.Todo
                     .Include(t => t.UserTodo)
-                    .ThenInclude(tu => tu.User)
-                    .Include(t => t.Status)
-                    .Include(t => t.Priority);
+                    .ThenInclude(tu => tu.User);
+
 
                 _logger.LogInformation("Запрос ViewTask выполнен");
                 return Ok(result);
@@ -143,32 +142,6 @@ namespace ASPBackend.Controllers
             }
         }
 
-        //[Route("create")] 
-        //[HttpPost]
-        //public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос CreateTask получен");
-
-        //        var result = AutomapperUtil<TodoViewModel, Todo>.Map(model);
-
-
-        //        await _db.AddAsync(result);
-
-        //        await _db.SaveChangesAsync();
-
-        //        _logger.LogInformation("Запрос CreateTask выполнен");
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-
-        //        return BadRequest(_logger);
-        //    }
-        //}
         [Route("create")]
         [HttpPost]
         public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
@@ -177,11 +150,9 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос CreateTask получен");
 
-                var result = _todoServices.CreateTodo(model);
+                var map = AutomapperUtil<TodoViewModel, Todo>.Map(model);
 
-                //await _db.AddAsync(result);
-
-                //await _db.SaveChangesAsync();
+                var result = _todoServices.CreateTodo(map);
 
                 _logger.LogInformation("Запрос CreateTask выполнен");
 
@@ -195,81 +166,23 @@ namespace ASPBackend.Controllers
             }
         }
 
-        //TODO: попробывать переделать все красиво 
-        //[Route("update/{id}")]
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateTask(int id, [FromBody]TodoViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос получен");
-
-        //        var searchTodo = _db.Todo.Where(t => t.Id == id).FirstOrDefault();
-        //        //var user = _db.UsersTodos.FirstOrDefault(ut => ut.UserId.Equals(userId));
-        //        //var d = _db.User.Where(u => u.Id == userId).FirstOrDefault();
-
-        //        if (searchTodo != null /*& serachUser != null*/)
-        //        {
-        //            //var config = new MapperConfiguration(cfg => cfg
-        //            //                                               .CreateMap<TodoViewModel, Todo>()
-        //            //                                               .ForMember(t => t.StatusId, e => e.MapFrom(src => src.StatusId))
-        //            //                                               .ForPath(t => t.PriorityId, e => e.MapFrom(src => src.PriorityId))
-        //            //                                               /*.ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null))*/);
-        //            //var mapper = new Mapper(config);
-        //            //var result = mapper.Map<Todo>(model);
-
-                    
-        //            searchTodo.NameTask = model.NameTask;
-        //            searchTodo.Description = model.Description;
-        //            searchTodo.StartDate = model.StartData;
-        //            searchTodo.EndDate = model.EndData;
-        //            searchTodo.StatusId = model.StatusId;
-        //            searchTodo.PriorityId = model.PriorityId;
-
-        //            //_db.UsersTodos.Remove(user);
-        //            //_db.SaveChanges();
-
-        //            //user.UserId = model.UserId;
-
-        //            //_db.UsersTodos.Add(user);
-        //            _db.Update(searchTodo);
-        //            _db.SaveChanges();
-
-        //            return Ok();
-        //        }
-        //        return BadRequest();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        [Route("update/{id}")]
-        [HttpPost]
-        public async Task<ActionResult<Todo>> UpdateTask(int id, [FromBody] TodoViewModel model)
+        [Route("update")]
+        [HttpPut]
+        public async Task<ActionResult<Todo>> UpdateTask([FromBody] TodoViewModel model)
         {
             try
             {
-                //TODO: Доделать обновление данных
+
                 _logger.LogInformation("Запрос UpdateTask получен");
 
-                //var seacrh = await _db.Todo.FirstOrDefaultAsync(t => t.Id == id);
+                var todo = AutomapperUtil<TodoViewModel, Todo>.Map(model);
 
-                if (await _db.Todo.FirstOrDefaultAsync(t => t.Id==id) != null)
-                {
-                    var result = await _todoServices.UpdateTodo(id, model);
+                var result = await _todoServices.UpdateTodo(todo);
 
-                    _logger.LogInformation("Запрос UpdateTask выполнен");
+                _logger.LogInformation("Запрос UpdateTask выполнен");
 
-                    return Ok(result);
+                return Ok(result);
 
-                }
-                else
-                {
-                    _logger.LogInformation("Задача не найдена");
-                    return BadRequest("Задача не найдена");
-                }
 
             }
             catch (Exception ex)
@@ -287,26 +200,15 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос AddUserTodo получен");
-                var userAdd = _db.User.FirstOrDefault(t => t.Id == model.UserId);
-                var todo = _db.Todo.FirstOrDefault(t => t.Id == model.TodoId);
 
-                var result = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model); 
+                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
+                var result = await _todoServices.AddUser(map);
 
-                if (todo != null & userAdd != null)
-                {
-                    _db.UsersTodos.Add(result);
-                    _db.SaveChanges();
+                _logger.LogInformation("Запрос AddUserTodo выполнен");
 
-                    _logger.LogInformation("Запрос AddUserTodo выполнен");
 
-                    return Ok();
-                }
-                else
-                {
-                    _logger.LogInformation("Пользователь не найден");
-                    return BadRequest("Пользователь не найден");
-                }
-               
+                return Ok(result);
+                
             }
             catch (Exception ex)
             {
@@ -317,29 +219,20 @@ namespace ASPBackend.Controllers
 
         [HttpDelete]
         [Route("delete/user")]
-        public async Task<IActionResult> DeleteUserTodo(int userId, int todoId)
+        public async Task<ActionResult<UserTodo>> DeleteUserTodo([FromBody] UserTodoViewModel model)
         {
             try
             {
                 _logger.LogInformation("Запрос DeleteUserTodo получен");
 
-                var userDelete = _db.UsersTodos.FirstOrDefault(t => t.UserId == userId);
-                var todo = _db.Todo.FirstOrDefault(t => t.Id == todoId);
+                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
+                var result = await _todoServices.DeleteUser(map);
 
-                if (todo != null & userDelete != null)
-                {
-                    _db.UsersTodos.Remove(userDelete);
-                    _db.SaveChanges();
-                    _logger.LogInformation("Запрос DeleteUserTodo выполнен");
-                    
-                    return Ok("Успешно");
-                }
-                else
-                { 
-                    _logger.LogInformation("Пользователь не найден");
+                _logger.LogInformation("Запрос DeleteUserTodo выполнен");
 
-                    return BadRequest("Пользователь не найден");
-                }
+                return Ok(result);
+
+
             }
             catch (Exception ex)
             {
@@ -348,7 +241,7 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("delete")]
+        [Route("delete/{id}")]
         [HttpDelete]
         public async Task<IActionResult> DeleteTask(int id)
         {
@@ -356,19 +249,11 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос DeleteTask получен");
 
-                var search = _db.Todo.FirstOrDefault(t => t.Id == id);
-                if (search != null) 
-                {
-                    var result = _db.Todo.Remove(search);
-                    _logger.LogInformation("Запрос обработан");
-                    await _db.SaveChangesAsync();
-                    return Ok();
-                } 
-                else
-                {
-                    _logger.LogInformation("Задача не найдена");
-                    return Ok("Задача не найдена");
-                }
+                var result = await _todoServices.DeleteTodo(id);
+
+                _logger.LogInformation("Запрос обработан");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

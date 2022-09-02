@@ -2,25 +2,23 @@
 using AspBackend.Models.ViewModel;
 using AspBackend.Services.Interface;
 using AspBackend.Utilities;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
 namespace AspBackend.Services
 {
-    public class TodoServices: ITodoServices
+    public class TodoServices : ITodoServices
     {
         ApplicationContext _db;
         public TodoServices(ApplicationContext db)
         {
             _db = db;
         }
-        public async Task<Todo> CreateTodo(TodoViewModel model)
+        public async Task<Todo> CreateTodo(Todo model)
         {
             try
             {
-                var map = AutomapperUtil<TodoViewModel, Todo>.Map(model);
-                var todoCreated = await _db.AddAsync(map);
+                var todoCreated = await _db.Todo.AddAsync(model);
 
                 await _db.SaveChangesAsync();
 
@@ -35,25 +33,72 @@ namespace AspBackend.Services
             }
         }
 
-        public async Task<Todo> UpdateTodo(int id, TodoViewModel model)
+        public async Task<Todo> UpdateTodo(Todo todo)
         {
             try
             {
-                Todo todo = AutomapperUtil<TodoViewModel,Todo>.Map(model);        
+                var updateTodo = _db.Todo.Update(todo);
 
-                _db.Todo.Update(todo);
-                
                 await _db.SaveChangesAsync();
 
-                var update = _db.Todo.FirstOrDefault(t => t.Id == id);
+                return updateTodo.Entity;
 
-                return update;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public async Task<Todo> DeleteTodo(int id)
+        {
+            try
+            {
+                var deleted = await _db.Todo.FirstOrDefaultAsync(t => t.Id == id);
 
+                var result = _db.Todo.Remove(deleted);
+
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
             }
             catch(Exception ex)
             {
                 throw;
             }
+        }
+
+        public async Task<UserTodo> AddUser(UserTodo model)
+        {
+            try
+            {
+                var result = await _db.UsersTodos.AddAsync(model);
+                //result.Dispouse();
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+        
+        public async Task<UserTodo> DeleteUser(UserTodo model)
+        {
+            try
+            {
+                var result = _db.UsersTodos.Remove(model);
+
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+           
         }
     }
 }
