@@ -1,5 +1,5 @@
 ﻿using AspBackend.Models.Entity;
-using AspBackend.Services.Interface;
+using AspBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
@@ -13,20 +13,22 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Project> CreateProject(Project model)
+        public async Task<Project> CreateProjectAsync(Project model)
         {
             try
             {
                 var result = await _db.Project.AddAsync(model);
+
                 await _db.SaveChangesAsync();
+
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }
         }
-        public async Task<Project> UpdateProject(Project model)
+        public async Task<Project> UpdateProjectAsync(Project model)
         {
             try
             {
@@ -36,30 +38,31 @@ namespace AspBackend.Services
 
                 return updateProjcet.Entity;
             }
-            catch(Exception ex)
+            catch
             {
-                throw; throw;
+                throw;
             }
 
         }
-        public async Task<Project> DeleteProject(int id)
+        public async Task<Project> DeleteProjectAsync(int id)
         {
             try
             {
                 var deleted = await _db.Project.FirstOrDefaultAsync(t => t.Id == id);
+
                 var result = _db.Project.Remove(deleted);
 
                 await _db.SaveChangesAsync();
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }
         }
 
-        public async Task<UserProject> AddUserProject(UserProject model)
+        public async Task<UserProject> AddUserProjectAsync(UserProject model)
         {
             try
             {
@@ -68,12 +71,12 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
         }
-        public async Task<UserProject> DeleteUserProject(UserProject model)
+        public async Task<UserProject> DeleteUserProjectAsync(UserProject model)
         {
             try
             {
@@ -83,7 +86,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }

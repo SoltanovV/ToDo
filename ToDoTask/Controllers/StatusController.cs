@@ -1,12 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models;
-using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
 using AspBackend.ViewModel.ViewModel;
-using AspBackend.Utilities;
 
 namespace ASPBackend.Controllers
 {

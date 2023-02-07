@@ -1,5 +1,5 @@
 using AspBackend.Services;
-using AspBackend.Services.Interface;
+using AspBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;

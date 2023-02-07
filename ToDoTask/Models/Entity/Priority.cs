@@ -2,27 +2,26 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace AspBackend.Models.Entity
+namespace AspBackend.Models.Entity;
+
+/// <summary>
+/// Приоритет задачи
+/// </summary>
+public class Priority
 {
     /// <summary>
-    /// Приоритет задачи
+    /// Id статуса
     /// </summary>
-    public class Priority
-    {
-        /// <summary>
-        /// Id статуса
-        /// </summary>
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        /// <summary>
-        /// Имя статуса
-        /// </summary>
-        public string PriorityName { get; set; }
+    /// <summary>
+    /// Имя статуса
+    /// </summary>
+    public string PriorityName { get; set; }
 
-        /// <summary>
-        /// Навигационное свойство для Ещвщ
-        /// </summary>
-        [JsonIgnore]
-        public IEnumerable<Todo> Todo { get; set; }
-    }
+    /// <summary>
+    /// Навигационное свойство для Ещвщ
+    /// </summary>
+    [JsonIgnore]
+    public IEnumerable<Todo> Todo { get; set; }
 }

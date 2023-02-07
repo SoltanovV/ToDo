@@ -1,15 +1,14 @@
-﻿namespace AspBackend.ViewModel.ViewModel
-{
-    public class StatusViewModel
-    {
-        /// <summary>
-        /// Имя статуса
-        /// </summary>
-        public string StatusName { get; set; }
+﻿namespace AspBackend.ViewModel;
 
-        /// <summary>
-        /// Внешний ключ
-        /// </summary>
-        public int TodoId { get; set; }
-    }
+public class StatusViewModel
+{
+    /// <summary>
+    /// Имя статуса
+    /// </summary>
+    public string StatusName { get; set; }
+
+    /// <summary>
+    /// Внешний ключ
+    /// </summary>
+    public int TodoId { get; set; }
 }

@@ -30,7 +30,7 @@ namespace AspBackend.Services
                 return created;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -47,7 +47,7 @@ namespace AspBackend.Services
 
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -67,7 +67,7 @@ namespace AspBackend.Services
                 return search;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }

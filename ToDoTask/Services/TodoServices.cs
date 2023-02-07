@@ -1,7 +1,5 @@
 ﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
-using AspBackend.Services.Interface;
-using AspBackend.Utilities;
+using AspBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
@@ -27,7 +25,7 @@ namespace AspBackend.Services
 
                 return created;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -44,7 +42,7 @@ namespace AspBackend.Services
                 return updateTodo.Entity;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -61,7 +59,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }
@@ -77,7 +75,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -94,7 +92,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }

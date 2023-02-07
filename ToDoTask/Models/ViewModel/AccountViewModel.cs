@@ -1,26 +1,25 @@
-﻿namespace AspBackend.Models.ViewModel
+﻿namespace AspBackend.Models.ViewModel;
+
+public class AccountViewModel
 {
-    public class AccountViewModel
-    {
 
-        /// <summary>
-        /// Токен акканута
-        /// </summary>
-        public string Token { get; set; }
+    /// <summary>
+    /// Токен акканута
+    /// </summary>
+    public string Token { get; set; }
 
-        /// <summary>
-        /// Логин пользователя
-        /// </summary>
-        public string Login { get; set; }
+    /// <summary>
+    /// Логин пользователя
+    /// </summary>
+    public string Login { get; set; }
 
-        /// <summary>
-        /// Пароль пользователя
-        /// </summary>
-        public string Password { get; set; }
+    /// <summary>
+    /// Пароль пользователя
+    /// </summary>
+    public string Password { get; set; }
 
-        /// <summary>
-        /// Внешний ключ для Todo
-        /// </summary>
-        public int UserId { get; set; }
-    }
+    /// <summary>
+    /// Внешний ключ для Todo
+    /// </summary>
+    public int UserId { get; set; }
 }

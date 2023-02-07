@@ -14,14 +14,16 @@ public static class AutomapperUtil<T,F>
         {
             // настройка конфигурации
             var config = new MapperConfiguration(cfg => cfg.CreateMap<T, F>(MemberList.Source));
+            
             // передача конфигурации
             var mapper = new Mapper(config);
-
+            
+            // маппинг данных
             var result = mapper.Map<F>(model);
 
             return result;
         }
-        catch(Exception ex)
+        catch
         {
             throw;
         }

@@ -1,11 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models;
-using AspBackend.Models.Entity; 
-using AspBackend.Models.ViewModel;
-using AspBackend.Utilities;
-using AspBackend.Services.Interface;
 
 namespace ASPBackend.Controllers
 {
@@ -23,101 +17,6 @@ namespace ASPBackend.Controllers
             _logger = logger;
             _todoServices = todoServices;
         }
-
-        //[Route("priority")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewPriority()
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос ViewPriority получен");
-
-        //        var result = _db.Todo.Include(t => t.Priority);
-
-        //        _logger.LogInformation("Запрос ViewPriority выполнен");
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("edit/priority")]
-        //[HttpPut]
-        //public async Task<ActionResult<Todo>> EditPriority(int id, int priorityId)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос EditPriority получен");
-        //        var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
-
-        //        if (seacrh != null)
-        //        {
-                    
-        //             seacrh.PriorityId = priorityId;
-        //            _db.Todo.Update(seacrh);
-        //            _db.SaveChanges();
-        //            _logger.LogInformation("Запрос EditPriority выполнен");
-        //            return Ok(seacrh);
-        //        }
-        //        return BadRequest("Ошибка");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("edit/status")]
-        //[HttpPut]
-        //public async Task<ActionResult<Todo>> EditStatus(int id, int statusId)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос EditStatus получен");
-        //        var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
-
-        //        if (seacrh != null)
-        //        {
-        //            seacrh.StatusId = statusId;
-        //            _db.Todo.Update(seacrh);
-        //            _db.SaveChanges();
-        //            _logger.LogInformation("Запрос EditStatus выполнен");
-        //            return Ok(seacrh);
-        //        }
-        //        return BadRequest("Ошибка");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("status")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewStatus()
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос ViewStatus получен");
-
-        //        var result = _db.Todo.Include(t => t.Status);
-
-        //        _logger.LogInformation("Запрос ViewStatus выполнен");
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
 
         [Route("view")]
         [HttpGet]

@@ -1,12 +1,10 @@
 ﻿using AspBackend.Models.ViewModel;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AspBackend.Models.Entity;
+
 using ToDoTask.Models;
 using AspBackend.Utilities;
-using AspBackend.Services;
-using AspBackend.Services.Interface;
+using AspBackend.Services.Interfaces;
 
 namespace AspBackend.Controllers
 {
@@ -59,7 +57,7 @@ namespace AspBackend.Controllers
                 _logger.LogInformation("Запрос получен");
 
                 var map = AutomapperUtil< ProjectViewModel, Project>.Map(model);
-                var result = await _projectSerices.CreateProject(map);
+                var result = await _projectSerices.CreateProjectAsync(map);
 
                 _logger.LogInformation("Запрос CreateProject выполнен");
 
@@ -82,7 +80,7 @@ namespace AspBackend.Controllers
                 _logger.LogInformation("Запрос UpdateProject получен");
 
                 var map = AutomapperUtil<ProjectViewModel, Project>.Map(model);
-                var result = await _projectSerices.UpdateProject(map);
+                var result = await _projectSerices.UpdateProjectAsync(map);
 
                 _logger.LogInformation("Запрос UpdateProject выполнен");
                     
@@ -104,7 +102,7 @@ namespace AspBackend.Controllers
             {
                 _logger.LogInformation("Запрос DeleteProject получен");
 
-                 var result = await _projectSerices.DeleteProject(id);
+                 var result = await _projectSerices.DeleteProjectAsync(id);
 
                 _logger.LogInformation("Запрос DeleteProject выполнен");
 
@@ -127,7 +125,7 @@ namespace AspBackend.Controllers
                 _logger.LogInformation("Запрос AddUserProject получен");
 
                 var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
-                var result = await _projectSerices.AddUserProject(map);
+                var result = await _projectSerices.AddUserProjectAsync(map);
 
                 _logger.LogInformation("Запрос AddUserProject выполнен");
 
@@ -150,7 +148,7 @@ namespace AspBackend.Controllers
                 _logger.LogInformation("Запрос DeleteUserProject получен");
 
                 var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
-                var result = await _projectSerices.DeleteUserProject(map);
+                var result = await _projectSerices.DeleteUserProjectAsync(map);
 
                 _logger.LogInformation("Запрос DeleteUserProject выполнен");
 

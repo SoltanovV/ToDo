@@ -1,42 +1,41 @@
-﻿namespace AspBackend.Models.ViewModel
+﻿namespace AspBackend.Models.ViewModel;
+
+public class TodoViewModel
 {
-    public class TodoViewModel
-    {
-        public int Id { get; set; }
-        /// <summary>
-        /// Название задачи
-        /// </summary>
-        public string NameTask { get; set; }
+    public int Id { get; set; }
+    /// <summary>
+    /// Название задачи
+    /// </summary>
+    public string NameTask { get; set; }
 
-        /// <summary>
-        /// Id пользователя
-        /// </summary>
-        //public int UserId { get; set; }
+    /// <summary>
+    /// Id пользователя
+    /// </summary>
+    //public int UserId { get; set; }
 
-        /// <summary>
-        /// Описание задачи
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Описание задачи
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <summary>
-        /// Дата постановки задачи
-        /// </summary>
-        public DateTime StartData { get; set; } = DateTime.Now;
+    /// <summary>
+    /// Дата постановки задачи
+    /// </summary>
+    public DateTime StartData { get; set; } = DateTime.Now;
 
-        /// <summary>
-        /// Дата завершения задачи
-        /// </summary>
-        public DateTime EndData { get; set; }
+    /// <summary>
+    /// Дата завершения задачи
+    /// </summary>
+    public DateTime EndData { get; set; }
 
-        /// <summary>
-        /// Внешний ключ для Priority
-        /// </summary>
-        public int StatusId { get; set; }
+    /// <summary>
+    /// Внешний ключ для Priority
+    /// </summary>
+    public int StatusId { get; set; }
 
-        /// <summary>
-        /// Внешний ключ для Priority
-        /// </summary>
-        public int PriorityId { get; set; }
+    /// <summary>
+    /// Внешний ключ для Priority
+    /// </summary>
+    public int PriorityId { get; set; }
 
-    }
 }
