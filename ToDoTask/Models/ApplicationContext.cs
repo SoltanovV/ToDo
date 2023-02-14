@@ -31,21 +31,21 @@ namespace ToDoTask.Models
             {
                 Id = 1,
                 Token = "sdasdsads",
-                Login = "Влад",
+                Login = "Test1",
                 Password = "dsds23as"        
             };
             var account2 = new Account()
             {
                 Id = 2,
                 Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
-                Login = "Софка",
+                Login = "Test2",
                 Password = "sf324gfg9dgdfhask3m3n423"
             };
             var account3 = new Account()
             {
                 Id = 3,
                 Token = "dcervrt34gfv3fdcv234d",
-                Login = "Максим",
+                Login = "Test3",
                 Password = "dsds2вывфаыаывпdf4e3as"
             };
             var accounts = new List<Account>()
@@ -81,7 +81,7 @@ namespace ToDoTask.Models
             var user1 = new User()
             {
                 Id = 1,
-                Name = "Влад",
+                Name = "fds",
                 AccountId =1,
                 Email = "sdsds@h"
 
@@ -89,14 +89,14 @@ namespace ToDoTask.Models
             var user2 = new User()
             {
                 Id = 2,
-                Name = "Софка",
+                Name = "gfh",
                 AccountId = 2,
                 Email = "sdsds@h"
             };
             var user3 = new User()
             {
                 Id = 3,
-                Name = "Максим",
+                Name = "khgkj",
                 AccountId = 3,
                 Email = "sdsds@h"
             };
@@ -259,7 +259,7 @@ namespace ToDoTask.Models
             {
                 Id = 4,
                 NameTask = "Нарисовать дизайн",
-                Description = "Срочно доделать БД",
+                Description = "Срочно",
                 EndDate = new DateTime(2077, 01, 01),
                 StatusId = 2,
                 PriorityId = 1

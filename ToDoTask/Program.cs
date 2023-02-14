@@ -18,7 +18,7 @@ builder.Services.AddMvc();
 
 builder.Services.AddEndpointsApiExplorer();
 
-//Настройка Cors
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Cors
 builder.Services.AddCors(opions =>
 {
     opions.AddPolicy(name: "CorsPolicy", policy =>
@@ -27,26 +27,26 @@ builder.Services.AddCors(opions =>
         });
 });
 
-//Настройка JSON 
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ JSON 
 builder.Services.AddMvc().AddJsonOptions(o => {
     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     o.JsonSerializerOptions.MaxDepth = 0;
 });
 
-//Подключение сервисов
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<ITodoServices, TodoServices>();
 builder.Services.AddTransient<IProjectServices, ProjectServices>();
 
 
-// Настройка информации Swagger
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "Web-Api ToDo",
-        Description = "WebApi для приложения ToDo"
+        Description = "WebApi пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ToDo"
     });
 });
 

@@ -30,6 +30,8 @@ namespace AspBackend.Services
         {
             try
             {
+
+
                 var updateProjcet = _db.Project.Update(model);
 
                 await _db.SaveChangesAsync();
