@@ -18,7 +18,7 @@ builder.Services.AddMvc();
 
 builder.Services.AddEndpointsApiExplorer();
 
-//��������� Cors
+//Настройка Cors
 builder.Services.AddCors(opions =>
 {
     opions.AddPolicy(name: "CorsPolicy", policy =>
@@ -27,26 +27,26 @@ builder.Services.AddCors(opions =>
         });
 });
 
-//��������� JSON 
+//Настройка JSON 
 builder.Services.AddMvc().AddJsonOptions(o => {
     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     o.JsonSerializerOptions.MaxDepth = 0;
 });
 
-//����������� ��������
+//Настройка сервисов
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<ITodoServices, TodoServices>();
 builder.Services.AddTransient<IProjectServices, ProjectServices>();
 
 
-// ��������� ���������� Swagger
+// Настройка Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "Web-Api ToDo",
-        Description = "WebApi ��� ���������� ToDo"
+        Description = "WebApi ToDo"
     });
 });
 
