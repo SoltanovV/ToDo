@@ -44,29 +44,6 @@ namespace ASPBackend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [Route("create")]
-        [HttpPost]
-        public async Task<ActionResult<Status>> CreateStatus([FromBody]StatusViewModel model)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос CreateStatus получен");
-
-                var result = AutomapperUtil<StatusViewModel, Status>.Map(model);
-
-                await _db.Status.AddAsync(result);
-                await _db.SaveChangesAsync();
-                _logger.LogInformation("Запрос CreateStatus выполнен");
-
-                return Ok(result);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
+        
     }
 }

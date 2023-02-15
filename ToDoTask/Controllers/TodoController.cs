@@ -6,6 +6,8 @@ using AspBackend.Models.Entity;
 using AspBackend.Models.ViewModel;
 using AspBackend.Utilities;
 using AspBackend.Services.Interface;
+using AspBackend.Models.Entity.Responce;
+using AspBackend.Models.Entity.Request;
 
 namespace ASPBackend.Controllers
 {
@@ -14,126 +16,31 @@ namespace ASPBackend.Controllers
     public class TodoController : Controller
     {
         private readonly ILogger<TodoController> _logger;
-        private ApplicationContext _db;
-        private ITodoServices _todoServices;
+        private readonly ITodoServices _todoServices;
+        private readonly IMapper _mapper;
+        private readonly ApplicationContext _db;
 
-        public TodoController(ApplicationContext db, ILogger<TodoController> logger, ITodoServices todoServices)
+        public TodoController(ApplicationContext db, ILogger<TodoController> logger, ITodoServices todoServices, IMapper mapper)
         {
             _db = db;
             _logger = logger;
             _todoServices = todoServices;
+            _mapper = mapper;
         }
 
-        //[Route("priority")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewPriority()
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос ViewPriority получен");
-
-        //        var result = _db.Todo.Include(t => t.Priority);
-
-        //        _logger.LogInformation("Запрос ViewPriority выполнен");
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("edit/priority")]
-        //[HttpPut]
-        //public async Task<ActionResult<Todo>> EditPriority(int id, int priorityId)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос EditPriority получен");
-        //        var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
-
-        //        if (seacrh != null)
-        //        {
-                    
-        //             seacrh.PriorityId = priorityId;
-        //            _db.Todo.Update(seacrh);
-        //            _db.SaveChanges();
-        //            _logger.LogInformation("Запрос EditPriority выполнен");
-        //            return Ok(seacrh);
-        //        }
-        //        return BadRequest("Ошибка");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("edit/status")]
-        //[HttpPut]
-        //public async Task<ActionResult<Todo>> EditStatus(int id, int statusId)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос EditStatus получен");
-        //        var seacrh = _db.Todo.FirstOrDefault(t => t.Id == id);
-
-        //        if (seacrh != null)
-        //        {
-        //            seacrh.StatusId = statusId;
-        //            _db.Todo.Update(seacrh);
-        //            _db.SaveChanges();
-        //            _logger.LogInformation("Запрос EditStatus выполнен");
-        //            return Ok(seacrh);
-        //        }
-        //        return BadRequest("Ошибка");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("status")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewStatus()
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос ViewStatus получен");
-
-        //        var result = _db.Todo.Include(t => t.Status);
-
-        //        _logger.LogInformation("Запрос ViewStatus выполнен");
-
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        [Route("view")]
+        [Route("get")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Todo>>> ViewTask()
+        public async Task<ActionResult<Todo>> TodoGetAsync()
         {
             try
             {
-                //TODO: исправить эту залупу
-                _logger.LogInformation("Запрос ViewTask получен");
-                var result = _db.Todo
-                    .Include(t => t.UserTodo)
-                    .ThenInclude(tu => tu.User);
+                _logger.LogInformation("Запрос TodoGet получен");
 
+                var todo = _db.Todo;
 
-                _logger.LogInformation("Запрос ViewTask выполнен");
-                return Ok(result);
+                _logger.LogInformation("Запрос TodoCreate выполнен");
+
+                return Ok(todo);
             }
             catch (Exception ex)
             {
@@ -144,40 +51,46 @@ namespace ASPBackend.Controllers
 
         [Route("create")]
         [HttpPost]
-        public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
+        public async Task<ActionResult<CreateTodoResponce>> TodoCreateAsync(CreateTodoRequest request)
         {
             try
             {
-                _logger.LogInformation("Запрос CreateTask получен");
+                _logger.LogInformation("Запрос TodoCreate получен");
 
-                var map = AutomapperUtil<TodoViewModel, Todo>.Map(model);
+                var todo = _mapper.Map<Todo>(request);
 
-                var result = _todoServices.CreateTodo(map);
+                var status = _mapper.Map<Status>(request);
 
-                _logger.LogInformation("Запрос CreateTask выполнен");
+                var priority = _mapper.Map<Priority>(request);
+                
+                todo.Status = status;
+                todo.Priority= priority;
+
+                var result = await _todoServices.CreateTodoAsync(todo);
+
+                _logger.LogInformation("Запрос TodoCreate выполнен");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-
                 return BadRequest(_logger);
             }
         }
 
         [Route("update")]
-        [HttpPut]
-        public async Task<ActionResult<Todo>> UpdateTask([FromBody] TodoViewModel model)
+        [HttpPost]
+        public async Task<ActionResult<UpdateTodoResponce>> UpdateTask([FromBody] UpdateTodoRequest request)
         {
             try
             {
 
                 _logger.LogInformation("Запрос UpdateTask получен");
 
-                var todo = AutomapperUtil<TodoViewModel, Todo>.Map(model);
+                var todo = _mapper.Map<Todo>(request);
 
-                var result = await _todoServices.UpdateTodo(todo);
+                var result = await _todoServices.UpdateTodoAsync(todo);
 
                 _logger.LogInformation("Запрос UpdateTask выполнен");
 
@@ -193,74 +106,74 @@ namespace ASPBackend.Controllers
         }
 
 
-        [HttpPost]
-        [Route("add/user")]
-        public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос AddUserTodo получен");
+        //[HttpPost]
+        //[Route("add/user")]
+        //public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("Запрос AddUserTodo получен");
 
-                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-                var result = await _todoServices.AddUser(map);
+        //        var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
+        //        var result = await _todoServices.AddUser(map);
 
-                _logger.LogInformation("Запрос AddUserTodo выполнен");
-
-
-                return Ok(result);
-                
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete]
-        [Route("delete/user")]
-        public async Task<ActionResult<UserTodo>> DeleteUserTodo([FromBody] UserTodoViewModel model)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос DeleteUserTodo получен");
-
-                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-                var result = await _todoServices.DeleteUser(map);
-
-                _logger.LogInformation("Запрос DeleteUserTodo выполнен");
-
-                return Ok(result);
+        //        _logger.LogInformation("Запрос AddUserTodo выполнен");
 
 
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok(result);
 
-        [Route("delete/{id}")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteTask(int id)
-        {
-            try
-            {
-                _logger.LogInformation("Запрос DeleteTask получен");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-                var result = await _todoServices.DeleteTodo(id);
+        //[HttpDelete]
+        //[Route("delete/user")]
+        //public async Task<ActionResult<UserTodo>> DeleteUserTodo([FromBody] UserTodoViewModel model)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("Запрос DeleteUserTodo получен");
 
-                _logger.LogInformation("Запрос обработан");
+        //        var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
+        //        var result = await _todoServices.DeleteUser(map);
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
+        //        _logger.LogInformation("Запрос DeleteUserTodo выполнен");
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok(result);
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+        //[Route("delete/{id}")]
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteTask(int id)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("Запрос DeleteTask получен");
+
+        //        var result = await _todoServices.DeleteTodo(id);
+
+        //        _logger.LogInformation("Запрос обработан");
+
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

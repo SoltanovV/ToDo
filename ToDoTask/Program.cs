@@ -1,7 +1,10 @@
 using AspBackend.Services;
 using AspBackend.Services.Interface;
+using AspBackend.Utilities;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Data;
 using System.Text.Json.Serialization;
 using ToDoTask.Models;
 
@@ -18,6 +21,7 @@ builder.Services.AddMvc();
 
 builder.Services.AddEndpointsApiExplorer();
 
+
 //Настройка Cors
 builder.Services.AddCors(opions =>
 {
@@ -33,11 +37,17 @@ builder.Services.AddMvc().AddJsonOptions(o => {
     o.JsonSerializerOptions.MaxDepth = 0;
 });
 
+IMapper mapper = AutomapperSettings.RegisterMaps().CreateMapper();
+
 //Настройка сервисов
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<ITodoServices, TodoServices>();
 builder.Services.AddTransient<IProjectServices, ProjectServices>();
 
+
+// Mapper service registration
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Настройка Swagger
 builder.Services.AddSwaggerGen(options =>
