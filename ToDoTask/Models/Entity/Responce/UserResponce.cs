@@ -1,9 +1,9 @@
-﻿namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity.Responce;
 
 /// <summary>
 /// Пользователь
 /// </summary>
-public class User
+public class UserResponce
 {
     /// <summary>
     /// Id пользователя
@@ -21,29 +21,9 @@ public class User
     public string Email { get; set; }
 
     /// <summary>
-    /// Навигационное свойство для UserProject
-    /// </summary>
-    public IEnumerable<UserProject> UserProject { get; set; }
-
-    /// <summary>
     /// Навигационное свойство для Project
     /// </summary>
     public IEnumerable<Project> Projects { get; set; }
-
-    /// <summary>
-    /// Внешний ключ для Account
-    /// </summary>
-    public int AccountId { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство Account
-    /// </summary>
-    public Account Account { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство для UserTodo
-    /// </summary>
-    public IEnumerable<UserTodo> UserTodo { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Todo

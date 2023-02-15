@@ -26,262 +26,262 @@ namespace ToDoTask.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            #region Заполнение Account
-            var account1 = new Account()
-            {
-                Id = 1,
-                Token = "sdasdsads",
-                Login = "Test1",
-                Password = "dsds23as"        
-            };
-            var account2 = new Account()
-            {
-                Id = 2,
-                Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
-                Login = "Test2",
-                Password = "sf324gfg9dgdfhask3m3n423"
-            };
-            var account3 = new Account()
-            {
-                Id = 3,
-                Token = "dcervrt34gfv3fdcv234d",
-                Login = "Test3",
-                Password = "dsds2вывфаыаывпdf4e3as"
-            };
-            var accounts = new List<Account>()
-            {
-                account1, account2, /*account3*/
-            };
-            #endregion
+            //#region Заполнение Account
+            //var account1 = new Account()
+            //{
+            //    Id = 1,
+            //    Token = "sdasdsads",
+            //    Login = "Test1",
+            //    Password = "dsds23as"        
+            //};
+            //var account2 = new Account()
+            //{
+            //    Id = 2,
+            //    Token = "dfsdsds23jk44k56l6j46j45k234345345345l3",
+            //    Login = "Test2",
+            //    Password = "sf324gfg9dgdfhask3m3n423"
+            //};
+            //var account3 = new Account()
+            //{
+            //    Id = 3,
+            //    Token = "dcervrt34gfv3fdcv234d",
+            //    Login = "Test3",
+            //    Password = "dsds2вывфаыаывпdf4e3as"
+            //};
+            //var accounts = new List<Account>()
+            //{
+            //    account1, account2, /*account3*/
+            //};
+            //#endregion
 
-            #region Заполнение UserProject
-            var up1 = new UserProject()
-            {
-                ProjectId = 1,
-                UserId = 1
-            };
-            var up2 = new UserProject()
-            {
-                ProjectId = 1,
-                UserId = 2
-            };
-            var up3 = new UserProject()
-            {
-                ProjectId = 1,
-                UserId = 3
-            };
+            //#region Заполнение UserProject
+            //var up1 = new UserProject()
+            //{
+            //    ProjectId = 1,
+            //    UserId = 1
+            //};
+            //var up2 = new UserProject()
+            //{
+            //    ProjectId = 1,
+            //    UserId = 2
+            //};
+            //var up3 = new UserProject()
+            //{
+            //    ProjectId = 1,
+            //    UserId = 3
+            //};
 
-            var userProject = new List<UserProject>()
-            {
-                up1,up2, /*up3*/
-            };
-            #endregion
+            //var userProject = new List<UserProject>()
+            //{
+            //    up1,up2, /*up3*/
+            //};
+            //#endregion
 
-            #region Заполнение User
-            var user1 = new User()
-            {
-                Id = 1,
-                Name = "fds",
-                AccountId =1,
-                Email = "sdsds@h"
+            //#region Заполнение User
+            //var user1 = new User()
+            //{
+            //    Id = 1,
+            //    Name = "fds",
+            //    AccountId =1,
+            //    Email = "sdsds@h"
 
-            };
-            var user2 = new User()
-            {
-                Id = 2,
-                Name = "gfh",
-                AccountId = 2,
-                Email = "sdsds@h"
-            };
-            var user3 = new User()
-            {
-                Id = 3,
-                Name = "khgkj",
-                AccountId = 3,
-                Email = "sdsds@h"
-            };
+            //};
+            //var user2 = new User()
+            //{
+            //    Id = 2,
+            //    Name = "gfh",
+            //    AccountId = 2,
+            //    Email = "sdsds@h"
+            //};
+            //var user3 = new User()
+            //{
+            //    Id = 3,
+            //    Name = "khgkj",
+            //    AccountId = 3,
+            //    Email = "sdsds@h"
+            //};
 
-            var users = new List<User>()
-            {
-                user1, user2, /*user3*/
-            };
-            #endregion
+            //var users = new List<User>()
+            //{
+            //    user1, user2, /*user3*/
+            //};
+            //#endregion
 
-            #region Заполнение UserTodo
-            var ut1 = new UserTodo()
-            {
-               UserId = 1,
-               TodoId = 1,
-            };
-            var ut2 = new UserTodo()
-            {
-                UserId = 2,
-                TodoId = 2,
-            };
-            var ut3 = new UserTodo()
-            {
-                UserId = 3,
-                TodoId = 1,
-            };
+            //#region Заполнение UserTodo
+            //var ut1 = new UserTodo()
+            //{
+            //   UserId = 1,
+            //   TodoId = 1,
+            //};
+            //var ut2 = new UserTodo()
+            //{
+            //    UserId = 2,
+            //    TodoId = 2,
+            //};
+            //var ut3 = new UserTodo()
+            //{
+            //    UserId = 3,
+            //    TodoId = 1,
+            //};
 
-            var ut4 = new UserTodo()
-            {
-                UserId = 2,
-                TodoId = 4,
-            };
+            //var ut4 = new UserTodo()
+            //{
+            //    UserId = 2,
+            //    TodoId = 4,
+            //};
 
-            var userTodo = new List<UserTodo>()
-            {
-                ut1,ut2, /*ut3,*/ ut4
-            };
-            #endregion
+            //var userTodo = new List<UserTodo>()
+            //{
+            //    ut1,ut2, /*ut3,*/ ut4
+            //};
+            //#endregion
 
-            #region Заполнение Priority
-            var priority1 = new Priority()
-            {
-                Id = 1,
-                PriorityName = "Высокий",
+            //#region Заполнение Priority
+            //var priority1 = new Priority()
+            //{
+            //    Id = 1,
+            //   PriorityName = PriorityType.
 
-            };
-            var priority2 = new Priority()
-            {
-                Id = 2,
-                PriorityName = "Средний",
-            };
-            var priority3 = new Priority()
-            {
-                Id = 3,
-                PriorityName = "Низкий",
+            //};
+            //var priority2 = new Priority()
+            //{
+            //    Id = 2,
+            //    PriorityName = "Средний",
+            //};
+            //var priority3 = new Priority()
+            //{
+            //    Id = 3,
+            //    PriorityName = "Низкий",
 
-            };
+            //};
 
-            var priorities = new List<Priority>()
-            {
-                priority1, priority2, priority3
-            };
-            #endregion
+            //var priorities = new List<Priority>()
+            //{
+            //    priority1, priority2, priority3
+            //};
+            //#endregion
 
-            #region Заполнение Status
-            var status1 = new Status()
-            {
-                Id = 1,
-                StatusName = "В ожидании"
+            //#region Заполнение Status
+            //var status1 = new Status()
+            //{
+            //    Id = 1,
+            //    StatusName = "В ожидании"
 
-            };
-            var status2 = new Status()
-            {
-                Id = 2,
-                StatusName = "В работе"
-            };
-            var status3 = new Status()
-            {
-                Id = 3,
-                StatusName = "Завершено"
-            };
+            //};
+            //var status2 = new Status()
+            //{
+            //    Id = 2,
+            //    StatusName = "В работе"
+            //};
+            //var status3 = new Status()
+            //{
+            //    Id = 3,
+            //    StatusName = "Завершено"
+            //};
 
-            var statuses = new List<Status>()
-            {
-                status1, status2, status3
-            };
-            #endregion
+            //var statuses = new List<Status>()
+            //{
+            //    status1, status2, status3
+            //};
+            //#endregion
 
-            #region Заполнение Project
-            var project1 = new Project()
-            {
-                Id = 1,
-                Name = "Test",
-                EndDate = new DateTime(2078, 01, 01)
-            };
-            var projects = new List<Project>()
-            {
-                project1
-            };
-            #endregion
+            //#region Заполнение Project
+            //var project1 = new Project()
+            //{
+            //    Id = 1,
+            //    Name = "Test",
+            //    EndDate = new DateTime(2078, 01, 01)
+            //};
+            //var projects = new List<Project>()
+            //{
+            //    project1
+            //};
+            //#endregion
 
-            #region Заполнение ProjectTodo
-            var pt1 = new ProjectTodo()
-            {
-                ProjectId = 1,
-                TodoId = 1
-            };
+            //#region Заполнение ProjectTodo
+            //var pt1 = new ProjectTodo()
+            //{
+            //    ProjectId = 1,
+            //    TodoId = 1
+            //};
 
-            var pt2 = new ProjectTodo()
-            {
-                ProjectId = 1,
-                TodoId = 2
-            };
+            //var pt2 = new ProjectTodo()
+            //{
+            //    ProjectId = 1,
+            //    TodoId = 2
+            //};
 
-            var pt3 = new ProjectTodo()
-            {
-                ProjectId = 1,
-                TodoId = 3
-            };
+            //var pt3 = new ProjectTodo()
+            //{
+            //    ProjectId = 1,
+            //    TodoId = 3
+            //};
 
-            var projectTodo = new List<ProjectTodo>()
-            {
-                pt1, pt2, pt3
-            };
-            #endregion
+            //var projectTodo = new List<ProjectTodo>()
+            //{
+            //    pt1, pt2, pt3
+            //};
+            //#endregion
 
-            #region Заполнение Todo
-            var todo1 = new Todo()
-            {
-                Id = 1,
-                NameTask = "Доделать БД и связи",
-                Description = "Срочно доделать БД",
-                EndDate = new DateTime(2077, 01, 01),
-                StatusId = 2,
-                PriorityId = 1 
+            //#region Заполнение Todo
+            //var todo1 = new Todo()
+            //{
+            //    Id = 1,
+            //    NameTask = "Доделать БД и связи",
+            //    Description = "Срочно доделать БД",
+            //    EndDate = new DateTime(2077, 01, 01),
+            //    StatusId = 2,
+            //    PriorityId = 1 
 
-            };
-            var todo2 = new Todo()
-            {
-                Id = 2,
-                NameTask = "Доделать клиент",
-                Description = "Доделать клиентскую часть на React",
-                EndDate = new DateTime(2077, 01, 01),
-                StatusId = 2,
-                PriorityId = 2
+            //};
+            //var todo2 = new Todo()
+            //{
+            //    Id = 2,
+            //    NameTask = "Доделать клиент",
+            //    Description = "Доделать клиентскую часть на React",
+            //    EndDate = new DateTime(2077, 01, 01),
+            //    StatusId = 2,
+            //    PriorityId = 2
 
-            };
-            var todo3 = new Todo()
-            {
-                Id = 3,
-                NameTask = "Залить проект на сервер",
-                Description = "dsdsd",
-                EndDate = new DateTime(2077, 01, 01),
-                StatusId = 1,
-                PriorityId = 3
+            //};
+            //var todo3 = new Todo()
+            //{
+            //    Id = 3,
+            //    NameTask = "Залить проект на сервер",
+            //    Description = "dsdsd",
+            //    EndDate = new DateTime(2077, 01, 01),
+            //    StatusId = 1,
+            //    PriorityId = 3
 
-            };
+            //};
 
-            var todo4 = new Todo()
-            {
-                Id = 4,
-                NameTask = "Нарисовать дизайн",
-                Description = "Срочно",
-                EndDate = new DateTime(2077, 01, 01),
-                StatusId = 2,
-                PriorityId = 1
+            //var todo4 = new Todo()
+            //{
+            //    Id = 4,
+            //    NameTask = "Нарисовать дизайн",
+            //    Description = "Срочно",
+            //    EndDate = new DateTime(2077, 01, 01),
+            //    StatusId = 2,
+            //    PriorityId = 1
 
-            };
+            //};
 
-            var todos = new List<Todo>()
-            {
-                todo1, todo2, todo3, todo4
-            };
-            #endregion
+            //var todos = new List<Todo>()
+            //{
+            //    todo1, todo2, todo3, todo4
+            //};
+            //#endregion
 
-            modelBuilder.Entity<UserTodo>().HasData(userTodo);
-            modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
-            modelBuilder.Entity<UserProject>().HasData(userProject);
+            //modelBuilder.Entity<UserTodo>().HasData(userTodo);
+            //modelBuilder.Entity<ProjectTodo>().HasData(projectTodo);
+            //modelBuilder.Entity<UserProject>().HasData(userProject);
 
-            modelBuilder.Entity<Account>().HasData(accounts);
-            modelBuilder.Entity<User>().HasData(users);
-            modelBuilder.Entity<Project>().HasData(projects);
-            modelBuilder.Entity<Priority>().HasData(priorities);
-            modelBuilder.Entity<Status>().HasData(statuses);
-            modelBuilder.Entity<Todo>().HasData(todos);
+            //modelBuilder.Entity<Account>().HasData(accounts);
+            //modelBuilder.Entity<User>().HasData(users);
+            //modelBuilder.Entity<Project>().HasData(projects);
+            //modelBuilder.Entity<Priority>().HasData(priorities);
+            //modelBuilder.Entity<Status>().HasData(statuses);
+            //modelBuilder.Entity<Todo>().HasData(todos);
 
 
             //Создание связей 1 к 1 для Account и User
