@@ -1,4 +1,4 @@
-﻿namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity.Responce;
 
 /// <summary>
 /// аккаунт пользователя

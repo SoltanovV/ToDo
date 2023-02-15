@@ -1,12 +1,7 @@
-using AspBackend.Services;
-using AspBackend.Services.Interface;
 using AspBackend.Utilities;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Data;
 using System.Text.Json.Serialization;
-using ToDoTask.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

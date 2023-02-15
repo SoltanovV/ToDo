@@ -1,14 +1,6 @@
-﻿using AspBackend.Models.ViewModel;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AspBackend.Models.Entity;
-using ToDoTask.Models;
-using AspBackend.Utilities;
-using AspBackend.Services;
-using AspBackend.Services.Interface;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspBackend.Controllers
+namespace AspBackend.Controllers;
 {
     [Route("api/[controller]")]
     [ApiController]

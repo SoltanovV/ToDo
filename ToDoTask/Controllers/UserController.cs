@@ -1,11 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ToDoTask.Models;
-using AspBackend.Services.Interface;
-using AspBackend.Models.Entity.Responce;
-using AspBackend.Models.Entity.Request;
-using AutoMapper;
-using AspBackend.Models.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace ASPBackend.Controllers
 {
