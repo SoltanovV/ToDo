@@ -13,20 +13,20 @@ public class UserResponce
     /// <summary>
     /// Имя пользователя
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Email аккаунта
     /// </summary>
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Project
     /// </summary>
-    public IEnumerable<Project> Projects { get; set; }
+    public required IEnumerable<Project> Projects { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Todo
     /// </summary>
-    public IEnumerable<Todo> Todos { get; set; }
+    public required IEnumerable<Todo> Todos { get; set; }
 }
