@@ -14,7 +14,7 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Todo> CreateTodo(Todo model)
+        public async Task<Todo> CreateTodoAsync(Todo model)
         {
             try
             {
@@ -22,18 +22,23 @@ namespace AspBackend.Services
 
                 await _db.SaveChangesAsync();
 
+                if (model.Status is null & model.Priority is null)
+                {
+                    throw new Exception("Заполните поля");
+                }
+
                 var created = await _db.Todo
                     .SingleOrDefaultAsync(t => t.Id == todoCreated.Entity.Id);
 
                 return created;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
         }
 
-        public async Task<Todo> UpdateTodo(Todo todo)
+        public async Task<Todo> UpdateTodoAsync(Todo todo)
         {
             try
             {
@@ -44,12 +49,12 @@ namespace AspBackend.Services
                 return updateTodo.Entity;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
         }
-        public async Task<Todo> DeleteTodo(int id)
+        public async Task<Todo> DeleteTodoAsync(int id)
         {
             try
             {
@@ -61,7 +66,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }
@@ -72,12 +77,11 @@ namespace AspBackend.Services
             try
             {
                 var result = await _db.UsersTodos.AddAsync(model);
-                //result.Dispouse();
                 await _db.SaveChangesAsync();
 
                 return result.Entity;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -94,7 +98,7 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }

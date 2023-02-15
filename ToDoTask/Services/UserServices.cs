@@ -1,7 +1,5 @@
 ﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
 using AspBackend.Services.Interface;
-using AspBackend.Utilities;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Models;
 
@@ -15,12 +13,13 @@ namespace AspBackend.Services
         {
             _db = db;
         }
-        public async Task<Account> CreateAccount(AccountViewModel model)
+        public async Task<Account> CreateAccountAsync(User user)
         {
             try
             {
-                var map = AutomapperUtil<AccountViewModel, Account>.Map(model);
-                var createdAccount = await _db.Account.AddAsync(map);
+                var createdAccount = await _db.Account.AddAsync(user.Account);
+
+                var createdUser = await _db.User.AddAsync(user);
 
                 await _db.SaveChangesAsync();
 
@@ -30,24 +29,24 @@ namespace AspBackend.Services
                 return created;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
 
         }
-        public async Task<User> UpdateUser(UserViewModel model)
+        public async Task<User> CreateUserAsync(User model)
         {
             try
             {
-
-                var result = AutomapperUtil<UserViewModel, User>.Map(model);
-                _db.User.Update(result);
+                var user = await _db.User.AddAsync(model);
                 await _db.SaveChangesAsync();
 
-                return result;
+                var created = await _db.User
+                  .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
+                return created;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -67,7 +66,7 @@ namespace AspBackend.Services
                 return search;
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
