@@ -8,25 +8,25 @@ public class Account
     /// <summary>
     /// Id аккаунта
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Токен пользователя
     /// </summary>
-    public string Token { get; set; }
+    public required string Token { get; set; }
 
     /// <summary>
     /// Логин аккаунта
     /// </summary>
-    public string Login { get; set; }
+    public required string Login { get; set; } = string.Empty;
 
     /// <summary>
     /// Пароль аккаунта
     /// </summary>
-    public string Password { get; set; }
+    public required string Password { get; set; }
 
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
-    public User? User { get; set; }
+    public required User User { get; set; }
 }

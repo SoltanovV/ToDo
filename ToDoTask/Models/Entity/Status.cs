@@ -13,7 +13,7 @@ public class Status
     /// <summary>
     /// Имя статуса
     /// </summary>
-    public StatusType StatusName { get; set; } = StatusType.Pending;
+    public required string StatusName { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Task
@@ -24,25 +24,25 @@ public class Status
 /// <summary>
 /// Тип статуса задачи
 /// </summary>
-public enum StatusType
-{
-    /// <summary>
-    /// В ожидании
-    /// </summary>
-    Pending = 0,
+//public enum StatusType
+//{
+//    /// <summary>
+//    /// В ожидании
+//    /// </summary>
+//    Pending = 0,
 
-    /// <summary>
-    /// Выполняется
-    /// </summary>
-    InProgress = 1,
+//    /// <summary>
+//    /// Выполняется
+//    /// </summary>
+//    InProgress = 1,
 
-    /// <summary>
-    /// Поставлена на паузу
-    /// </summary>
-    Pause = 2,
+//    /// <summary>
+//    /// Поставлена на паузу
+//    /// </summary>
+//    Pause = 2,
 
-    /// <summary>
-    /// Завершена
-    /// </summary>
-    Completed = 3
-}
+//    /// <summary>
+//    /// Завершена
+//    /// </summary>
+//    Completed = 3
+//}

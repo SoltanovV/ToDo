@@ -13,12 +13,12 @@ public class Todo
     /// <summary>
     /// Название задачи
     /// </summary>
-    public string NameTask { get; set; }
+    public required string NameTask { get; set; }
 
     /// <summary>
     /// Описание задачи
     /// </summary>
-    public string Description { get; set; }
+    public required string Description { get; set; }
 
     /// <summary>
     /// Дата постановки задачи
@@ -33,18 +33,18 @@ public class Todo
     /// <summary>
     /// Навигационное свойство для UserTodo
     /// </summary>
-    public IEnumerable<UserTodo> UserTodo { get; set; }
+    public IEnumerable<UserTodo>? UserTodo { get; set; }
 
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
     
-    public IEnumerable<User> Users { get; set; }
+    public IEnumerable<User>? Users { get; set; }
 
     /// <summary>
     /// Внешний ключ для Status
     /// </summary>
-    public int StatusId { get; set; }
+    public required int StatusId { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Status

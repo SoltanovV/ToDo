@@ -13,7 +13,7 @@ public class Priority
     /// <summary>
     /// Имя статуса
     /// </summary>
-    public PriorityType PriorityName { get; set; } = PriorityType.Urgently;
+    public required string PriorityName { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Ещвщ
@@ -21,23 +21,24 @@ public class Priority
     public IEnumerable<Todo> Todo { get; set; }
 }
 
-/// <summary>
-/// Тип приоритета задачи
-/// </summary>
-public enum PriorityType
-{
-    /// <summary>
-    /// Срочно
-    /// </summary>
-    Urgently = 0,
+///// <summary>
+///// Тип приоритета задачи
+///// </summary>
+//public enum PriorityType
+//{
+//    /// <summary>
+//    /// Срочно
+//    /// </summary>
+//    Urgently = 0,
 
-    /// <summary>
-    /// Выполняется
-    /// </summary>
-    InProgress = 1,
+//    /// <summary>
+//    /// Выполняется
+//    /// </summary>
+//    InProgress = 1,
 
-    /// <summary>
-    /// Медленно
-    /// </summary>
-    Slowly = 2,
-}
+//    /// <summary>
+//    /// Медленно
+//    /// </summary>
+//    Slowly = 2,
+//}
+
