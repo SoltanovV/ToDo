@@ -1,4 +1,7 @@
-﻿namespace AspBackend.Services;
+﻿using AspBackend.Models.Entity;
+using System.Runtime.CompilerServices;
+
+namespace AspBackend.Services;
 
 public class TodoServices : ITodoServices
 {
@@ -11,19 +14,20 @@ public class TodoServices : ITodoServices
     {
         try
         {
-            var todoCreated = await _db.Todo.AddAsync(model);
-
-            await _db.SaveChangesAsync();
-
-            if (model.Status is null & model.Priority is null)
+            if (model.Status is not null & model.Priority is not null)
             {
-                throw new Exception("Заполните поля");
+                var todoCreated = await _db.Todo.AddAsync(model);
+
+                await _db.SaveChangesAsync();
+
+                var created = await _db.Todo
+                                        .SingleOrDefaultAsync(t => t.Id == todoCreated.Entity.Id);
+
+                return created;
             }
 
-            var created = await _db.Todo
-                .SingleOrDefaultAsync(t => t.Id == todoCreated.Entity.Id);
-
-            return created;
+            throw new Exception("Не все поля заполнены");
+          
         }
         catch
         {
@@ -35,11 +39,13 @@ public class TodoServices : ITodoServices
     {
         try
         {
-            var updateTodo = _db.Todo.Update(todo);
 
-            await _db.SaveChangesAsync();
+                var updateTodo = _db.Todo.Update(todo);
 
-            return updateTodo.Entity;
+                await _db.SaveChangesAsync();
+
+                return updateTodo.Entity;
+
 
         }
         catch
@@ -53,11 +59,16 @@ public class TodoServices : ITodoServices
         {
             var deleted = await _db.Todo.FirstOrDefaultAsync(t => t.Id == id);
 
-            var result = _db.Todo.Remove(deleted);
+            if (deleted is not null)
+            {
+                var result = _db.Todo.Remove(deleted);
 
-            await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
-            return result.Entity;
+                return result.Entity;
+            }
+
+            throw new Exception("Задача не найдена");
         }
         catch
         {
@@ -65,14 +76,25 @@ public class TodoServices : ITodoServices
         }
     }
 
-    public async Task<UserTodo> AddUser(UserTodo model)
+    public async Task<UserTodo> AddUserAsync(UserTodo model)
     {
         try
         {
-            var result = await _db.UsersTodos.AddAsync(model);
-            await _db.SaveChangesAsync();
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
 
-            return result.Entity;
+            var todo = await _db.Todo.FirstOrDefaultAsync(t => t.Id == model.TodoId);
+
+            if (user is not null & todo is not null)
+            {
+                var result = await _db.UsersTodos.AddAsync(model);
+
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
+            }
+
+            throw new Exception("Задача или пользователь не найден");
+
         }
         catch
         {
@@ -81,15 +103,24 @@ public class TodoServices : ITodoServices
 
     }
     
-    public async Task<UserTodo> DeleteUser(UserTodo model)
+    public async Task<UserTodo> DeleteUserAsync(UserTodo model)
     {
         try
         {
-            var result = _db.UsersTodos.Remove(model);
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
 
-            await _db.SaveChangesAsync();
+            if (user is not null)
+            {
+                var result = _db.UsersTodos.Remove(model);
 
-            return result.Entity;
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
+            }
+
+            throw new Exception("Пользователь не найден");
+
+
         }
         catch
         {

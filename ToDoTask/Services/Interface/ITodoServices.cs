@@ -8,7 +8,7 @@ public interface ITodoServices
 
     public Task<Todo> DeleteTodoAsync(int id);
 
-    public Task<UserTodo> AddUser(UserTodo model);
+    public Task<UserTodo> AddUserAsync(UserTodo model);
 
-    public Task<UserTodo> DeleteUser(UserTodo model);
+    public Task<UserTodo> DeleteUserAsync(UserTodo model);
 }

@@ -17,7 +17,6 @@ public class UpdateTodoRequest
     /// </summary>
     public required int PriorityId { get; set; }
 
-
     /// <summary>
     /// Название задачи
     /// </summary>

@@ -15,19 +15,19 @@ namespace ASPBackend.Controllers
         {
             _db = db;
             _logger = logger;
-            _todoServices = todoServices;
             _mapper = mapper;
+            _todoServices = todoServices;
         }
 
-        [Route("get")]
         [HttpGet]
+        [Route("get")]
         public async Task<ActionResult<Todo>> TodoGetAsync()
         {
             try
             {
                 _logger.LogInformation("Запрос TodoGet получен");
 
-                var todo = _db.Todo;
+                var todo = _db.Todo.Include(t => t.Users).ToList();
 
                 _logger.LogInformation("Запрос TodoCreate выполнен");
 
@@ -40,8 +40,8 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("create")]
         [HttpPost]
+        [Route("create")]
         public async Task<ActionResult<CreateTodoResponce>> TodoCreateAsync(CreateTodoRequest request)
         {
             try
@@ -70,13 +70,12 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("update")]
         [HttpPost]
+        [Route("update")]
         public async Task<ActionResult<UpdateTodoResponce>> UpdateTask([FromBody] UpdateTodoRequest request)
         {
             try
             {
-
                 _logger.LogInformation("Запрос UpdateTask получен");
 
                 var todo = _mapper.Map<Todo>(request);
@@ -97,74 +96,74 @@ namespace ASPBackend.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("add/user")]
-        //public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос AddUserTodo получен");
+        [HttpPost]
+        [Route("add/user")]
+        public async Task<ActionResult<UserTodoResponce>> AddUserTodoAsync([FromBody] UserTodoRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос AddUserTodo получен");
 
-        //        var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-        //        var result = await _todoServices.AddUser(map);
+                var map = _mapper.Map<UserTodo>(request);
+                var result = await _todoServices.AddUserAsync(map);
 
-        //        _logger.LogInformation("Запрос AddUserTodo выполнен");
-
-
-        //        return Ok(result);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
-        //[HttpDelete]
-        //[Route("delete/user")]
-        //public async Task<ActionResult<UserTodo>> DeleteUserTodo([FromBody] UserTodoViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос DeleteUserTodo получен");
-
-        //        var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-        //        var result = await _todoServices.DeleteUser(map);
-
-        //        _logger.LogInformation("Запрос DeleteUserTodo выполнен");
-
-        //        return Ok(result);
+                _logger.LogInformation("Запрос AddUserTodo выполнен");
 
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok(result);
 
-        //[Route("delete/{id}")]
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteTask(int id)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос DeleteTask получен");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //        var result = await _todoServices.DeleteTodo(id);
+        [HttpPost]
+        [Route("delete/user")]
+        public async Task<ActionResult<UserTodoResponce>> DeleteUserTodoAsync([FromBody] UserTodoRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос DeleteUserTodo получен");
 
-        //        _logger.LogInformation("Запрос обработан");
+                var map = _mapper.Map<UserTodo>(request );
+                var result = await _todoServices.DeleteUserAsync(map);
 
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
+                _logger.LogInformation("Запрос DeleteUserTodo выполнен");
 
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok(result);
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> DeleteTaskAsync(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос DeleteTask получен");
+
+                var result = await _todoServices.DeleteTodoAsync(id);
+
+                _logger.LogInformation("Запрос обработан");
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

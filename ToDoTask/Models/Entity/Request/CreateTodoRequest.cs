@@ -2,12 +2,10 @@
 
 public class CreateTodoRequest
 {
-
     /// <summary>
     /// Имя статуса
     /// </summary>
     public required string StatusName { get; set; }
-
 
     /// <summary>
     /// Имя статуса
