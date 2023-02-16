@@ -8,38 +8,40 @@ public class ProjectServices: IProjectServices
     {
         _db = db;
     }
-    public async Task<Project> CreateProject(Project model)
+    public async Task<Project> CreateProjectAsync(Project model)
     {
         try
         {
-            var result = await _db.Project.AddAsync(model);
+            var creted = await _db.Project.AddAsync(model);
+
             await _db.SaveChangesAsync();
-            return result.Entity;
+
+            var result = await _db.Project.FirstOrDefaultAsync(p => p.Id == creted.Entity.Id);
+
+            return result;
         }
-        catch(Exception ex)
+        catch
         {
             throw;
         }
     }
-    public async Task<Project> UpdateProject(Project model)
+    public async Task<Project> UpdateProjectAsync(Project model)
     {
         try
         {
+                var updateProjcet = _db.Project.Update(model);
 
+                await _db.SaveChangesAsync();
 
-            var updateProjcet = _db.Project.Update(model);
-
-            await _db.SaveChangesAsync();
-
-            return updateProjcet.Entity;
+                return updateProjcet.Entity;  
         }
-        catch(Exception ex)
+        catch
         {
-            throw; throw;
+            throw;
         }
 
     }
-    public async Task<Project> DeleteProject(int id)
+    public async Task<Project> DeleteProjectAsync(int id)
     {
         try
         {
@@ -50,13 +52,13 @@ public class ProjectServices: IProjectServices
 
             return result.Entity;
         }
-        catch(Exception ex)
+        catch
         {
             throw;
         }
     }
 
-    public async Task<UserProject> AddUserProject(UserProject model)
+    public async Task<UserProject> AddUserProjectAsync(UserProject model)
     {
         try
         {
@@ -65,12 +67,12 @@ public class ProjectServices: IProjectServices
 
             return result.Entity;
         }
-        catch (Exception ex)
+        catch
         {
             throw;
         }
     }
-    public async Task<UserProject> DeleteUserProject(UserProject model)
+    public async Task<UserProject> DeleteUserProjectAsync(UserProject model)
     {
         try
         {
@@ -80,7 +82,7 @@ public class ProjectServices: IProjectServices
 
             return result.Entity;
         }
-        catch(Exception ex)
+        catch
         {
             throw;
         }

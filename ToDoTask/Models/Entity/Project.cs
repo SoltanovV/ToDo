@@ -13,7 +13,7 @@ public class Project
     /// <summary>
     ///  Название проекта
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Дата начала(создания)
