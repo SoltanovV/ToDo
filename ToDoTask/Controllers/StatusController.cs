@@ -15,8 +15,8 @@ namespace ASPBackend.Controllers
             _db = db;
         }
 
-        [Route("view")]
         [HttpGet]
+        [Route("view")]
         public async Task<IActionResult> ViewTodo()
         {
             try
