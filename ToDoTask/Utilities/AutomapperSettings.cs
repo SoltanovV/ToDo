@@ -39,13 +39,28 @@ namespace AspBackend.Utilities
                 #region Маппинг для обновления задачи
                 config.CreateMap<UpdateTodoRequest, Todo>().ReverseMap();
                 config.CreateMap<UpdateTodoResponce, Todo>().ReverseMap();
-
-                //config.CreateMap<UpdateTodoRequest, Status>().ReverseMap();
-                //config.CreateMap<UpdateTodoResponce, Status>().ReverseMap();
-
-                //config.CreateMap<UpdateTodoRequest, Priority>().ReverseMap();
-                //config.CreateMap<UpdateTodoResponce, Priority>().ReverseMap();
                 #endregion
+
+                #region Маппинг для создания/удаления пользователя у задачи
+                config.CreateMap<UserTodoRequest, UserTodo>().ReverseMap();
+                config.CreateMap<UserTodoResponce, UserTodo>().ReverseMap();
+                #endregion
+
+                #region Маппинг для создания/удаления проектов
+                config.CreateMap<ProjectRequest, Project>().ReverseMap();
+                config.CreateMap<ProjectResponce, Project>().ReverseMap();
+                #endregion
+
+                #region Маппинг для создания/удаления задач у проекта
+                config.CreateMap<ProjectTodoRequest, ProjectTodo>().ReverseMap();
+                config.CreateMap<ProjectTodoResponce, ProjectTodo>().ReverseMap();
+                #endregion
+
+                #region Маппинг для добавление/удаления пользователей у проекта
+                config.CreateMap<ProjectUserRequest, UserProject>().ReverseMap();
+                config.CreateMap<ProjectUserResponce, UserProject>().ReverseMap();
+                #endregion
+
 
 
             });
