@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-
-namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity;
 
 /// <summary>
 /// Приоритет задачи
@@ -17,11 +13,32 @@ public class Priority
     /// <summary>
     /// Имя статуса
     /// </summary>
-    public string PriorityName { get; set; }
+    public required string PriorityName { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Ещвщ
     /// </summary>
-    [JsonIgnore]
     public IEnumerable<Todo> Todo { get; set; }
 }
+
+///// <summary>
+///// Тип приоритета задачи
+///// </summary>
+//public enum PriorityType
+//{
+//    /// <summary>
+//    /// Срочно
+//    /// </summary>
+//    Urgently = 0,
+
+//    /// <summary>
+//    /// Выполняется
+//    /// </summary>
+//    InProgress = 1,
+
+//    /// <summary>
+//    /// Медленно
+//    /// </summary>
+//    Slowly = 2,
+//}
+

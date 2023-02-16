@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ASPBackend.Controllers
 {
@@ -8,31 +7,31 @@ namespace ASPBackend.Controllers
     public class TodoController : Controller
     {
         private readonly ILogger<TodoController> _logger;
-        private ApplicationContext _db;
-        private ITodoServices _todoServices;
+        private readonly ITodoServices _todoServices;
+        private readonly IMapper _mapper;
+        private readonly ApplicationContext _db;
 
-        public TodoController(ApplicationContext db, ILogger<TodoController> logger, ITodoServices todoServices)
+        public TodoController(ApplicationContext db, ILogger<TodoController> logger, ITodoServices todoServices, IMapper mapper)
         {
             _db = db;
             _logger = logger;
+            _mapper = mapper;
             _todoServices = todoServices;
         }
 
-        [Route("view")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Todo>>> ViewTask()
+        [Route("get")]
+        public async Task<ActionResult<Todo>> TodoGetAsync()
         {
             try
             {
-                //TODO: исправить эту залупу
-                _logger.LogInformation("Запрос ViewTask получен");
-                var result = _db.Todo
-                    .Include(t => t.UserTodo)
-                    .ThenInclude(tu => tu.User);
+                _logger.LogInformation("Запрос TodoGet получен");
 
+                var todo = _db.Todo.Include(t => t.Users).ToList();
 
-                _logger.LogInformation("Запрос ViewTask выполнен");
-                return Ok(result);
+                _logger.LogInformation("Запрос TodoCreate выполнен");
+
+                return Ok(todo);
             }
             catch (Exception ex)
             {
@@ -41,42 +40,47 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("create")]
         [HttpPost]
-        public async Task<ActionResult<Todo>> CreateTask([FromBody] TodoViewModel model)
+        [Route("create")]
+        public async Task<ActionResult<CreateTodoResponce>> TodoCreateAsync(CreateTodoRequest request)
         {
             try
             {
-                _logger.LogInformation("Запрос CreateTask получен");
+                _logger.LogInformation("Запрос TodoCreate получен");
 
-                var map = AutomapperUtil<TodoViewModel, Todo>.Map(model);
+                var todo = _mapper.Map<Todo>(request);
 
-                var result = _todoServices.CreateTodo(map);
+                var status = _mapper.Map<Status>(request);
 
-                _logger.LogInformation("Запрос CreateTask выполнен");
+                var priority = _mapper.Map<Priority>(request);
+                
+                todo.Status = status;
+                todo.Priority= priority;
+
+                var result = await _todoServices.CreateTodoAsync(todo);
+
+                _logger.LogInformation("Запрос TodoCreate выполнен");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-
                 return BadRequest(_logger);
             }
         }
 
+        [HttpPost]
         [Route("update")]
-        [HttpPut]
-        public async Task<ActionResult<Todo>> UpdateTask([FromBody] TodoViewModel model)
+        public async Task<ActionResult<UpdateTodoResponce>> UpdateTask([FromBody] UpdateTodoRequest request)
         {
             try
             {
-
                 _logger.LogInformation("Запрос UpdateTask получен");
 
-                var todo = AutomapperUtil<TodoViewModel, Todo>.Map(model);
+                var todo = _mapper.Map<Todo>(request);
 
-                var result = await _todoServices.UpdateTodo(todo);
+                var result = await _todoServices.UpdateTodoAsync(todo);
 
                 _logger.LogInformation("Запрос UpdateTask выполнен");
 
@@ -94,20 +98,20 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("add/user")]
-        public async Task<ActionResult<UserTodo>> AddUserTodo([FromBody]UserTodoViewModel model)
+        public async Task<ActionResult<UserTodoResponce>> AddUserTodoAsync([FromBody] UserTodoRequest request)
         {
             try
             {
                 _logger.LogInformation("Запрос AddUserTodo получен");
 
-                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-                var result = await _todoServices.AddUser(map);
+                var map = _mapper.Map<UserTodo>(request);
+                var result = await _todoServices.AddUserAsync(map);
 
                 _logger.LogInformation("Запрос AddUserTodo выполнен");
 
 
                 return Ok(result);
-                
+
             }
             catch (Exception ex)
             {
@@ -116,16 +120,16 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("delete/user")]
-        public async Task<ActionResult<UserTodo>> DeleteUserTodo([FromBody] UserTodoViewModel model)
+        public async Task<ActionResult<UserTodoResponce>> DeleteUserTodoAsync([FromBody] UserTodoRequest request)
         {
             try
             {
                 _logger.LogInformation("Запрос DeleteUserTodo получен");
 
-                var map = AutomapperUtil<UserTodoViewModel, UserTodo>.Map(model);
-                var result = await _todoServices.DeleteUser(map);
+                var map = _mapper.Map<UserTodo>(request );
+                var result = await _todoServices.DeleteUserAsync(map);
 
                 _logger.LogInformation("Запрос DeleteUserTodo выполнен");
 
@@ -140,15 +144,15 @@ namespace ASPBackend.Controllers
             }
         }
 
+        [HttpPost]
         [Route("delete/{id}")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteTask(int id)
+        public async Task<IActionResult> DeleteTaskAsync(int id)
         {
             try
             {
                 _logger.LogInformation("Запрос DeleteTask получен");
 
-                var result = await _todoServices.DeleteTodo(id);
+                var result = await _todoServices.DeleteTodoAsync(id);
 
                 _logger.LogInformation("Запрос обработан");
 

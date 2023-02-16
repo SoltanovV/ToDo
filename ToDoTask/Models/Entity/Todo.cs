@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity;
 
 /// <summary>
 /// Задачи
@@ -15,12 +13,12 @@ public class Todo
     /// <summary>
     /// Название задачи
     /// </summary>
-    public string NameTask { get; set; }
+    public required string NameTask { get; set; }
 
     /// <summary>
     /// Описание задачи
     /// </summary>
-    public string Description { get; set; }
+    public required string Description { get; set; }
 
     /// <summary>
     /// Дата постановки задачи
@@ -35,20 +33,18 @@ public class Todo
     /// <summary>
     /// Навигационное свойство для UserTodo
     /// </summary>
-    [JsonIgnore]
-    public IEnumerable<UserTodo> UserTodo { get; set; }
+    public IEnumerable<UserTodo>? UserTodo { get; set; }
 
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
     
-    public IEnumerable<User> Users { get; set; }
+    public IEnumerable<User>? Users { get; set; }
 
     /// <summary>
     /// Внешний ключ для Status
     /// </summary>
-    [JsonIgnore]
-    public int StatusId { get; set; }
+    public required int StatusId { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Status
@@ -58,7 +54,6 @@ public class Todo
     /// <summary>
     /// Внешний ключ для Priority
     /// </summary>
-    [JsonIgnore]
     public int PriorityId { get; set; }
 
     /// <summary>
@@ -69,7 +64,6 @@ public class Todo
     /// <summary>
     /// Навигационное свойство для ProjectTodo
     /// </summary>
-    [JsonIgnore]
     public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
     /// <summary>
@@ -77,4 +71,3 @@ public class Todo
     /// </summary>
     public IEnumerable<Project> Projects { get; set; }
 }
-

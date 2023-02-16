@@ -1,6 +1,6 @@
-﻿namespace AspBackend.Models.ViewModel;
+﻿namespace AspBackend.Models.Entity.Responce;
 
-public class ProjectViewModel
+public class ProjectResponce
 {
     /// <summary>
     /// Id Проекта
@@ -21,8 +21,4 @@ public class ProjectViewModel
     /// Дата сдачи проекта
     /// </summary>
     public DateTime DeadLine { get; set; }
-
-    //public int UserId { get; set; }
-
-    //public int TodoId { get; set; }
 }

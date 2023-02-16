@@ -1,9 +1,7 @@
-using AspBackend.Services;
-using AspBackend.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using AspBackend.Utilities;
+using AutoMapper;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
-using ToDoTask.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +16,8 @@ builder.Services.AddMvc();
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Настройка политики Cors
+
+//Настройка Cors
 builder.Services.AddCors(opions =>
 {
     opions.AddPolicy(name: "CorsPolicy", policy =>
@@ -27,26 +26,32 @@ builder.Services.AddCors(opions =>
         });
 });
 
-//Настройка конвертации JSON 
+//Настройка JSON 
 builder.Services.AddMvc().AddJsonOptions(o => {
     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     o.JsonSerializerOptions.MaxDepth = 0;
 });
 
-//Создание сервисов
+IMapper mapper = AutomapperSettings.RegisterMaps().CreateMapper();
+
+//Настройка сервисов
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<ITodoServices, TodoServices>();
 builder.Services.AddTransient<IProjectServices, ProjectServices>();
 
 
-// Настройки Swagger
+// Mapper service registration
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Настройка Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "Web-Api ToDo",
-        Description = "WebApi ��� ���������� ToDo"
+        Description = "WebApi ToDo"
     });
 });
 

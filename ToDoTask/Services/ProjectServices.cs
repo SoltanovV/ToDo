@@ -1,95 +1,90 @@
-﻿using AspBackend.Models.Entity;
-using AspBackend.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models;
+﻿namespace AspBackend.Services;
 
-namespace AspBackend.Services
+public class ProjectServices: IProjectServices
 {
-    public class ProjectServices: IProjectServices
+    private ApplicationContext _db;
+
+    public ProjectServices(ApplicationContext db)
     {
-        private ApplicationContext _db;
-
-        public ProjectServices(ApplicationContext db)
+        _db = db;
+    }
+    public async Task<Project> CreateProjectAsync(Project model)
+    {
+        try
         {
-            _db = db;
+            var creted = await _db.Project.AddAsync(model);
+
+            await _db.SaveChangesAsync();
+
+            var result = await _db.Project.FirstOrDefaultAsync(p => p.Id == creted.Entity.Id);
+
+            return result;
         }
-        public async Task<Project> CreateProjectAsync(Project model)
+        catch
         {
-            try
-            {
-                var result = await _db.Project.AddAsync(model);
-
-                await _db.SaveChangesAsync();
-
-                return result.Entity;
-            }
-            catch
-            {
-                throw;
-            }
+            throw;
         }
-        public async Task<Project> UpdateProjectAsync(Project model)
+    }
+    public async Task<Project> UpdateProjectAsync(Project model)
+    {
+        try
         {
-            try
-            {
                 var updateProjcet = _db.Project.Update(model);
 
                 await _db.SaveChangesAsync();
 
-                return updateProjcet.Entity;
-            }
-            catch
-            {
-                throw;
-            }
-
+                return updateProjcet.Entity;  
         }
-        public async Task<Project> DeleteProjectAsync(int id)
+        catch
         {
-            try
-            {
-                var deleted = await _db.Project.FirstOrDefaultAsync(t => t.Id == id);
-
-                var result = _db.Project.Remove(deleted);
-
-                await _db.SaveChangesAsync();
-
-                return result.Entity;
-            }
-            catch
-            {
-                throw;
-            }
+            throw;
         }
 
-        public async Task<UserProject> AddUserProjectAsync(UserProject model)
+    }
+    public async Task<Project> DeleteProjectAsync(int id)
+    {
+        try
         {
-            try
-            {
-                var result = await _db.UsersProjects.AddAsync(model);
-                await _db.SaveChangesAsync();
+            var deleted = await _db.Project.FirstOrDefaultAsync(t => t.Id == id);
+            var result = _db.Project.Remove(deleted);
 
-                return result.Entity;
-            }
-            catch
-            {
-                throw;
-            }
+            await _db.SaveChangesAsync();
+
+            return result.Entity;
         }
-        public async Task<UserProject> DeleteUserProjectAsync(UserProject model)
+        catch
         {
-            try
-            {
-                var result = _db.UsersProjects.Remove(model);
+            throw;
+        }
+    }
 
-                await _db.SaveChangesAsync();
+    public async Task<UserProject> AddUserProjectAsync(UserProject model)
+    {
+        try
+        {
+            var result = await _db.UsersProjects.AddAsync(model);
+            await _db.SaveChangesAsync();
 
-                return result.Entity;
-            }
-            catch
-            {
-                throw;
-            }
+            return result.Entity;
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    public async Task<UserProject> DeleteUserProjectAsync(UserProject model)
+    {
+        try
+        {
+            var result = _db.UsersProjects.Remove(model);
+
+            await _db.SaveChangesAsync();
+
+            return result.Entity;
+        }
+        catch
+        {
+            throw;
         }
     }
 }

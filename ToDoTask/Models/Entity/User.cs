@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity;
 
 /// <summary>
 /// Пользователь
@@ -15,44 +13,40 @@ public class User
     /// <summary>
     /// Имя пользователя
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Email аккаунта
     /// </summary>
-    public string Email { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство для UserProject
-    /// </summary>
-    [JsonIgnore]
-    public IEnumerable<UserProject> UserProject { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство для Project
-    /// </summary>
-    public IEnumerable<Project> Projects { get; set; }
+    public required string Email { get; set; }
 
     /// <summary>
     /// Внешний ключ для Account
     /// </summary>
-    [JsonIgnore]
-    public int AccountId { get; set; }
+    public int? AccountId { get; set; }
 
     /// <summary>
     /// Навигационное свойство Account
     /// </summary>
-    [JsonIgnore]
-    public Account Account { get; set; }
+    public required Account Account { get; set; }
+
+    /// <summary>
+    /// Навигационное свойство для UserProject
+    /// </summary>
+    public IEnumerable<UserProject>? UserProject { get; set; }
+
+    /// <summary>
+    /// Навигационное свойство для Project
+    /// </summary>
+    public IEnumerable<Project>? Projects { get; set; }
 
     /// <summary>
     /// Навигационное свойство для UserTodo
     /// </summary>
-    [JsonIgnore]
-    public IEnumerable<UserTodo> UserTodo { get; set; }
+    public IEnumerable<UserTodo>? UserTodo { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Todo
     /// </summary>
-    public IEnumerable<Todo> Todos { get; set; }
+    public IEnumerable<Todo>? Todos { get; set; }
 }

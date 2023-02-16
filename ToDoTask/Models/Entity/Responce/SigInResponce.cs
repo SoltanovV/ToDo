@@ -1,9 +1,9 @@
-﻿namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity.Responce;
 
 /// <summary>
 /// аккаунт пользователя
 /// </summary>
-public class Account
+public class SigInResponce
 {
     /// <summary>
     /// Id аккаунта
@@ -18,15 +18,11 @@ public class Account
     /// <summary>
     /// Логин аккаунта
     /// </summary>
-    public required string Login { get; set; } = string.Empty;
+    public required string Login { get; set; }
 
     /// <summary>
     /// Пароль аккаунта
     /// </summary>
     public required string Password { get; set; }
 
-    /// <summary>
-    /// Навигационное свойство для User
-    /// </summary>
-    public User User { get; set; }
 }

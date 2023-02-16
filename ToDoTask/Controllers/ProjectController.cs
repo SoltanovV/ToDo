@@ -1,10 +1,4 @@
-﻿using AspBackend.Models.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-using ToDoTask.Models;
-using AspBackend.Utilities;
-using AspBackend.Services.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AspBackend.Controllers
 {
@@ -13,35 +7,39 @@ namespace AspBackend.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly ILogger<ProjectController> _logger;
-        private ApplicationContext _db;
-        private IProjectServices _projectSerices;
+        private readonly IProjectServices _projectSerices;
+        private readonly IMapper _mapper;
+        private readonly ApplicationContext _db;
 
-        public ProjectController(ILogger<ProjectController> logger, ApplicationContext db, IProjectServices projectSerices)
+        public ProjectController(ILogger<ProjectController> logger, ApplicationContext db, 
+                                 IProjectServices projectSerices, IMapper mapper)
         {
-            _logger = logger;
-            _db = db;
             _projectSerices = projectSerices;
+            _logger = logger;
+            _mapper = mapper;
+            _db = db;
         }
+
+
         [HttpGet]
         [Route("view")]
-        public async Task<IActionResult> ViewProject()
+        public async Task<IActionResult> ViewProjectAsync()
         {
             try
             {
                 _logger.LogInformation("Запрос ViewProject получен");
 
-                var result = _db.Project
-                    .Include(p => p.ProjectTodo)
-                    .ThenInclude(pt => pt.Todo)
-                    .Include(u => u.UserProject)
-                    .ThenInclude(u => u.User);
-                    
+                var result = await _db.Project
+                    .Include(p => p.UserProject)
+                    .ThenInclude(pt => pt.User)
+                    .ToListAsync();
+
                 _logger.LogInformation("Запрос ViewProject выполнен");
 
                 return Ok(result);
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
@@ -50,13 +48,13 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult<Project>> CreateProject([FromBody] ProjectViewModel model) 
+        public async Task<ActionResult<ProjectResponce>> CreateProjectAsync([FromBody] ProjectRequest request)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
 
-                var map = AutomapperUtil< ProjectViewModel, Project>.Map(model);
+                var map = _mapper.Map<Project>(request);
                 var result = await _projectSerices.CreateProjectAsync(map);
 
                 _logger.LogInformation("Запрос CreateProject выполнен");
@@ -64,45 +62,46 @@ namespace AspBackend.Controllers
                 return Ok();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
         }
-            
-        [HttpPut]
-        [Route("update/{id}")]
-        public async Task<ActionResult<Project>> UpdateProject(int id, [FromBody] ProjectViewModel model)
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<ActionResult<ProjectResponce>> UpdateProject([FromBody] ProjectRequest request)
         {
             try
             {
                 _logger.LogInformation("Запрос UpdateProject получен");
 
-                var map = AutomapperUtil<ProjectViewModel, Project>.Map(model);
+                var map = _mapper.Map<Project>(request);
+
                 var result = await _projectSerices.UpdateProjectAsync(map);
 
                 _logger.LogInformation("Запрос UpdateProject выполнен");
-                    
+
 
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
+        [HttpPost]
         [Route("delete/{id}")]
-        [HttpDelete]
-        public async Task<ActionResult< Project>> DeleteProject(int id)
+        public async Task<ActionResult<Project>> DeleteProject(int id)
         {
             try
             {
                 _logger.LogInformation("Запрос DeleteProject получен");
 
-                 var result = await _projectSerices.DeleteProjectAsync(id);
+                var result = await _projectSerices.DeleteProjectAsync(id);
 
                 _logger.LogInformation("Запрос DeleteProject выполнен");
 
@@ -118,13 +117,13 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("add/user")]
-        public async Task<ActionResult<UserProject>> AddUserProject([FromBody] UserProjectViewModel model)
+        public async Task<ActionResult<ProjectUserResponce>> AddUserProject([FromBody] ProjectUserRequest model)
         {
             try
             {
                 _logger.LogInformation("Запрос AddUserProject получен");
 
-                var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
+                var map = _mapper.Map<UserProject>(model);
                 var result = await _projectSerices.AddUserProjectAsync(map);
 
                 _logger.LogInformation("Запрос AddUserProject выполнен");
@@ -139,15 +138,15 @@ namespace AspBackend.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("delete/user")]
-        public async Task<ActionResult<UserProject>> DeleteUserProject(UserProjectViewModel model)
+        public async Task<ActionResult<ProjectUserResponce>> DeleteUserProject([FromBody] ProjectUserRequest model)
         {
             try
             {
                 _logger.LogInformation("Запрос DeleteUserProject получен");
 
-                var map = AutomapperUtil<UserProjectViewModel, UserProject>.Map(model);
+                var map = _mapper.Map<UserProject>(model);
                 var result = await _projectSerices.DeleteUserProjectAsync(map);
 
                 _logger.LogInformation("Запрос DeleteUserProject выполнен");

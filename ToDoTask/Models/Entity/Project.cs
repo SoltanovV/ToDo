@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AspBackend.Models.Entity;
+﻿namespace AspBackend.Models.Entity;
 
 /// <summary>
 /// Проект
@@ -15,7 +13,7 @@ public class Project
     /// <summary>
     ///  Название проекта
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Дата начала(создания)
@@ -30,7 +28,6 @@ public class Project
     /// <summary>
     /// Навигационное свойство для UserProject
     /// </summary>
-    [JsonIgnore]
     public IEnumerable<UserProject> UserProject { get; set; }
 
     /// <summary>
@@ -41,7 +38,6 @@ public class Project
     /// <summary>
     /// Навигационное свойство для ProjectTodo
     /// </summary>
-    [JsonIgnore]
     public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
     /// <summary>

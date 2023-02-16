@@ -1,65 +1,76 @@
 ﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
-using AspBackend.Services.Interface;
-using AspBackend.Utilities;
-using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models;
 
-namespace AspBackend.Services
+namespace AspBackend.Services;
+
+public class UserServices : IUserServices
 {
-    public class UserServices : IUserServices
-    {
-        private ApplicationContext _db;
+    private ApplicationContext _db;
 
-        public UserServices(ApplicationContext db)
+    public UserServices(ApplicationContext db)
+    {
+        _db = db;
+    }
+    public async Task<Account> CreateAccountAsync(User user)
+    {
+        try
         {
-            _db = db;
+
+            
+            var createdAccount = await _db.Account.AddAsync(user.Account);
+
+            var createdUser = await _db.User.AddAsync(user);
+
+            await _db.SaveChangesAsync();
+
+            var created = await _db.Account
+                .SingleOrDefaultAsync(u => u.Id == createdAccount.Entity.Id);
+
+            return created;
+
         }
-        public async Task<Account> CreateAccount(AccountViewModel model)
+        catch
         {
-            try
-            {
-                var map = AutomapperUtil<AccountViewModel, Account>.Map(model);
-                var createdAccount = await _db.Account.AddAsync(map);
+            throw;
+        }
+
+    }
+    public async Task<User> UpdateUserAsync(User model)
+    {
+        try
+        {
+
+
+
+               var user = _db.User.Update(model);
+
+               var account = _db.Account.Update(model.Account);
 
                 await _db.SaveChangesAsync();
 
-                var created = await _db.Account
-                    .SingleOrDefaultAsync(u => u.Id == createdAccount.Entity.Id);
+                var created = await _db.User
+                                    .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
 
                 return created;
+            
 
-            }
-            catch
-            {
-                throw;
-            }
+            throw new Exception("Не удалось найти пользователя");
 
         }
-        public async Task<User> UpdateUser(UserViewModel model)
+        catch
         {
-            try
-            {
-
-                var result = AutomapperUtil<UserViewModel, User>.Map(model);
-                _db.User.Update(result);
-                await _db.SaveChangesAsync();
-
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            throw;
         }
+    }
 
-        public async Task<User> DeleteUserAsync(int id)
+    public async Task<User> DeleteUserAsync(int id)
+    {
+        try
         {
-            try
+
+            var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (search is not null)
             {
-
-                var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
-
                 var result = _db.User.Remove(search);
 
                 await _db.SaveChangesAsync();
@@ -67,10 +78,13 @@ namespace AspBackend.Services
                 return search;
 
             }
-            catch
-            {
-                throw;
-            }
+
+            throw new Exception("Не удалось найти пользователя");
+
+        }
+        catch
+        {
+            throw;
         }
     }
 }

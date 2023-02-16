@@ -1,90 +1,115 @@
 ﻿using AspBackend.Models.Entity;
-using AspBackend.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ToDoTask.Models;
+using System.Runtime.CompilerServices;
 
-namespace AspBackend.Services
+namespace AspBackend.Services;
+
+public class TodoServices : ITodoServices
 {
-    public class TodoServices : ITodoServices
+    ApplicationContext _db;
+    public TodoServices(ApplicationContext db)
     {
-        ApplicationContext _db;
-        public TodoServices(ApplicationContext db)
+        _db = db;
+    }
+    public async Task<Todo> CreateTodoAsync(Todo model)
+    {
+        try
         {
-            _db = db;
-        }
-        public async Task<Todo> CreateTodo(Todo model)
-        {
-            try
+            if (model.Status is not null & model.Priority is not null)
             {
                 var todoCreated = await _db.Todo.AddAsync(model);
 
                 await _db.SaveChangesAsync();
 
                 var created = await _db.Todo
-                    .SingleOrDefaultAsync(t => t.Id == todoCreated.Entity.Id);
+                                        .SingleOrDefaultAsync(t => t.Id == todoCreated.Entity.Id);
 
                 return created;
             }
-            catch
-            {
-                throw;
-            }
-        }
 
-        public async Task<Todo> UpdateTodo(Todo todo)
+            throw new Exception("Не все поля заполнены");
+          
+        }
+        catch
         {
-            try
-            {
+            throw;
+        }
+    }
+
+    public async Task<Todo> UpdateTodoAsync(Todo todo)
+    {
+        try
+        {
+
                 var updateTodo = _db.Todo.Update(todo);
 
                 await _db.SaveChangesAsync();
 
                 return updateTodo.Entity;
 
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<Todo> DeleteTodo(int id)
-        {
-            try
-            {
-                var deleted = await _db.Todo.FirstOrDefaultAsync(t => t.Id == id);
 
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    public async Task<Todo> DeleteTodoAsync(int id)
+    {
+        try
+        {
+            var deleted = await _db.Todo.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (deleted is not null)
+            {
                 var result = _db.Todo.Remove(deleted);
 
                 await _db.SaveChangesAsync();
 
                 return result.Entity;
             }
-            catch
-            {
-                throw;
-            }
-        }
 
-        public async Task<UserTodo> AddUser(UserTodo model)
+            throw new Exception("Задача не найдена");
+        }
+        catch
         {
-            try
+            throw;
+        }
+    }
+
+    public async Task<UserTodo> AddUserAsync(UserTodo model)
+    {
+        try
+        {
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
+
+            var todo = await _db.Todo.FirstOrDefaultAsync(t => t.Id == model.TodoId);
+
+            if (user is not null & todo is not null)
             {
                 var result = await _db.UsersTodos.AddAsync(model);
-                //result.Dispouse();
+
                 await _db.SaveChangesAsync();
 
                 return result.Entity;
             }
-            catch
-            {
-                throw;
-            }
+
+            throw new Exception("Задача или пользователь не найден");
 
         }
-        
-        public async Task<UserTodo> DeleteUser(UserTodo model)
+        catch
         {
-            try
+            throw;
+        }
+
+    }
+    
+    public async Task<UserTodo> DeleteUserAsync(UserTodo model)
+    {
+        try
+        {
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
+
+            if (user is not null)
             {
                 var result = _db.UsersTodos.Remove(model);
 
@@ -92,11 +117,15 @@ namespace AspBackend.Services
 
                 return result.Entity;
             }
-            catch
-            {
-                throw;
-            }
-           
+
+            throw new Exception("Пользователь не найден");
+
+
         }
+        catch
+        {
+            throw;
+        }
+       
     }
 }
