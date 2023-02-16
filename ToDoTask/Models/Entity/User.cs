@@ -21,6 +21,16 @@ public class User
     public required string Email { get; set; }
 
     /// <summary>
+    /// Внешний ключ для Account
+    /// </summary>
+    public int? AccountId { get; set; }
+
+    /// <summary>
+    /// Навигационное свойство Account
+    /// </summary>
+    public required Account Account { get; set; }
+
+    /// <summary>
     /// Навигационное свойство для UserProject
     /// </summary>
     public IEnumerable<UserProject>? UserProject { get; set; }
@@ -29,16 +39,6 @@ public class User
     /// Навигационное свойство для Project
     /// </summary>
     public IEnumerable<Project>? Projects { get; set; }
-
-    /// <summary>
-    /// Внешний ключ для Account
-    /// </summary>
-    public int AccountId { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство Account
-    /// </summary>
-    public Account Account { get; set; }
 
     /// <summary>
     /// Навигационное свойство для UserTodo

@@ -20,18 +20,20 @@ namespace ASPBackend.Controllers
             _mapper = mapper;
         }
 
-        [Route("view")]
         [HttpGet]
+        [Route("view")]
         public async Task<IActionResult> ViewAllUser()
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var result = _db.User
+                var result = await _db.User
                     .Include(u => u.Account)
                     .Include(u => u.UserTodo)
-                        .ThenInclude(ut => ut.Todo)
-                        .ThenInclude(t => t.Priority);
+                    .ThenInclude( ut => ut.Todo)
+                    .AsNoTracking()
+                    .ToListAsync();
+                              
 
                 return Ok(result);
             }
@@ -42,9 +44,9 @@ namespace ASPBackend.Controllers
             }
         }
 
-        [Route("create/Account")]
         [HttpPost]
-        public async Task<ActionResult<SigInResponce>> CreateAccount(SigInRequest request)
+        [Route("create")]
+        public async Task<ActionResult<SigInResponce>> CreateAccountAsync(SigInRequest request)
         {
             try
             {
@@ -67,126 +69,71 @@ namespace ASPBackend.Controllers
             }
         }
 
-        //[Route("view/{id}")]
-        //[HttpGet]
-        //public async Task<IActionResult> ViewUser(int id)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос ViewUser получен");
+        [HttpGet]
+        [Route("view/{id}")]
+        public async Task<IActionResult> ViewUser(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос ViewUser получен");
 
-        //        var result = _db.User
-        //            .Where(u => u.Id == id)
-        //            .Include(u => u.UserTodo)
-        //            .ThenInclude(ut => ut.Todo)
-        //            .FirstOrDefault();
+                var result = _db.User
+                    .Where(u => u.Id == id)
+                    .Include(u => u.UserTodo)
+                    .ThenInclude(ut => ut.Todo)
+                    .FirstOrDefault();
 
-        //        if (result != null)
-        //        {
-        //            _logger.LogInformation("Запрос ViewUser выполнен");
-        //            return Ok(result);
-        //        }
-        //        else
-        //        {
-        //            _logger.LogInformation("Пользователь не найден");
-        //            return Ok("Пользователь не найден");
-        //        }
+                if (result != null)
+                {
+                    _logger.LogInformation("Запрос ViewUser выполнен");
+                    return Ok(result);
+                }
+                else
+                {
+                    _logger.LogInformation("Пользователь не найден");
+                    return Ok("Пользователь не найден");
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(_logger);
-        //    }
-        //}
-
-        //[Route("create/account")]
-        //[HttpPost]
-        //public async Task<ActionResult<Account>> CreateAccount([FromBody] AccountViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос CreateAccount получен");
-
-        //        // Маппим UserViewModel в User
-
-        //        var result = await _userService.CreateAccount(model);
-
-        //        //await _db.AddAsync(result);
-        //        //await _db.SaveChangesAsync();
-
-        //        _logger.LogInformation("Запрос CreateAccount выполнен");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
 
 
-        //        return Ok(result);
+        [HttpPost]
+        [Route("update")]
+        public async Task<ActionResult<UserResponce>> CreateAccount([FromBody] UserRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос получен");
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
+                // Маппим UserViewModel в User
 
-        //        return BadRequest(ex.Message);
-        //    }
+                var map = _mapper.Map<User>(request);
 
-        //}
+                var result = await _userService.UpdateUserAsync(map);
 
-        //[Route("create")]
-        //[HttpPost]
-        //public async Task<ActionResult<UserResponce>> CreateAccount([FromBody] UserRequest request)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос получен");
+                var responce = _mapper.Map<UserResponce>(result);
 
-        //        // Маппим UserViewModel в User
-
-        //        var map = _mapper.Map<User>(request);
-
-        //        var result = await _userService.UpdateUser(map);
-
-        //        var responce = _mapper.Map<UserResponce>(result);
-
-        //        _logger.LogInformation("Запрос CreateAccount выполнен");
+                _logger.LogInformation("Запрос CreateAccount выполнен");
 
 
-        //        return Ok(responce);
+                return Ok(responce);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
 
-        //        return BadRequest(ex.Message);
-        //    }
+                return BadRequest(ex.Message);
+            }
 
-        //}
+        }
 
-        //[HttpPut]
-        //[Route("update/{id}")]
-        //public async Task<ActionResult<UserRequest>> UpdateUser(int id, [FromBody] UserViewModel model)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("Запрос UpdateUser получен");
-                
-        //        var search = _db.User.FirstOrDefault(u => u.Id == id);
-        //        if (search != null)
-        //        {
-        //             await _userService.UpdateUser(model);
-
-        //            _logger.LogInformation("Запрос UpdateUser выполнен");
-
-        //            return Ok();
-        //        }
-        //        return BadRequest();
-
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
 
         //[Route("delete")]
         //[HttpDelete]
@@ -197,7 +144,7 @@ namespace ASPBackend.Controllers
         //        _logger.LogInformation("Запрос DeleteUser получен");
 
         //        var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
-                
+
         //        if (search != null) 
         //        {
         //            _logger.LogInformation("Запрос DeleteUser выполнен");

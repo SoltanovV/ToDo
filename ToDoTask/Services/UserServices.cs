@@ -1,4 +1,6 @@
-﻿namespace AspBackend.Services;
+﻿using AspBackend.Models.Entity;
+
+namespace AspBackend.Services;
 
 public class UserServices : IUserServices
 {
@@ -12,6 +14,8 @@ public class UserServices : IUserServices
     {
         try
         {
+
+            
             var createdAccount = await _db.Account.AddAsync(user.Account);
 
             var createdUser = await _db.User.AddAsync(user);
@@ -30,16 +34,27 @@ public class UserServices : IUserServices
         }
 
     }
-    public async Task<User> CreateUserAsync(User model)
+    public async Task<User> UpdateUserAsync(User model)
     {
         try
         {
-            var user = await _db.User.AddAsync(model);
-            await _db.SaveChangesAsync();
 
-            var created = await _db.User
-              .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
-            return created;
+
+
+               var user = _db.User.Update(model);
+
+               var account = _db.Account.Update(model.Account);
+
+                await _db.SaveChangesAsync();
+
+                var created = await _db.User
+                                    .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
+
+                return created;
+            
+
+            throw new Exception("Не удалось найти пользователя");
+
         }
         catch
         {
@@ -54,11 +69,17 @@ public class UserServices : IUserServices
 
             var search = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
 
-            var result = _db.User.Remove(search);
+            if (search is not null)
+            {
+                var result = _db.User.Remove(search);
 
-            await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
-            return search;
+                return search;
+
+            }
+
+            throw new Exception("Не удалось найти пользователя");
 
         }
         catch

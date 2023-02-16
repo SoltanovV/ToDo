@@ -8,7 +8,7 @@ public class Account
     /// <summary>
     /// Id аккаунта
     /// </summary>
-    public required int Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Токен пользователя
@@ -28,5 +28,5 @@ public class Account
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
-    public required User User { get; set; }
+    public User User { get; set; }
 }
