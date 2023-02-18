@@ -2,10 +2,17 @@ version: '3.4'
 
 services:
   backend:
-    image: ${DOCKER_REGISTRY-}aspbackend
+    image: ${DOCKER_REGISTRY-}backend
     build:
       context: .
       dockerfile: ToDoTask/Dockerfile
   #client:
   #  build: 
   #    dockerfile: React-frontend/Dockerfile
+  db:
+    image: postgres
+    restart: always
+
+  adminer:
+    image: adminer
+    restart: always

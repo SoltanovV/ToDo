@@ -1,6 +1,4 @@
-﻿using AspBackend.Models.Entity;
-
-namespace AspBackend.Services;
+﻿namespace AspBackend.Services;
 
 public class UserServices : IUserServices
 {

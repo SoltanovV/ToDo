@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AspBackend.Models.Entity;
-
-
-namespace ToDoTask.Models
+﻿namespace ToDoTask.Models
 {
     public class ApplicationContext : DbContext
     {
@@ -19,7 +15,7 @@ namespace ToDoTask.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         

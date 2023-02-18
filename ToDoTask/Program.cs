@@ -1,5 +1,4 @@
 using AspBackend.Utilities;
-using AutoMapper;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -10,7 +9,7 @@ builder.Services.AddControllers();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 
 builder.Services.AddMvc();
 

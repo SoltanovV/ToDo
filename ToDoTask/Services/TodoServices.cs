@@ -1,7 +1,4 @@
-﻿using AspBackend.Models.Entity;
-using System.Runtime.CompilerServices;
-
-namespace AspBackend.Services;
+﻿namespace AspBackend.Services;
 
 public class TodoServices : ITodoServices
 {

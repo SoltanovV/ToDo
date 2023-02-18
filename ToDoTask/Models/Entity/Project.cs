@@ -18,7 +18,7 @@ public class Project
     /// <summary>
     /// Дата начала(создания)
     /// </summary>
-    public DateTime StartDate { get; set; } = DateTime.Now;
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// Дата сдачи проекта
