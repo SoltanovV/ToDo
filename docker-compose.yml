@@ -3,16 +3,25 @@ version: '3.4'
 services:
   backend:
     image: ${DOCKER_REGISTRY-}backend
+    restart: always
     build:
       context: .
       dockerfile: ToDoTask/Dockerfile
+    volumes:
+      - ./ToDoTask:/app/build
   #client:
   #  build: 
   #    dockerfile: React-frontend/Dockerfile
   db:
     image: postgres
     restart: always
+    volumes:
+      - mypgsql_data:/var/lib/postgresql/data
 
   adminer:
     image: adminer
     restart: always
+
+      
+volumes:
+  mypgsql_data:

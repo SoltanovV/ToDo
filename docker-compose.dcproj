@@ -6,7 +6,7 @@
     <ProjectGuid>5bdd9a3b-4405-4c20-b547-487e03e4048c</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>aspbackend</DockerServiceName>
+    <DockerServiceName>backend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -4,24 +4,38 @@ services:
   backend:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+    restart: always
     ports:
       - "7000:80"
     depends_on:
       - db
+    volumes:
+      - ./ToDoTask:/app/build
+
   db:
     environment:
       POSTGRES_PASSWORD: 475269
       POSTGRES_USER: admin
       POSTGRES_DB: Tododb
+    volumes:
+      - mypgsql_data:/var/lib/postgresql/data
+    restart: always
     ports:
       - '5432'
 
   adminer:
+    restart: always
     ports:
       - '8080:8080'
+
+
   #client:
   #  ports:      
   #    - '3000:3000'
   #  volumes:
   #    - ./app/client
   #    - ./app/client/node_modules
+
+
+volumes:
+  mypgsql_data:

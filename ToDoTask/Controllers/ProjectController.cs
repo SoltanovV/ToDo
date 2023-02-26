@@ -20,6 +20,30 @@ namespace AspBackend.Controllers
             _db = db;
         }
 
+        [HttpGet]
+        [Route("viewAll")]
+        public async Task<IActionResult> ViewProject1Async()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос ViewProject получен");
+
+                var result = await _db.Project
+                    .Include(p => p.UserProject)
+                    .ThenInclude(pt => pt.User)
+                    .ToListAsync();
+
+                _logger.LogInformation("Запрос ViewProject выполнен");
+
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet]
         [Route("view")]
