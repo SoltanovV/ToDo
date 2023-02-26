@@ -1,7 +1,4 @@
-﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
-
-namespace AspBackend.Services.Interfaces;
+﻿namespace AspBackend.Services.Interfaces;
 
 /// <summary>
 /// Интерфейс для работы с аккаунтом пользователя
@@ -13,14 +10,14 @@ public interface IUserServices
     /// </summary>
     /// <param name="model">модель User</param>
     /// <returns></returns>
-    public Task<Account> CreateAccount(AccountViewModel model);
+    public Task<Account> CreateAccountAsync(User model);
 
     /// <summary>
     /// Изменения аккаунта
     /// </summary>
     /// <param name="model">модель User</param>
     /// <returns></returns>
-    public Task<User> UpdateUser(UserViewModel model);
+    public Task<User> UpdateUserAsync(User model);
 
     /// <summary>
     /// Удаление аккаунта

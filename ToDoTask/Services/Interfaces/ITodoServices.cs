@@ -1,8 +1,4 @@
-﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AspBackend.Services.Interfaces;
+﻿namespace AspBackend.Services.Interfaces;
 
 /// <summary>
 /// Интерфейс для работы с задачами
@@ -14,33 +10,33 @@ public interface ITodoServices
     /// </summary>
     /// <param name="model">модель задачи</param>
     /// <returns></returns>
-    public Task<Todo> CreateTodo(Todo model);
+    public Task<Todo> CreateTodoAsync(Todo model);
 
     /// <summary>
     /// Обновление задачи
     /// </summary>
     /// <param name="model">модель задачи</param>
     /// <returns></returns>
-    public Task<Todo> UpdateTodo(Todo model);
+    public Task<Todo> UpdateTodoAsync(Todo model);
 
     /// <summary>
     /// Удаление задачи
     /// </summary>
     /// <param name="id">Id задачи</param>
     /// <returns></returns>
-    public Task<Todo> DeleteTodo(int id);
+    public Task<Todo> DeleteTodoAsync(int id);
 
     /// <summary>
     /// Добавление пользователя к задачи
     /// </summary>
     /// <param name="model">модель пользователя</param>
     /// <returns></returns>
-    public Task<UserTodo> AddUser(UserTodo model);
+    public Task<UserTodo> AddUserAsync(UserTodo model);
 
     /// <summary>
     /// Удаление пользователя с задачи
     /// </summary>
     /// <param name="model">модель пользователя</param>
     /// <returns></returns>
-    public Task<UserTodo> DeleteUser(UserTodo model);
+    public Task<UserTodo> DeleteUserAsync(UserTodo model);
 }

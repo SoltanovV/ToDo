@@ -1,8 +1,4 @@
-﻿using AspBackend.Models.Entity;
-using AspBackend.Models.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AspBackend.Services.Interfaces;
+﻿namespace AspBackend.Services.Interfaces;
 
 /// <summary>
 /// Интерфейс для работы с проектами
