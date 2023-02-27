@@ -28,20 +28,20 @@ public class Project
     /// <summary>
     /// Навигационное свойство для UserProject
     /// </summary>
-    public IEnumerable<UserProject> UserProject { get; set; }
+    public required IEnumerable<UserProject> UserProject { get; set; }
 
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
-    public IEnumerable<User> Users { get; set; }
+    public required IEnumerable<User> Users { get; set; }
 
     /// <summary>
     /// Навигационное свойство для ProjectTodo
     /// </summary>
-    public IEnumerable<ProjectTodo> ProjectTodo { get; set; }
+    public required IEnumerable<ProjectTodo> ProjectTodo { get; set; }
 
     /// <summary>
     /// Навигационное свойство для Todo
     /// </summary>
-    public IEnumerable<Todo> Todos { get; set; }
+    public required IEnumerable<Todo> Todos { get; set; }
 }

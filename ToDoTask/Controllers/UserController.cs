@@ -11,7 +11,7 @@ namespace ASPBackend.Controllers
         private readonly IMapper _mapper;
         private readonly ApplicationContext _db;
 
-        public UserController(ApplicationContext db, ILogger<UserController> logger, 
+        public UserController(ApplicationContext db, ILogger<UserController> logger,
             IUserServices userService, IMapper mapper)
         {
             _db = db;
@@ -22,7 +22,7 @@ namespace ASPBackend.Controllers
 
         [HttpGet]
         [Route("view")]
-        public async Task<IActionResult> ViewAllUser()
+        public async Task<IActionResult> ViewAllUserAsync()
         {
             try
             {
@@ -30,10 +30,10 @@ namespace ASPBackend.Controllers
                 var result = await _db.User
                     .Include(u => u.Account)
                     .Include(u => u.UserTodo)
-                    .ThenInclude( ut => ut.Todo)
+                    .ThenInclude(ut => ut.Todo)
                     .AsNoTracking()
                     .ToListAsync();
-                              
+
 
                 return Ok(result);
             }
@@ -71,17 +71,17 @@ namespace ASPBackend.Controllers
 
         [HttpGet]
         [Route("view/{id}")]
-        public async Task<IActionResult> ViewUser(int id)
+        public async Task<IActionResult> ViewUserAsync(int id)
         {
             try
             {
                 _logger.LogInformation("Запрос ViewUser получен");
 
-                var result = _db.User
+                var result = await _db.User
                     .Where(u => u.Id == id)
                     .Include(u => u.UserTodo)
                     .ThenInclude(ut => ut.Todo)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (result != null)
                 {
@@ -105,13 +105,11 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult<UserResponce>> CreateAccount([FromBody] UserRequest request)
+        public async Task<ActionResult<UserResponce>> UpdateAccountAsync([FromBody] UserRequest request)
         {
             try
             {
                 _logger.LogInformation("Запрос получен");
-
-                // Маппим UserViewModel в User
 
                 var map = _mapper.Map<User>(request);
 
@@ -133,7 +131,6 @@ namespace ASPBackend.Controllers
             }
 
         }
-
 
         //[Route("delete")]
         //[HttpDelete]

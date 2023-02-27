@@ -21,13 +21,13 @@ namespace ASPBackend.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<ActionResult<Todo>> TodoGetAsync()
+        public async Task<ActionResult<Todo>> GetTodoAsync()
         {
             try
             {
                 _logger.LogInformation("Запрос TodoGet получен");
 
-                var todo = _db.Todo.Include(t => t.Users).ToList();
+                var todo = await _db.Todo.Include(t => t.Users).ToListAsync();
 
                 _logger.LogInformation("Запрос TodoCreate выполнен");
 
@@ -42,7 +42,7 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult<CreateTodoResponce>> TodoCreateAsync(CreateTodoRequest request)
+        public async Task<ActionResult<CreateTodoResponce>> CreateTodoAsync(CreateTodoRequest request)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult<UpdateTodoResponce>> UpdateTask([FromBody] UpdateTodoRequest request)
+        public async Task<ActionResult<UpdateTodoResponce>> UpdateTodoAsync([FromBody] UpdateTodoRequest request)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<IActionResult> DeleteTaskAsync(int id)
+        public async Task<IActionResult> DeleteTodoAsync(int id)
         {
             try
             {
