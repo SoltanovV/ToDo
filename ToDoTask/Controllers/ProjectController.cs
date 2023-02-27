@@ -20,10 +20,9 @@ namespace AspBackend.Controllers
             _db = db;
         }
 
-
         [HttpGet]
         [Route("view")]
-        public async Task<IActionResult> ViewProjectAsync()
+        public async Task<IActionResult> GetProjectAsync()
         {
             try
             {
@@ -71,7 +70,7 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult<ProjectResponce>> UpdateProject([FromBody] ProjectRequest request)
+        public async Task<ActionResult<ProjectResponce>> UpdateProjectAsync([FromBody] ProjectRequest request)
         {
             try
             {
@@ -95,7 +94,7 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<Project>> DeleteProject(int id)
+        public async Task<ActionResult<Project>> DeleteProjectAsync(int id)
         {
             try
             {
@@ -117,7 +116,7 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("add/user")]
-        public async Task<ActionResult<ProjectUserResponce>> AddUserProject([FromBody] ProjectUserRequest model)
+        public async Task<ActionResult<ProjectUserResponce>> AddUserProjectAsync([FromBody] ProjectUserRequest model)
         {
             try
             {
@@ -140,7 +139,7 @@ namespace AspBackend.Controllers
 
         [HttpPost]
         [Route("delete/user")]
-        public async Task<ActionResult<ProjectUserResponce>> DeleteUserProject([FromBody] ProjectUserRequest model)
+        public async Task<ActionResult<ProjectUserResponce>> DeleteUserProjectAsync([FromBody] ProjectUserRequest model)
         {
             try
             {

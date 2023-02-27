@@ -28,5 +28,5 @@ public class Account
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
-    public User User { get; set; }
+    public required User User { get; set; }
 }

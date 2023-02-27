@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AspBackend.Models.Entity;
-
-
-namespace ToDoTask.Models
+﻿namespace ToDoTask.Models
 {
     public class ApplicationContext : DbContext
     {

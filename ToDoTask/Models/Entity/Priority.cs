@@ -18,27 +18,6 @@ public class Priority
     /// <summary>
     /// Навигационное свойство для Ещвщ
     /// </summary>
-    public IEnumerable<Todo> Todo { get; set; }
+    public required IEnumerable<Todo> Todo { get; set; }
 }
-
-///// <summary>
-///// Тип приоритета задачи
-///// </summary>
-//public enum PriorityType
-//{
-//    /// <summary>
-//    /// Срочно
-//    /// </summary>
-//    Urgently = 0,
-
-//    /// <summary>
-//    /// Выполняется
-//    /// </summary>
-//    InProgress = 1,
-
-//    /// <summary>
-//    /// Медленно
-//    /// </summary>
-//    Slowly = 2,
-//}
 

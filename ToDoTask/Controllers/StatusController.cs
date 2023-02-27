@@ -17,15 +17,15 @@ namespace ASPBackend.Controllers
 
         [HttpGet]
         [Route("view")]
-        public async Task<IActionResult> ViewTodo()
+        public async Task<IActionResult> GetStatusTaskAsync()
         {
             try
             {
                 _logger.LogInformation("Запрос ViewTodo получен");
 
-                var result = _db.Status
+                var result = await _db.Status
                     .Include(s => s.Todo)
-                    .ToList();
+                    .ToListAsync();
 
                 _logger.LogInformation("Запрос ViewTodo обработна");
                 return Ok(result);

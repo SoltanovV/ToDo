@@ -7,10 +7,10 @@ EXPOSE 7000:80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app/backend/src
-COPY ["ToDoTask/AspBackend.csproj", "ToDoTask/"]
-RUN dotnet restore "ToDoTask/AspBackend.csproj"
+COPY ["AspBackend.csproj", "/app/backend"]
+RUN dotnet restore "/app/backend/AspBackend.csproj"
 COPY . .
-WORKDIR "/app/backend/src/ToDoTask"
+WORKDIR "/app/backend/src"
 RUN dotnet build "AspBackend.csproj" -c Release -o /app/build
 
 FROM build AS publish

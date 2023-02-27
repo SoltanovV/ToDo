@@ -23,7 +23,7 @@ public class Todo
     /// <summary>
     /// Дата постановки задачи
     /// </summary>
-    public DateTime StartDate { get; set; } = DateTime.Now;
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// Дата завершения задачи
