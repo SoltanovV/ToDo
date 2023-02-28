@@ -1,4 +1,4 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Responce;
 
 /// <summary>
 /// Модель для добавления 

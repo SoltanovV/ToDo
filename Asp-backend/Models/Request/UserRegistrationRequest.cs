@@ -1,24 +1,29 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Request;
 
 /// <summary>
 /// аккаунт пользователя
 /// </summary>
-public class SigInResponce
+public class UserRegistrationRequest
 {
-    /// <summary>
-    /// Id аккаунта
-    /// </summary>
-    public int Id { get; set; }
-
     /// <summary>
     /// Токен пользователя
     /// </summary>
-    public required string Token { get; set; }
+    //public required string Token { get; set; }
+
+    /// <summary>
+    /// Имя пользователя
+    /// </summary>
+    public required string Name { get; set; }
 
     /// <summary>
     /// Логин аккаунта
     /// </summary>
     public required string Login { get; set; }
+
+    /// <summary>
+    /// Email аккаунта
+    /// </summary>
+    public required string Email { get; set; }
 
     /// <summary>
     /// Пароль аккаунта

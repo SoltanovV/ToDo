@@ -13,7 +13,7 @@ public class UserServices : IUserServices
         try
         {
 
-            
+
             var createdAccount = await _db.Account.AddAsync(user.Account);
 
             var createdUser = await _db.User.AddAsync(user);
@@ -39,17 +39,17 @@ public class UserServices : IUserServices
 
 
 
-               var user = _db.User.Update(model);
+            var user = _db.User.Update(model);
 
-               var account = _db.Account.Update(model.Account);
+            var account = _db.Account.Update(model.Account);
 
-                await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
-                var created = await _db.User
-                                    .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
+            var created = await _db.User
+                                .SingleOrDefaultAsync(u => u.Id == user.Entity.Id);
 
-                return created;
-            
+            return created;
+
 
             throw new Exception("Не удалось найти пользователя");
 
@@ -79,6 +79,44 @@ public class UserServices : IUserServices
 
             throw new Exception("Не удалось найти пользователя");
 
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+    public async Task<Account> AuthorizationAccountAsync(int userId)
+    {
+        try
+        {
+            var compareUser = await _db.User
+                    .Include(u => u.Account)
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(u => u.Id == userId);
+
+            if (compareUser == null || compareUser.Account == null)
+                throw new Exception("Пользователь не найден");
+
+            return compareUser.Account;
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+    public async Task<Account> AuthorizationAccountAsync(User user)
+    {
+        try
+        {
+            var compareUser = await _db.User.Include(u => u.Account)
+                                                    .AsNoTracking()
+                                                    .SingleAsync(u => u.Login == user.Login
+                                                     && u.Password == user.Password);
+            if (compareUser is null || compareUser.Account is null)
+                throw new Exception("Пользователь не найден");
+            return compareUser.Account;
         }
         catch
         {

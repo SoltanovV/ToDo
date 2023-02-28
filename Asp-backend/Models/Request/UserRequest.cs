@@ -1,4 +1,4 @@
-﻿namespace AspBackend.Models.Entity.Request;
+﻿namespace Models.Request;
 
 /// <summary>
 /// Пользователь

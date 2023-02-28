@@ -1,10 +1,10 @@
-﻿namespace AspBackend.Models.Entity.Request;
+﻿namespace Models.Request;
 
 /// <summary>
 /// Модель для добавления 
 /// </summary>
 public class UserTodoRequest
-{ 
+{
     /// <summary>
     /// Id пользователя
     /// </summary>

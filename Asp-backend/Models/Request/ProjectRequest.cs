@@ -1,10 +1,8 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Request;
 
-public class ProjectResponce
+public class ProjectRequest
 {
-    /// <summary>
-    /// Id Проекта
-    /// </summary>
+
     public int Id { get; set; }
 
     /// <summary>

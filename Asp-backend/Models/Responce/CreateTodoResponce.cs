@@ -1,22 +1,11 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Responce;
 
-public class UpdateTodoResponce
+public class CreateTodoResponce
 {
     /// <summary>
-    /// Id задачи
+    /// Id пользователя
     /// </summary>
-    public int id { get; set; }
-
-    /// <summary>
-    /// Имя статуса
-    /// </summary>
-    public required string StatusName { get; set; }
-
-    /// <summary>
-    /// Имя статуса
-    /// </summary>
-    public required string PriorityName { get; set; }
-
+    public int Id { get; set; }
 
     /// <summary>
     /// Название задачи
@@ -29,7 +18,13 @@ public class UpdateTodoResponce
     public required string Description { get; set; }
 
     /// <summary>
+    /// Дата постановки задачи
+    /// </summary>
+    public DateTime StartDate { get; set; }
+
+    /// <summary>
     /// Дата завершения задачи
     /// </summary>
     public DateTime EndDate { get; set; }
+
 }

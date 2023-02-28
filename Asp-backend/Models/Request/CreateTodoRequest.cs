@@ -1,11 +1,16 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Request;
 
-public class CreateTodoResponce
+public class CreateTodoRequest
 {
     /// <summary>
-    /// Id пользователя
+    /// Имя статуса
     /// </summary>
-    public int Id { get; set; }
+    public required string StatusName { get; set; }
+
+    /// <summary>
+    /// Имя статуса
+    /// </summary>
+    public required string PriorityName { get; set; }
 
     /// <summary>
     /// Название задачи
@@ -20,7 +25,7 @@ public class CreateTodoResponce
     /// <summary>
     /// Дата постановки задачи
     /// </summary>
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Дата завершения задачи

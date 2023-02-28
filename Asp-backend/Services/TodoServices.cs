@@ -77,7 +77,7 @@ public class TodoServices : ITodoServices
     {
         try
         {
-            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.AccountId);
 
             var todo = await _db.Todo.FirstOrDefaultAsync(t => t.Id == model.TodoId);
 
@@ -104,7 +104,7 @@ public class TodoServices : ITodoServices
     {
         try
         {
-            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == model.AccountId);
 
             if (user is not null)
             {

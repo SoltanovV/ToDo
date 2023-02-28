@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Models.Request;
+using Models.Responce;
 
 namespace ASPBackend.Controllers
 {
@@ -27,7 +29,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос TodoGet получен");
 
-                var todo = await _db.Todo.Include(t => t.Users).ToListAsync();
+                var todo = await _db.Todo.Include(t => t.Accounts).ToListAsync();
 
                 _logger.LogInformation("Запрос TodoCreate выполнен");
 

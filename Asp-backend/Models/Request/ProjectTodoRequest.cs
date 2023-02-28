@@ -1,6 +1,6 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Request;
 
-public class ProjectTodoResponce
+public class ProjectTodoRequest
 {
     /// <summary>
     /// 

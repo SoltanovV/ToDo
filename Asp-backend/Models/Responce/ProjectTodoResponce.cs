@@ -1,11 +1,11 @@
-﻿namespace AspBackend.Models.Entity.Responce;
+﻿namespace Models.Responce;
 
-public class ProjectUserResponce
+public class ProjectTodoResponce
 {
     /// <summary>
     /// 
     /// </summary>
-    public int UserId { get; set; }
+    public int TodoId { get; set; }
 
     /// <summary>
     /// 

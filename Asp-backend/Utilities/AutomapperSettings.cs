@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using AspBackend.Models.Entity;
-using AspBackend.Models.Entity.Request;
-using AspBackend.Models.Entity.Responce;
+﻿using Models.Request;
+using Models.Responce;
 
 namespace AspBackend.Utilities
 {
@@ -19,11 +17,18 @@ namespace AspBackend.Utilities
                 config.CreateMap<UserRequest, User>().ReverseMap();
                 config.CreateMap<UserResponce, User>().ReverseMap();
 
-                config.CreateMap<SigInRequest, User>().ReverseMap();
-                config.CreateMap<SigInResponce, User>().ReverseMap();
 
-                config.CreateMap<SigInRequest, Account>().ReverseMap();
-                config.CreateMap<SigInResponce, Account>().ReverseMap();
+                config.CreateMap<UserRegistrationRequest, User>().ReverseMap();
+                config.CreateMap<UserRegistrationResponce, User>().ReverseMap();
+
+                config.CreateMap<UserRegistrationRequest, Account>().ReverseMap();
+                config.CreateMap<UserRegistrationResponce, Account>().ReverseMap();
+
+                config.CreateMap<UserAuthorizationRequest, User>().ReverseMap();
+                config.CreateMap<UserAuthorizationResponce, User>().ReverseMap();
+
+                config.CreateMap<UserAuthorizationRequest, Account>().ReverseMap();
+                config.CreateMap<UserAuthorizationResponce, Account>().ReverseMap();
 
                 #region Маппинг для создания задачи
                 config.CreateMap<CreateTodoRequest, Todo>().ReverseMap();
