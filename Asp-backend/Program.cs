@@ -1,20 +1,36 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Aspbackend.Models.Settings;
 using AspBackend.Utilities;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-
-
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 
-builder.Services.AddMvc();
+// Чтение секции из appsettings
+var authOptionsConfiguration = builder.Configuration.GetSection("JWTSettings");
+builder.Services.Configure<JWTAuthenticationSettings>(authOptionsConfiguration);
 
-builder.Services.AddEndpointsApiExplorer();
-
+// JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "Server",
+            ValidateAudience = true,
+            ValidAudience = "Server",
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes("b8f20a180332b616356de04d8942736909c26ed1d9fef89989baa6b58c5b0d36")),
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+        };
+    });
 
 //Настройка Cors
 builder.Services.AddCors(opions =>
@@ -43,16 +59,20 @@ builder.Services.AddTransient<IProjectServices, ProjectServices>();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
 // Настройка Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Web-Api ToDo",
-        Description = "WebApi ToDo"
+        Title = "Web-Api Todo",
+        Description = "WebApi Todo"
     });
 });
+
 
 
 var app = builder.Build();
@@ -64,15 +84,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
 app.UseCors("CorsPolicy");
 
-app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseAuthorization();
 
 app.Run();

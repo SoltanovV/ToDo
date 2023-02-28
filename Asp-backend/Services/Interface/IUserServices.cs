@@ -10,7 +10,11 @@ public interface IUserServices
     /// </summary>
     /// <param name="model">модель User</param>
     /// <returns></returns>
-    public Task<Account> CreateAccountAsync(User model);
+    public Task<Account> CreateAccountAsync(User user);
+
+    public Task<Account> AuthorizationAccountAsync(User user);
+
+    public Task<Account> AuthorizationAccountAsync(int userId);
 
     /// <summary>
     /// Изменения аккаунта

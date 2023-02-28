@@ -33,7 +33,7 @@ public class Project
     /// <summary>
     /// Навигационное свойство для User
     /// </summary>
-    public required IEnumerable<User> Users { get; set; }
+    public required IEnumerable<Account> Accounts { get; set; }
 
     /// <summary>
     /// Навигационное свойство для ProjectTodo

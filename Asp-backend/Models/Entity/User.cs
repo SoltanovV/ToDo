@@ -11,9 +11,14 @@ public class User
     public int Id { get; set; }
 
     /// <summary>
-    /// Имя пользователя
+    /// Логин аккаунта
     /// </summary>
-    public required string Name { get; set; }
+    public required string Login { get; set; }
+
+    /// <summary>
+    /// Пароль аккаунта
+    /// </summary>
+    public required string Password { get; set; }
 
     /// <summary>
     /// Email аккаунта
@@ -30,23 +35,5 @@ public class User
     /// </summary>
     public required Account Account { get; set; }
 
-    /// <summary>
-    /// Навигационное свойство для UserProject
-    /// </summary>
-    public IEnumerable<UserProject>? UserProject { get; set; }
 
-    /// <summary>
-    /// Навигационное свойство для Project
-    /// </summary>
-    public IEnumerable<Project>? Projects { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство для UserTodo
-    /// </summary>
-    public IEnumerable<UserTodo>? UserTodo { get; set; }
-
-    /// <summary>
-    /// Навигационное свойство для Todo
-    /// </summary>
-    public IEnumerable<Todo>? Todos { get; set; }
 }

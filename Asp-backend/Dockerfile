@@ -7,16 +7,16 @@ EXPOSE 7000:80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app/backend/src
-COPY ["AspBackend.csproj", "/app/backend"]
-RUN dotnet restore "/app/backend/AspBackend.csproj"
+COPY ["Asp-backend/Asp-backend.csproj", "/app/backend"]
+RUN dotnet restore "/app/backend/Asp-backend.csproj"
 COPY . .
 WORKDIR "/app/backend/src"
-RUN dotnet build "AspBackend.csproj" -c Release -o /app/build
+RUN dotnet build "Asp-backend/Asp-backend.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AspBackend.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Asp-backend/Asp-backend.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app/backend
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AspBackend.dll"]
+ENTRYPOINT ["dotnet", "Asp-backend.dll"]

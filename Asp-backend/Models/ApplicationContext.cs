@@ -21,7 +21,7 @@
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            #region
             //#region Заполнение Account
             //var account1 = new Account()
             //{
@@ -278,7 +278,7 @@
             //modelBuilder.Entity<Priority>().HasData(priorities);
             //modelBuilder.Entity<Status>().HasData(statuses);
             //modelBuilder.Entity<Todo>().HasData(todos);
-
+            #endregion
 
             //Создание связей 1 к 1 для Account и User
             modelBuilder.Entity<Account>()
@@ -306,35 +306,35 @@
 
             // Создание связей многие ко многим для Project и User
             modelBuilder.Entity<Project>()
-                .HasMany(p => p.Users)
+                .HasMany(p => p.Accounts)
                 .WithMany(u => u.Projects)
                 .UsingEntity<UserProject>(
                 j => j
-                    .HasOne(up => up.User)
+                    .HasOne(up => up.Account)
                     .WithMany(u => u.UserProject)
-                    .HasForeignKey(up => up.UserId),
+                    .HasForeignKey(up => up.AccountId),
 
                 j => j
                     .HasOne(up => up.Project)
                     .WithMany(p => p.UserProject)
                     .HasForeignKey(up => up.ProjectId),
-                j => j.HasKey(up => new { up.ProjectId, up.UserId })
+                j => j.HasKey(up => new { up.ProjectId, up.AccountId })
                 );
 
             // Создание связей многие ко многим для User и Todo
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Account>()
                     .HasMany(u => u.Todos)
-                    .WithMany(t => t.Users)
+                    .WithMany(t => t.Accounts)
                     .UsingEntity<UserTodo>(
                 j => j
                     .HasOne(ut => ut.Todo)
                     .WithMany(t => t.UserTodo)
                     .HasForeignKey(ut => ut.TodoId),
                 j => j
-                    .HasOne(ut => ut.User)
+                    .HasOne(ut => ut.Account)
                     .WithMany(u => u.UserTodo)
-                    .HasForeignKey(ut => ut.UserId),
-                j => j.HasKey(up => new {up.UserId, up.TodoId })
+                    .HasForeignKey(ut => ut.AccountId),
+                j => j.HasKey(up => new {up.AccountId, up.TodoId })
                 );
 
             // Создание связей многие ко многим для Todo и Status

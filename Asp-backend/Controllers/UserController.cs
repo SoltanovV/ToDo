@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Aspbackend.Models.Settings;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ASPBackend.Controllers
 {
@@ -10,14 +16,16 @@ namespace ASPBackend.Controllers
         private readonly IUserServices _userService;
         private readonly IMapper _mapper;
         private readonly ApplicationContext _db;
+        private readonly JWTAuthenticationSettings _jwtAuthenticationSettings;
 
         public UserController(ApplicationContext db, ILogger<UserController> logger,
-            IUserServices userService, IMapper mapper)
+            IUserServices userService, IMapper mapper, IOptions<JWTAuthenticationSettings> jwtAuthenticationSettings)
         {
             _db = db;
             _logger = logger;
             _userService = userService;
             _mapper = mapper;
+            _jwtAuthenticationSettings = jwtAuthenticationSettings.Value;
         }
 
         [HttpGet]
@@ -27,8 +35,8 @@ namespace ASPBackend.Controllers
             try
             {
                 _logger.LogInformation("Запрос получен");
-                var result = await _db.User
-                    .Include(u => u.Account)
+                var result = await _db.Account
+                    .Include(u => u.User)
                     .Include(u => u.UserTodo)
                     .ThenInclude(ut => ut.Todo)
                     .AsNoTracking()
@@ -46,7 +54,7 @@ namespace ASPBackend.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult<SigInResponce>> CreateAccountAsync(SigInRequest request)
+        public async Task<ActionResult<UserRegistrationResponce>> CreateAccountAsync(UserRegistrationRequest request)
         {
             try
             {
@@ -69,6 +77,71 @@ namespace ASPBackend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("login")]
+        public async Task<ActionResult<UserAuthorizationResponce>> AuthorizationAsync()
+        {
+            try
+            {
+                _logger.LogInformation("Запрос LogInAsync получен");
+
+                var userId = Convert.ToInt32(User.FindFirstValue("Id"));
+
+                var result = await _userService.AuthorizationAccountAsync(userId);
+
+                var responce = _mapper.Map<UserAuthorizationResponce>(result);
+
+                _logger.LogInformation("Запрос LogInAsync обработан");
+
+                return Ok(responce);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(_logger);
+            }
+        }
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<UserAuthorizationResponce>> LogInAsync([FromBody] UserAuthorizationRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Запрос LogInAsync получен");
+
+                var user = _mapper.Map<User>(request);
+                var result = await _userService.AuthorizationAccountAsync(user);
+                
+                var responce = _mapper.Map<UserAuthorizationResponce>(result);
+
+                var authenticationOptions = _jwtAuthenticationSettings;
+                var token = new JwtSecurityToken(
+                    issuer: authenticationOptions.Issuer,
+                    audience: authenticationOptions.Audience,
+                    claims: new List<Claim> {
+                        new Claim("Id", result.Id.ToString()),
+                        new Claim(JwtRegisteredClaimNames.Name, result.Name)
+                    },
+                    expires: DateTime.Now.AddSeconds(authenticationOptions.TokenLifetime),
+                    signingCredentials: new SigningCredentials(authenticationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+                var generatedToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                responce.Token = generatedToken;
+
+                _logger.LogInformation("Запрос LogInAsync обработан");
+
+                return Ok(responce);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+
+                return BadRequest(exception.Message);
+            }
+        }
+
         [HttpGet]
         [Route("view/{id}")]
         public async Task<IActionResult> ViewUserAsync(int id)
@@ -77,7 +150,7 @@ namespace ASPBackend.Controllers
             {
                 _logger.LogInformation("Запрос ViewUser получен");
 
-                var result = await _db.User
+                var result = await _db.Account
                     .Where(u => u.Id == id)
                     .Include(u => u.UserTodo)
                     .ThenInclude(ut => ut.Todo)

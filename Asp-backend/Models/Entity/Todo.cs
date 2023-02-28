@@ -39,7 +39,7 @@ public class Todo
     /// Навигационное свойство для User
     /// </summary>
     
-    public IEnumerable<User>? Users { get; set; }
+    public IEnumerable<Account>? Accounts { get; set; }
 
     /// <summary>
     /// Внешний ключ для Status

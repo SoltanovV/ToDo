@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Models.Request;
+using Models.Responce;
 
 namespace AspBackend.Controllers
 {
@@ -30,7 +32,7 @@ namespace AspBackend.Controllers
 
                 var result = await _db.Project
                     .Include(p => p.UserProject)
-                    .ThenInclude(pt => pt.User)
+                    .ThenInclude(pt => pt.Account)
                     .ToListAsync();
 
                 _logger.LogInformation("Запрос ViewProject выполнен");
