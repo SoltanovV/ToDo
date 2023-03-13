@@ -1,99 +1,102 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .cardUser {
-  width: 383px;
-  height: 181px;
-  left: 577px;
-  top: 151px;
+    width: 383px;
+    height: 181px;
+    left: 577px;
+    top: 151px;
 
-  background: #FFFFFF;
-  border-radius: 25px;
+    background: #FFFFFF;
+    border-radius: 25px;
 }
 
 .task-name {
-  width: 159px;
-  height: 18px;
-  left: 597px;
-  top: 169px;
+    width: 159px;
+    height: 18px;
+    left: 597px;
+    top: 169px;
 
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 18px;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
 
-  color: #000000;
+    color: #000000;
 }
+
 .task-date {
-  width: 122px;
-  height: 16px;
-  left: 600px;
-  top: 299px;
+    width: 122px;
+    height: 16px;
+    left: 600px;
+    top: 299px;
 
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 16px;
-  color: #000000;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
 }
-.task-respons{
-  width: 23px;
-  height: 23px;
-  left: 886px;
-  top: 296px;
 
-  border: 1px solid #FFFFFF;
+.task-respons {
+    width: 23px;
+    height: 23px;
+    left: 886px;
+    top: 296px;
+
+    border: 1px solid #FFFFFF;
 }
+
 .card-col:not(:last-child) {
-  border-right: 1px solid rgba(194, 194, 194, 0.54);
+    border-right: 1px solid rgba(194, 194, 194, 0.54);
 }
 
 .priority {
-  color: red;
-  font-size: 25px;
+    color: red;
+    font-size: 25px;
 }
 
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .main {
-  background-color: black;
-  display: flex;
-  justify-content: right;
+    background-color: black;
+    display: flex;
+    justify-content: right;
 }

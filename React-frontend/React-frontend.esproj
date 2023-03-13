@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.26-alpha">
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>0539f669-8698-4fcb-8d91-1ea525285f55</ProjectGuid>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupCommand>set BROWSER=none&amp;&amp;npm start</StartupCommand>
-    <JavaScriptTestRoot>src\</JavaScriptTestRoot>
-    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-  </PropertyGroup>
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>0539f669-8698-4fcb-8d91-1ea525285f55</ProjectGuid>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+    <PropertyGroup>
+        <StartupCommand>set BROWSER=none&amp;&amp;npm start</StartupCommand>
+        <JavaScriptTestRoot>src\</JavaScriptTestRoot>
+        <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
+    </PropertyGroup>
 </Project>

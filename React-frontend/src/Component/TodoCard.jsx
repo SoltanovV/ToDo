@@ -14,9 +14,10 @@ export default class todoCard extends Component {
         const todo = TodoApi();
         console.log(todo)
     }
+
     render() {
 
-        const { error, isLoaded, items } = this.state;
+        const {error, isLoaded, items} = this.state;
         if (error) {
             return <div>Ошибка: {error.message}</div>;
         } else if (!isLoaded) {
@@ -24,12 +25,12 @@ export default class todoCard extends Component {
         } else {
             return (
                 <div className={'card-table'}>
-                    {items.map(item =>(
+                    {items.map(item => (
                         <div className="card-col">
                             <div key={item.id} className={'cardUser'}>
                                 <p className={'task-name'}>{item.nameTask}</p>
                                 <p className={'task-description'}>{item.description}</p>
-                                <p className={'task-date'}>{moment(item.startDate).format('DD.MM.YY') } – {moment(item.endDate).format('DD.MM.YY')}</p>
+                                <p className={'task-date'}>{moment(item.startDate).format('DD.MM.YY')} – {moment(item.endDate).format('DD.MM.YY')}</p>
                             </div>
                         </div>
                     ))}
