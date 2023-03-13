@@ -1,5 +1,6 @@
 ﻿namespace AspBackend.Models.Entity ;
 
+
     /// <summary>
     /// аккаунт пользователя
     /// </summary>
