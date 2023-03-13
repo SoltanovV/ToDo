@@ -31,6 +31,7 @@
 
     color: #000000;
 }
+
 .task-date {
     width: 122px;
     height: 16px;
@@ -44,7 +45,8 @@
     line-height: 16px;
     color: #000000;
 }
-.task-respons{
+
+.task-respons {
     width: 23px;
     height: 23px;
     left: 886px;
@@ -52,6 +54,7 @@
 
     border: 1px solid #FFFFFF;
 }
+
 .card-col:not(:last-child) {
     border-right: 1px solid rgba(194, 194, 194, 0.54);
 }
